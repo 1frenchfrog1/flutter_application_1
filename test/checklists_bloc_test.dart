@@ -31,6 +31,13 @@ void main() {
     expect(officeIcons, hasLength(3));
   });
 
+  test('all catalog icons round-trip through saved JSON metadata', () {
+    for (final option in checklistIconOptions) {
+      final restored = iconFromJSONString(iconToJSONString(option.icon));
+      expect(restored, same(option.icon), reason: option.label);
+    }
+  });
+
   test(
     'loads, mutates and persists checklists through the repository',
     () async {

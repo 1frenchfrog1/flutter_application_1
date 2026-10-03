@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:crypto/crypto.dart';
 
+import '../widgets/checklist_icon_picker.dart' show checklistIconOptions;
+
 //import 'package:date_format/date_format.dart';
 
 enum ConnectivityStatus { WiFi, Cellular, Offline }
@@ -22,16 +24,20 @@ Map<String, dynamic> iconToJSONString(dynamic icon) {
 
 IconData iconFromJSONString(dynamic jsonString) {
   final Map<String, dynamic> map = Map<String, dynamic>.from(jsonString);
+  final codePoint = map['codePoint'] as int;
   final fontFamily = map['fontFamily'] as String?;
   final fontPackage = map['fontPackage'] as String?;
-  return IconData(
-    map['codePoint'] as int,
-    fontFamily: fontFamily == 'FontAwesomeSolid'
-        ? 'FontAwesomeSolid'
-        : fontFamily,
-    fontPackage: fontPackage,
-    matchTextDirection: map['matchTextDirection'],
-  );
+
+  for (final option in checklistIconOptions) {
+    final icon = option.icon;
+    if (icon.codePoint == codePoint &&
+        icon.fontFamily == fontFamily &&
+        icon.fontPackage == fontPackage) {
+      return icon;
+    }
+  }
+
+  return Icons.checklist;
 }
 
 class ActionObject {
