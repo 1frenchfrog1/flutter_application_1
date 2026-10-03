@@ -59,6 +59,12 @@ class HomeToDoBody extends StatelessWidget {
       builder: (context, activeTab) {
         return Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              tooltip: 'Accueil',
+              icon: const Icon(Icons.home_outlined),
+              onPressed: () =>
+                  Navigator.of(context).popUntil((route) => route.isFirst),
+            ),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
