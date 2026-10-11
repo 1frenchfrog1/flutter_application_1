@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
@@ -82,10 +81,10 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
           children: [
             _sectionLabel(context, 'Titre'),
-            const SizedBox(height: 8),
+            const SizedBox(height: 4),
             TextFormField(
               controller: _titleController,
               autofocus: true,
@@ -100,9 +99,11 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
                   ? 'Saisissez un titre pour ce point.'
                   : null,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             _sectionLabel(context, 'Icône du point de contrôle'),
             ListTile(
+              dense: true,
+              visualDensity: VisualDensity.compact,
               contentPadding: EdgeInsets.zero,
               leading: _iconFor(_draft.icon),
               title: const Text('Choisir une icône'),
@@ -110,15 +111,15 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
               trailing: const Icon(Icons.chevron_right),
               onTap: _selectIcon,
             ),
-            const SizedBox(height: 16),
-            _sectionLabel(context, 'Photo'),
             const SizedBox(height: 8),
+            _sectionLabel(context, 'Photo'),
+            const SizedBox(height: 4),
             ClipRRect(
               borderRadius: BorderRadius.circular(18),
               child: ColoredBox(
                 color: const Color(0xFFF2F2F2),
                 child: SizedBox(
-                  height: 190,
+                  height: 150,
                   width: double.infinity,
                   child: _pickedImage == null
                       ? const Center(
@@ -135,7 +136,7 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 4),
             Wrap(
               spacing: 8,
               children: [
@@ -154,9 +155,9 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
                   ),
               ],
             ),
-            const SizedBox(height: 16),
-            _sectionLabel(context, 'Description'),
             const SizedBox(height: 8),
+            _sectionLabel(context, 'Description'),
+            const SizedBox(height: 4),
             TextFormField(
               controller: _descriptionController,
               maxLength: 150,
@@ -167,9 +168,9 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
                   ?.copyWith(color: const Color(0xFF303030)),
               decoration: _fieldDecoration(context, 'Détails utiles'),
             ),
-            const SizedBox(height: 16),
-            _sectionLabel(context, 'Notes'),
             const SizedBox(height: 8),
+            _sectionLabel(context, 'Notes'),
+            const SizedBox(height: 4),
             TextFormField(
               controller: _notesController,
               maxLength: 150,
@@ -246,15 +247,13 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
           width: 2,
         ),
       ),
-      contentPadding: const EdgeInsets.all(18),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       counterStyle: const TextStyle(color: Color(0xFF777777)),
     );
   }
 
   Widget _iconFor(dynamic icon) {
-    if (icon is FaIconData) return FaIcon(icon);
-    if (icon is IconData) return Icon(icon);
-    return const Icon(Icons.checklist);
+    return ChecklistIconView(icon: icon);
   }
 
   Future<void> _selectIcon() async {

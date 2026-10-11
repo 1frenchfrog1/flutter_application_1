@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
 import '../bloc/checklists_state.dart';
 import '../datamodel/CheckListDataModel.dart';
 import '../datamodel/CheckListFileAccess.dart';
+import '../widgets/checklist_icon_picker.dart';
 import 'checkListEditingPanel.dart';
 
 class ExpansionPanelListTabbedWidget extends StatefulWidget {
@@ -113,67 +113,129 @@ class _ExpansionPanelListTabbedWidgetState
         actions: [_ProgressIndicator(checklist: checklist)],
       ),
       body: ListView.builder(
+        padding: const EdgeInsets.only(top: 8),
         itemCount: indexedCheckpoints.length,
         itemBuilder: (context, visibleIndex) {
           final entry = indexedCheckpoints[visibleIndex];
           final checkpoint = entry.value;
+          final hasDescription = checkpoint.description.trim().isNotEmpty;
+          final hasNotes = checkpoint.notes.trim().isNotEmpty;
+          final hasDetails =
+              hasDescription || hasNotes || checkpoint.image != null;
+          final trailingCheckbox = Checkbox(
+            value: checkpoint.state,
+            activeColor: Colors.orange,
+            visualDensity: VisualDensity.compact,
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            onChanged: (value) {
+              context.read<ChecklistsBloc>().add(
+                CheckpointStateChanged(
+                  checklist.uuid,
+                  entry.key,
+                  value ?? false,
+                ),
+              );
+            },
+          );
           return Card(
             key: ValueKey('${checklist.uuid}-${entry.key}'),
-            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: ExpansionTile(
-              leading: _iconFor(checkpoint.icon),
-              title: Text(checkpoint.title),
-              trailing: Checkbox(
-                value: checkpoint.state,
-                activeColor: Colors.orange,
-                onChanged: (value) {
-                  context.read<ChecklistsBloc>().add(
-                    CheckpointStateChanged(
-                      checklist.uuid,
-                      entry.key,
-                      value ?? false,
-                    ),
-                  );
-                },
-              ),
-              children: [
-                if (checkpoint.image != null)
-                  FutureBuilder<File?>(
-                    future: _imageLoads.putIfAbsent(
-                      '${checklist.uuid}/${checkpoint.image}',
-                      () => _storage.readCheckPointImage(
-                        checklist.uuid,
-                        checkpoint.image,
-                      ),
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null) return const SizedBox.shrink();
-                      return Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Image.file(
-                          snapshot.data!,
-                          height: 150,
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    },
-                  ),
-                ListTile(
-                  title: Text(checkpoint.description),
-                  subtitle: Text('Notes: ${checkpoint.notes}'),
-                ),
-              ],
+            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
             ),
+            child: hasDetails
+                ? ExpansionTile(
+                    dense: true,
+                    visualDensity: VisualDensity.compact,
+                    tilePadding: const EdgeInsets.symmetric(horizontal: 8),
+                    childrenPadding: EdgeInsets.zero,
+                    leading: _iconFor(checkpoint.icon),
+                    title: _checkpointTitle(
+                      context,
+                      checkpoint.title,
+                      showDetailsIndicator: true,
+                    ),
+                    trailing: trailingCheckbox,
+                    children: [
+                      if (checkpoint.image != null)
+                        FutureBuilder<File?>(
+                          future: _imageLoads.putIfAbsent(
+                            '${checklist.uuid}/${checkpoint.image}',
+                            () => _storage.readCheckPointImage(
+                              checklist.uuid,
+                              checkpoint.image,
+                            ),
+                          ),
+                          builder: (context, snapshot) {
+                            if (snapshot.data == null) {
+                              return const SizedBox.shrink();
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.file(
+                                snapshot.data!,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          },
+                        ),
+                      if (hasDescription || hasNotes)
+                        ListTile(
+                          title: hasDescription
+                              ? Text(checkpoint.description.trim())
+                              : null,
+                          subtitle: hasNotes
+                              ? Text('Notes: ${checkpoint.notes.trim()}')
+                              : null,
+                        ),
+                    ],
+                  )
+                : ListTile(
+                    dense: true,
+                    visualDensity: VisualDensity.compact,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                    leading: _iconFor(checkpoint.icon),
+                    title: _checkpointTitle(context, checkpoint.title),
+                    trailing: trailingCheckbox,
+                  ),
           );
         },
       ),
     );
   }
 
+  Widget _checkpointTitle(
+    BuildContext context,
+    String title, {
+    bool showDetailsIndicator = false,
+  }) {
+    final style = Theme.of(context).textTheme.titleMedium
+        ?.copyWith(fontSize: 17);
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(text: title),
+          if (showDetailsIndicator)
+            WidgetSpan(
+              alignment: PlaceholderAlignment.middle,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 2),
+                child: Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 18,
+                  color: style?.color,
+                ),
+              ),
+            ),
+        ],
+      ),
+      style: style,
+    );
+  }
+
   Widget _iconFor(dynamic icon) {
-    if (icon is FaIconData) return FaIcon(icon);
-    if (icon is IconData) return Icon(icon);
-    return const Icon(Icons.checklist);
+    return ChecklistIconView(icon: icon);
   }
 }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '../datamodel/CheckListDataModel.dart';
+import '../widgets/checklist_icon_picker.dart';
 import 'ExpansionPanelListTabbedWidget.dart';
 
 class CheckListGridView extends StatelessWidget {
@@ -57,8 +56,6 @@ class CheckListGridView extends StatelessWidget {
   }
 
   Widget _iconFor(dynamic icon) {
-    if (icon is FaIconData) return FaIcon(icon);
-    if (icon is IconData) return Icon(icon);
-    return const Icon(Icons.checklist);
+    return ChecklistIconView(icon: icon);
   }
 }

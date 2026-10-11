@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
@@ -116,10 +115,10 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
           children: [
             _sectionLabel(context, 'Nom de la checklist'),
-            const SizedBox(height: 8),
+            const SizedBox(height: 4),
             TextFormField(
               controller: _titleController,
               autofocus: true,
@@ -134,9 +133,41 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
                   ? 'Saisissez un nom pour la checklist.'
                   : null,
             ),
-            const SizedBox(height: 16),
-            _sectionLabel(context, 'Description'),
             const SizedBox(height: 8),
+            _sectionLabel(context, 'Points de contrôle'),
+            const SizedBox(height: 2),
+            ListTile(
+              dense: true,
+              visualDensity: VisualDensity.compact,
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.checklist_outlined),
+              title: const Text('Gérer les points de contrôle'),
+              subtitle: Text('$total point${total == 1 ? '' : 's'}'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => CheckPointListEditingPanel(
+                    widgetCheckListObject: checklist,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 6),
+            _sectionLabel(context, 'Choix de l’icône'),
+            const SizedBox(height: 2),
+            ListTile(
+              dense: true,
+              visualDensity: VisualDensity.compact,
+              contentPadding: EdgeInsets.zero,
+              leading: _iconFor(_draft.icon),
+              title: const Text('Icône'),
+              subtitle: const Text('Choisir un symbole pour la checklist'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: _selectIcon,
+            ),
+            const SizedBox(height: 8),
+            _sectionLabel(context, 'Description'),
+            const SizedBox(height: 4),
             TextFormField(
               controller: _descriptionController,
               maxLength: 150,
@@ -150,9 +181,9 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
                 'À quoi sert cette checklist ?',
               ),
             ),
-            const SizedBox(height: 16),
-            _sectionLabel(context, 'Notes'),
             const SizedBox(height: 8),
+            _sectionLabel(context, 'Notes'),
+            const SizedBox(height: 4),
             TextFormField(
               controller: _notesController,
               maxLength: 150,
@@ -162,32 +193,6 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
               style: Theme.of(context).textTheme.bodyLarge
                   ?.copyWith(color: const Color(0xFF303030)),
               decoration: _fieldDecoration(context, 'Notes facultatives'),
-            ),
-            const SizedBox(height: 12),
-            _sectionLabel(context, 'Organisation'),
-            const SizedBox(height: 4),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: _iconFor(_draft.icon),
-              title: const Text('Icône'),
-              subtitle: const Text('Choisir un symbole pour la checklist'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: _selectIcon,
-            ),
-            const Divider(height: 8),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.checklist_outlined),
-              title: const Text('Points de contrôle'),
-              subtitle: Text('$total point${total == 1 ? '' : 's'}'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => CheckPointListEditingPanel(
-                    widgetCheckListObject: checklist,
-                  ),
-                ),
-              ),
             ),
           ],
         ),
@@ -237,15 +242,13 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
           width: 2,
         ),
       ),
-      contentPadding: const EdgeInsets.all(18),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       counterStyle: const TextStyle(color: Color(0xFF777777)),
     );
   }
 
   Widget _iconFor(dynamic icon) {
-    if (icon is FaIconData) return FaIcon(icon);
-    if (icon is IconData) return Icon(icon);
-    return const Icon(Icons.checklist);
+    return ChecklistIconView(icon: icon);
   }
 
   Future<void> _selectIcon() async {

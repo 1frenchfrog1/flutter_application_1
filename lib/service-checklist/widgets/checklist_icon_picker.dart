@@ -1,25 +1,129 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class ChecklistIconOption {
   final String label;
   final String category;
-  final IconData icon;
+  final dynamic icon;
+  final String? hugeIconName;
 
-  const ChecklistIconOption(this.label, this.category, this.icon);
+  const ChecklistIconOption(this.label, this.category, this.icon)
+    : hugeIconName = null;
+
+  const ChecklistIconOption.huge(
+    this.label,
+    this.category,
+    this.hugeIconName,
+    this.icon,
+  );
+}
+
+const checklistTrousersIcon = IconData(0xe000, fontFamily: 'ChecklistCustom');
+
+class ChecklistIconView extends StatelessWidget {
+  final dynamic icon;
+  final double? size;
+
+  const ChecklistIconView({super.key, required this.icon, this.size});
+
+  @override
+  Widget build(BuildContext context) {
+    if (icon is List<List<dynamic>>) {
+      return HugeIcon(
+        icon: icon,
+        size: size ?? IconTheme.of(context).size ?? 24,
+        color: IconTheme.of(context).color,
+      );
+    }
+
+    if (icon is FaIconData) {
+      return FaIcon(icon, size: size);
+    }
+
+    if (icon is! IconData) return const Icon(Icons.checklist);
+    if (icon.codePoint != checklistTrousersIcon.codePoint ||
+        icon.fontFamily != checklistTrousersIcon.fontFamily) {
+      return Icon(icon, size: size);
+    }
+
+    final iconSize = size ?? IconTheme.of(context).size ?? 24;
+    return CustomPaint(
+      size: Size.square(iconSize),
+      painter: _TrousersIconPainter(
+        color:
+            IconTheme.of(context).color ??
+            Theme.of(context).colorScheme.onSurface,
+      ),
+    );
+  }
+}
+
+class _TrousersIconPainter extends CustomPainter {
+  final Color color;
+
+  const _TrousersIconPainter({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.save();
+    canvas.scale(size.width / 100, size.height / 100);
+
+    final trousers = Path()
+      ..moveTo(25, 12)
+      ..lineTo(75, 12)
+      ..lineTo(72, 50)
+      ..lineTo(62, 91)
+      ..lineTo(47, 91)
+      ..lineTo(49, 53)
+      ..lineTo(42, 53)
+      ..lineTo(37, 91)
+      ..lineTo(22, 91)
+      ..lineTo(28, 50)
+      ..close();
+    canvas.drawPath(trousers, Paint()..color = color);
+
+    final seam = Paint()
+      ..color = color.withValues(alpha: 0.55)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+    canvas.drawLine(const Offset(28, 20), const Offset(72, 20), seam);
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(_TrousersIconPainter oldDelegate) =>
+      color != oldDelegate.color;
 }
 
 final List<ChecklistIconOption> checklistIconOptions = [
+  // Use the package's font metadata directly because its IconData subclasses
+  // are incompatible with current Flutter SDKs.
   ChecklistIconOption('Checklist', 'Essentiel', Icons.checklist),
   ChecklistIconOption('Tâche validée', 'Essentiel', Icons.task_alt),
   ChecklistIconOption('Objectif', 'Essentiel', Icons.flag_outlined),
   ChecklistIconOption('Favori', 'Essentiel', Icons.star_outline),
   ChecklistIconOption('Rappel', 'Essentiel', Icons.alarm_outlined),
+  ChecklistIconOption(
+    'Presse-papiers',
+    'Essentiel',
+    const IconData(0xe939, fontFamily: 'EvaIcons', fontPackage: 'icons_plus'),
+  ),
+  ChecklistIconOption(
+    'Tâche terminée',
+    'Essentiel',
+    const IconData(0xe930, fontFamily: 'EvaIcons', fontPackage: 'icons_plus'),
+  ),
+  ChecklistIconOption(
+    'Calendrier',
+    'Essentiel',
+    const IconData(0xec32, fontFamily: 'Iconsax', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Ancienne icône édition', 'Essentiel', Icons.edit),
   ChecklistIconOption(
     'Ancienne édition Font Awesome',
     'Essentiel',
-    FontAwesomeIcons.edit.data,
+    FontAwesomeIcons.penToSquare.data,
   ),
   ChecklistIconOption('Ancienne icône suppression', 'Essentiel', Icons.delete),
   ChecklistIconOption('Ancienne icône terminé', 'Essentiel', Icons.done_all),
@@ -147,7 +251,7 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ChecklistIconOption(
     'Ancienne icône ambulance',
     'Santé',
-    FontAwesomeIcons.ambulance.data,
+    FontAwesomeIcons.truckMedical.data,
   ),
   ChecklistIconOption(
     'Ancienne icône papier toilette',
@@ -162,7 +266,7 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ChecklistIconOption(
     'Ancienne icône contacts groupe',
     'Famille',
-    FontAwesomeIcons.userFriends.data,
+    FontAwesomeIcons.userGroup.data,
   ),
   ChecklistIconOption(
     'Ancienne icône carnet',
@@ -177,12 +281,12 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ChecklistIconOption(
     'Ancienne icône trousse médicale',
     'Santé',
-    FontAwesomeIcons.medkit.data,
+    FontAwesomeIcons.suitcaseMedical.data,
   ),
   ChecklistIconOption(
     'Ancienne icône sac',
     'Objets de voyage',
-    FontAwesomeIcons.shoppingBag.data,
+    FontAwesomeIcons.bagShopping.data,
   ),
   ChecklistIconOption(
     'Ancienne icône eau',
@@ -211,7 +315,48 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ),
 
   ChecklistIconOption('T-shirt', 'Vêtements', FontAwesomeIcons.shirt.data),
-  ChecklistIconOption('Pantalon', 'Vêtements', Icons.checkroom),
+  ChecklistIconOption.huge(
+    'Pantalon',
+    'Vêtements',
+    'strokeRoundedJoggerPants',
+    HugeIcons.strokeRoundedJoggerPants,
+  ),
+  ChecklistIconOption.huge(
+    'Pantalon court',
+    'Vêtements',
+    'strokeRoundedShortsPants',
+    HugeIcons.strokeRoundedShortsPants,
+  ),
+  ChecklistIconOption.huge(
+    'Robe',
+    'Vêtements',
+    'Robe',
+    HugeIcons.strokeRoundedDress05,
+  ),
+  ChecklistIconOption.huge(
+    'Shoes',
+    'Vêtements',
+    'Shoes',
+    HugeIcons.strokeRoundedShoes,
+  ),
+  ChecklistIconOption(
+    'Short',
+    'Vêtements',
+    const IconData(0xf145, fontFamily: 'MingCute', fontPackage: 'icons_plus'),
+  ),
+
+  ChecklistIconOption(
+    'Chemise',
+    'Vêtements',
+    const IconData(0xf135, fontFamily: 'MingCute', fontPackage: 'icons_plus'),
+  ),
+
+  ChecklistIconOption.huge(
+    'Chemise',
+    'Vêtements',
+    'strokeRoundedShirt01',
+    HugeIcons.strokeRoundedShirt01,
+  ),
   ChecklistIconOption('Veste et manteau', 'Vêtements', Icons.checkroom),
   ChecklistIconOption('Pull', 'Vêtements', Icons.checkroom),
   ChecklistIconOption('Robe', 'Vêtements', Icons.checkroom),
@@ -239,6 +384,11 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ChecklistIconOption('Accessoires', 'Vêtements', Icons.shopping_bag_outlined),
 
   ChecklistIconOption('Avion', 'Voyage', Icons.flight_outlined),
+  ChecklistIconOption(
+    'Avion (contour)',
+    'Voyage',
+    const IconData(0xebb0, fontFamily: 'Iconsax', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Départ', 'Voyage', Icons.flight_takeoff),
   ChecklistIconOption('Arrivée', 'Voyage', Icons.flight_land),
   ChecklistIconOption('Valise', 'Voyage', Icons.luggage_outlined),
@@ -246,6 +396,11 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ChecklistIconOption('Carte', 'Voyage', Icons.map_outlined),
   ChecklistIconOption('Explorer', 'Voyage', Icons.explore_outlined),
   ChecklistIconOption('Voiture', 'Voyage', Icons.directions_car_outlined),
+  ChecklistIconOption(
+    'Voiture (contour)',
+    'Voyage',
+    const IconData(0xec48, fontFamily: 'Iconsax', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Bus', 'Voyage', Icons.directions_bus_outlined),
   ChecklistIconOption('Train', 'Voyage', Icons.train_outlined),
   ChecklistIconOption('Métro', 'Voyage', Icons.subway_outlined),
@@ -291,6 +446,11 @@ final List<ChecklistIconOption> checklistIconOptions = [
     Icons.folder_open_outlined,
   ),
   ChecklistIconOption(
+    'Porte-documents',
+    'Objets de voyage',
+    const IconData(0xec1a, fontFamily: 'Iconsax', fontPackage: 'icons_plus'),
+  ),
+  ChecklistIconOption(
     'Médicaments',
     'Objets de voyage',
     Icons.medication_outlined,
@@ -310,6 +470,11 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ChecklistIconOption('Pizza', 'Nourriture', Icons.local_pizza_outlined),
   ChecklistIconOption('Sandwich', 'Nourriture', Icons.fastfood_outlined),
   ChecklistIconOption('Café', 'Nourriture', Icons.local_cafe_outlined),
+  ChecklistIconOption(
+    'Tasse de café',
+    'Nourriture',
+    const IconData(0xec7e, fontFamily: 'Iconsax', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Boisson', 'Nourriture', Icons.local_drink_outlined),
   ChecklistIconOption('Eau', 'Nourriture', Icons.water_drop_outlined),
   ChecklistIconOption('Glace', 'Nourriture', Icons.icecream_outlined),
@@ -323,6 +488,11 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ),
 
   ChecklistIconOption('Maison', 'Maison', Icons.home_outlined),
+  ChecklistIconOption(
+    'Maison (contour)',
+    'Maison',
+    const IconData(0xe97b, fontFamily: 'EvaIcons', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Clés', 'Maison', Icons.key_outlined),
   ChecklistIconOption('Porte', 'Maison', FontAwesomeIcons.doorClosed.data),
   ChecklistIconOption('Nettoyage', 'Maison', Icons.cleaning_services_outlined),
@@ -334,6 +504,11 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ChecklistIconOption('Meubles', 'Maison', Icons.chair_outlined),
   ChecklistIconOption('Literie', 'Maison', Icons.bed_outlined),
   ChecklistIconOption('Éclairage', 'Maison', Icons.lightbulb_outline),
+  ChecklistIconOption(
+    'Ampoule (contour)',
+    'Maison',
+    const IconData(0xe92a, fontFamily: 'EvaIcons', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Eau', 'Maison', Icons.water_drop_outlined),
   ChecklistIconOption('Électricité', 'Maison', Icons.power_outlined),
   ChecklistIconOption('Jardin', 'Maison', Icons.yard_outlined),
@@ -347,6 +522,11 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ChecklistIconOption('Médical', 'Santé', Icons.medical_services_outlined),
   ChecklistIconOption('Médicaments', 'Santé', Icons.medication_outlined),
   ChecklistIconOption('Cœur', 'Santé', Icons.monitor_heart_outlined),
+  ChecklistIconOption(
+    'Cœur (contour)',
+    'Santé',
+    const IconData(0xe97a, fontFamily: 'EvaIcons', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Vaccin', 'Santé', Icons.vaccines_outlined),
   ChecklistIconOption('Hôpital', 'Santé', Icons.local_hospital_outlined),
   ChecklistIconOption('Urgence', 'Santé', Icons.emergency_outlined),
@@ -365,11 +545,21 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ),
 
   ChecklistIconOption('Téléphone', 'Technologie', Icons.smartphone_outlined),
+  ChecklistIconOption(
+    'Téléphone (contour)',
+    'Technologie',
+    const IconData(0xe9af, fontFamily: 'EvaIcons', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Mobile', 'Technologie', Icons.phone_android),
   ChecklistIconOption('Ordinateur', 'Technologie', Icons.laptop_mac_outlined),
   ChecklistIconOption('Écran', 'Technologie', Icons.computer_outlined),
   ChecklistIconOption('Écouteurs', 'Technologie', Icons.headphones_outlined),
   ChecklistIconOption('Batterie', 'Technologie', Icons.battery_charging_full),
+  ChecklistIconOption(
+    'Éclair',
+    'Technologie',
+    const IconData(0xecfa, fontFamily: 'Iconsax', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Wi-Fi', 'Technologie', Icons.wifi),
   ChecklistIconOption('Routeur', 'Technologie', Icons.router_outlined),
   ChecklistIconOption(
@@ -388,6 +578,11 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ChecklistIconOption('Carte mémoire', 'Technologie', Icons.sd_card_outlined),
 
   ChecklistIconOption('Personne', 'Famille', Icons.person_outline),
+  ChecklistIconOption(
+    'Personne (contour)',
+    'Famille',
+    const IconData(0xe9aa, fontFamily: 'EvaIcons', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Famille', 'Famille', Icons.family_restroom_outlined),
   ChecklistIconOption('Enfant', 'Famille', Icons.child_care_outlined),
   ChecklistIconOption('École', 'Famille', Icons.school_outlined),
@@ -407,6 +602,11 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ChecklistIconOption('Vélo', 'Loisirs', Icons.directions_bike_outlined),
   ChecklistIconOption('Piscine', 'Loisirs', Icons.pool_outlined),
   ChecklistIconOption('Musique', 'Loisirs', Icons.music_note_outlined),
+  ChecklistIconOption(
+    'Note de musique',
+    'Loisirs',
+    const IconData(0xe99c, fontFamily: 'EvaIcons', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Film', 'Loisirs', Icons.movie_outlined),
   ChecklistIconOption('Lecture', 'Loisirs', Icons.menu_book_outlined),
   ChecklistIconOption('Peinture', 'Loisirs', Icons.palette_outlined),
@@ -416,10 +616,20 @@ final List<ChecklistIconOption> checklistIconOptions = [
   ChecklistIconOption('Célébration', 'Loisirs', Icons.celebration_outlined),
   ChecklistIconOption('Jeu vidéo', 'Loisirs', Icons.sports_esports_outlined),
   ChecklistIconOption('Cadeau', 'Loisirs', Icons.card_giftcard_outlined),
+  ChecklistIconOption(
+    'Cadeau (contour)',
+    'Loisirs',
+    const IconData(0xe971, fontFamily: 'EvaIcons', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Restaurant', 'Loisirs', Icons.restaurant_outlined),
 
   ChecklistIconOption('Travail', 'Travail', Icons.work_outline),
   ChecklistIconOption('Bureau', 'Travail', Icons.business_center_outlined),
+  ChecklistIconOption(
+    'Porte-documents (contour)',
+    'Travail',
+    const IconData(0xec1a, fontFamily: 'Iconsax', fontPackage: 'icons_plus'),
+  ),
   ChecklistIconOption('Outils', 'Travail', Icons.build_outlined),
 ];
 
@@ -550,7 +760,7 @@ class _ChecklistIconPickerDialogState extends State<ChecklistIconPickerDialog> {
                           tooltip: '${option.label} · ${option.category}',
                           onPressed: () =>
                               Navigator.of(context).pop(option.icon),
-                          icon: Icon(option.icon),
+                          icon: ChecklistIconView(icon: option.icon),
                         );
                       },
                     ),
@@ -568,8 +778,8 @@ class _ChecklistIconPickerDialogState extends State<ChecklistIconPickerDialog> {
   }
 }
 
-Future<IconData?> showChecklistIconPicker(BuildContext context) {
-  return showDialog<IconData>(
+Future<dynamic> showChecklistIconPicker(BuildContext context) {
+  return showDialog<dynamic>(
     context: context,
     builder: (_) => const ChecklistIconPickerDialog(),
   );

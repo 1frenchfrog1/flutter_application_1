@@ -121,42 +121,88 @@ class TodoLandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tileSize = MediaQuery.sizeOf(context).width / 3;
     return Scaffold(
       appBar: AppBar(title: const Text('Accueil')),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FilledButton.icon(
-              icon: const Icon(Icons.checklist),
-              label: const Text('Ouvrir ma todo-list'),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => BlocProvider(
-                      create: (_) => TodosBloc(
-                        todosRepository: ToDoFileStorage(
-                          'todos',
-                          () async => directory,
-                        ),
-                      )..add(TodosLoadedSuccessfully()),
-                      child: const HomeToDoList(),
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          height: tileSize,
+          child: GridView.count(
+            crossAxisCount: 3,
+            childAspectRatio: 1,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            children: [
+              _HomeActionTile(
+                icon: Icons.checklist,
+                title: 'Ouvrir ma todo-list',
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => BlocProvider(
+                        create: (_) => TodosBloc(
+                          todosRepository: ToDoFileStorage(
+                            'todos',
+                            () async => directory,
+                          ),
+                        )..add(TodosLoadedSuccessfully()),
+                        child: const HomeToDoList(),
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 12),
-            FilledButton.icon(
-              icon: const Icon(Icons.fact_check),
-              label: const Text('Ouvrir mes checklists'),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const HomeCheckList()),
-                );
-              },
-            ),
-          ],
+                  );
+                },
+              ),
+              _HomeActionTile(
+                icon: Icons.fact_check,
+                title: 'Ouvrir mes checklists',
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const HomeCheckList()),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _HomeActionTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final VoidCallback onTap;
+
+  const _HomeActionTile({
+    required this.icon,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 32),
+              const SizedBox(height: 8),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+            ],
+          ),
         ),
       ),
     );

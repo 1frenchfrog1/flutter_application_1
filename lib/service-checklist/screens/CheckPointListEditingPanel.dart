@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
 import '../bloc/checklists_state.dart';
 import '../datamodel/CheckListDataModel.dart';
+import '../widgets/checklist_icon_picker.dart';
 import 'CheckPointEditingPanel.dart';
 
 class CheckPointListEditingPanel extends StatefulWidget {
@@ -50,7 +50,7 @@ class _CheckPointListEditingPanelState
           ),
           body: ReorderableListView.builder(
             itemCount: checkpoints.length,
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.only(top: 8),
             onReorderItem: (oldIndex, newIndex) {
               context.read<ChecklistsBloc>().add(
                 CheckpointReordered(checklist.uuid, oldIndex, newIndex),
@@ -59,33 +59,44 @@ class _CheckPointListEditingPanelState
             },
             itemBuilder: (context, index) {
               final checkpoint = checkpoints[index];
-              return ListTile(
+              return Card(
                 key: ValueKey('${checklist.uuid}-$index-${checkpoint.title}'),
-                selected: index == _selectedIndex,
-                leading: _iconFor(checkpoint.icon),
-                title: Text(checkpoint.title),
-                subtitle: Text(
-                  'Descr: ${checkpoint.description}\nNotes: ${checkpoint.notes}',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  side: const BorderSide(color: Colors.orange, width: 0.7),
                 ),
-                trailing: IconButton(
-                  tooltip: 'Edit checkpoint',
-                  icon: const Icon(Icons.more_vert),
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => CheckPointEditingPanel(
-                        checkPointTransmittedData: CheckPointTransmittedData(
-                          widgetActionObject: checkpoint,
-                          uuidStringToCreateFolder: checklist.uuid,
-                          checkpointIndex: index,
+                child: ListTile(
+                  dense: true,
+                  visualDensity: VisualDensity.compact,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                  selected: index == _selectedIndex,
+                  leading: _iconFor(checkpoint.icon),
+                  title: Text(
+                    checkpoint.title,
+                    style: Theme.of(context).textTheme.titleMedium
+                        ?.copyWith(fontSize: 17),
+                  ),
+                  trailing: IconButton(
+                    tooltip: 'Edit checkpoint',
+                    visualDensity: VisualDensity.compact,
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => CheckPointEditingPanel(
+                          checkPointTransmittedData: CheckPointTransmittedData(
+                            widgetActionObject: checkpoint,
+                            uuidStringToCreateFolder: checklist.uuid,
+                            checkpointIndex: index,
+                          ),
                         ),
                       ),
                     ),
+                    icon: const Icon(Icons.more_vert),
                   ),
-                ),
-                onTap: () => setState(
-                  () => _selectedIndex = index == _selectedIndex ? null : index,
+                  onTap: () => setState(
+                    () =>
+                        _selectedIndex = index == _selectedIndex ? null : index,
+                  ),
                 ),
               );
             },
@@ -152,8 +163,6 @@ class _CheckPointListEditingPanelState
   }
 
   Widget _iconFor(dynamic icon) {
-    if (icon is FaIconData) return FaIcon(icon);
-    if (icon is IconData) return Icon(icon);
-    return const Icon(Icons.checklist);
+    return ChecklistIconView(icon: icon);
   }
 }

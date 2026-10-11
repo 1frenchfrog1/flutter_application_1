@@ -10,6 +10,7 @@ import 'package:flutter_application_1/service-checklist/datamodel/CheckListDataM
 import 'package:flutter_application_1/service-checklist/datamodel/checklists_repository.dart';
 import 'package:flutter_application_1/service-checklist/screens/CheckPointListEditingPanel.dart';
 import 'package:flutter_application_1/service-checklist/screens/CheckPointEditingPanel.dart';
+import 'package:flutter_application_1/service-checklist/screens/ExpansionPanelListTabbedWidget.dart';
 import 'package:flutter_application_1/service-checklist/screens/checkListEditingPanel.dart';
 import 'package:flutter_application_1/service-checklist/screens/HomeCheckList.dart';
 import 'package:flutter_application_1/main.dart';
@@ -22,13 +23,25 @@ void main() {
       (option) => option.category == 'Travail',
     );
 
-    expect(labels, containsAll(['T-shirt', 'Veste et manteau', 'Pantalon']));
+    expect(
+      labels,
+      containsAll([
+        'T-shirt',
+        'Veste et manteau',
+        'Pantalon',
+        'Pantalon court',
+        'Short',
+        'Short (plein)',
+        'Chemise',
+        'Chemise (pleine)',
+      ]),
+    );
     expect(
       labels,
       containsAll(['Passeport', 'Gourde', 'Chargeur', 'Trousse de toilette']),
     );
     expect(labels, containsAll(['Petit-déjeuner', 'Déjeuner', 'Pizza', 'Riz']));
-    expect(officeIcons, hasLength(3));
+    expect(officeIcons, hasLength(4));
   });
 
   test('all catalog icons round-trip through saved JSON metadata', () {
@@ -60,6 +73,11 @@ void main() {
       expect(state.checklists, hasLength(1));
       expect(repository.savedChecklists, hasLength(1));
       expect(state.checklists.single.checkListObjects, hasLength(1));
+      expect(
+        state.checklists.single.checkListObjects.single.description,
+        isEmpty,
+      );
+      expect(state.checklists.single.checkListObjects.single.notes, isEmpty);
 
       final checklist = state.checklists.single;
       final changed = bloc.stream.firstWhere(
@@ -187,6 +205,48 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('New checkpoint'), findsOneWidget);
+    expect(
+      repository.savedChecklists.single.checkListObjects.single.description,
+      isEmpty,
+    );
+    expect(
+      repository.savedChecklists.single.checkListObjects.single.notes,
+      isEmpty,
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('checkpoints without details cannot be expanded', (tester) async {
+    final checklist = CheckList('Expansion test', Icons.edit, '', '')
+      ..checkListObjects = [
+        ActionObject(title: 'Empty checkpoint'),
+        ActionObject(title: 'Checkpoint with notes', notes: 'Bring a charger'),
+      ];
+    final repository = _MemoryChecklistsRepository()
+      ..savedChecklists = [checklist];
+
+    await tester.pumpWidget(
+      BlocProvider(
+        create: (_) =>
+            ChecklistsBloc(repository: repository)
+              ..add(ChecklistsLoadRequested()),
+        child: MaterialApp(
+          home: ExpansionPanelListTabbedWidget(
+            widgetCheckListObject: checklist,
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ExpansionTile), findsOneWidget);
+    await tester.tap(find.text('Empty checkpoint'));
+    await tester.pumpAndSettle();
+    expect(find.byType(ExpansionTile), findsOneWidget);
+
+    await tester.tap(find.text('Checkpoint with notes'));
+    await tester.pumpAndSettle();
+    expect(find.text('Notes: Bring a charger'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

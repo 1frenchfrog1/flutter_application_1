@@ -5,13 +5,23 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:crypto/crypto.dart';
 
-import '../widgets/checklist_icon_picker.dart' show checklistIconOptions;
+import '../widgets/checklist_icon_picker.dart'
+    show checklistIconOptions, checklistTrousersIcon;
 
 //import 'package:date_format/date_format.dart';
 
 enum ConnectivityStatus { WiFi, Cellular, Offline }
 
 Map<String, dynamic> iconToJSONString(dynamic icon) {
+  if (icon is List<List<dynamic>>) {
+    for (final option in checklistIconOptions) {
+      if (identical(option.icon, icon) && option.hugeIconName != null) {
+        return {'hugeIcon': option.hugeIconName};
+      }
+    }
+    throw ArgumentError('Huge icon is not registered in the icon catalog.');
+  }
+
   final IconData data = icon is FaIconData ? icon.data : icon as IconData;
   Map<String, dynamic> map = <String, dynamic>{};
   map['codePoint'] = data.codePoint;
@@ -22,14 +32,30 @@ Map<String, dynamic> iconToJSONString(dynamic icon) {
   return map;
 }
 
-IconData iconFromJSONString(dynamic jsonString) {
+dynamic iconFromJSONString(dynamic jsonString) {
   final Map<String, dynamic> map = Map<String, dynamic>.from(jsonString);
+  final hugeIconName = map['hugeIcon'] as String?;
+  if (hugeIconName != null) {
+    for (final option in checklistIconOptions) {
+      if (option.hugeIconName == hugeIconName) {
+        return option.icon;
+      }
+    }
+    return Icons.checklist;
+  }
+
   final codePoint = map['codePoint'] as int;
   final fontFamily = map['fontFamily'] as String?;
   final fontPackage = map['fontPackage'] as String?;
 
+  if (codePoint == checklistTrousersIcon.codePoint &&
+      fontFamily == checklistTrousersIcon.fontFamily) {
+    return checklistTrousersIcon;
+  }
+
   for (final option in checklistIconOptions) {
     final icon = option.icon;
+    if (icon is! IconData) continue;
     if (icon.codePoint == codePoint &&
         icon.fontFamily == fontFamily &&
         icon.fontPackage == fontPackage) {
@@ -184,8 +210,6 @@ class CheckList {
   void addNewActionObject(int? index) {
     ActionObject _actionObject = new ActionObject();
     _actionObject.title = "New checkpoint";
-    _actionObject.description = "Checkpoint description";
-    _actionObject.notes = "Checkpoint notes";
     _actionObject.icon = FontAwesomeIcons.edit;
     _actionObject.state = false;
 
@@ -269,7 +293,7 @@ class AppCheckLists {
       title: "New Checkpoint",
       icon: FontAwesomeIcons.edit,
       state: false,
-      description: "Describe your checkpoint here...",
+      description: "",
       notes: "",
     );
     localChecklist.checkListObjects.add(localActionObject);
