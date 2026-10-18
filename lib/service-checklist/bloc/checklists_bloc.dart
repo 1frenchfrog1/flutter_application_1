@@ -14,7 +14,7 @@ class ChecklistsBloc extends Bloc<ChecklistsEvent, ChecklistsState> {
     on<ChecklistsDemoDataRequested>((event, emit) async {
       await _updateChecklists(emit, (checklists) {
         final collection = AppCheckLists()..allCheckLists = checklists;
-        collection.ivvqFillAppCheckList('Sample');
+        collection.addDemoChecklists();
         return collection.allCheckLists;
       });
     });

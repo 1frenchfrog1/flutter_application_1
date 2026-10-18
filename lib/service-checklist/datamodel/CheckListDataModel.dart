@@ -1,74 +1,46 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:uuid/uuid.dart';
-import 'package:crypto/crypto.dart';
 
-import '../widgets/checklist_icon_picker.dart'
-    show checklistIconOptions, checklistTrousersIcon;
+import '../../features/icons/data/models/icon_model.dart';
+import '../../features/icons/domain/entities/icon_entity.dart';
 
-//import 'package:date_format/date_format.dart';
-
-enum ConnectivityStatus { WiFi, Cellular, Offline }
-
-Map<String, dynamic> iconToJSONString(dynamic icon) {
-  if (icon is List<List<dynamic>>) {
-    for (final option in checklistIconOptions) {
-      if (identical(option.icon, icon) && option.hugeIconName != null) {
-        return {'hugeIcon': option.hugeIconName};
-      }
-    }
-    throw ArgumentError('Huge icon is not registered in the icon catalog.');
+Map<String, dynamic> iconToJSONString(Object icon) {
+  if (icon is IconEntity) {
+    return IconModel.fromEntity(icon).toJson();
   }
 
-  final IconData data = icon is FaIconData ? icon.data : icon as IconData;
-  Map<String, dynamic> map = <String, dynamic>{};
-  map['codePoint'] = data.codePoint;
-  map['fontFamily'] = data.fontFamily;
-  map['fontPackage'] = data.fontPackage;
-  map['matchTextDirection'] = data.matchTextDirection;
-  //return jsonEncode(map);
-  return map;
+  final IconData data;
+  if (icon is FaIconData) {
+    data = icon.data;
+  } else if (icon is IconData) {
+    data = icon;
+  } else {
+    throw ArgumentError.value(icon, 'icon', 'Unsupported checklist icon.');
+  }
+
+  return {
+    'codePoint': data.codePoint,
+    'fontFamily': data.fontFamily,
+    'fontPackage': data.fontPackage,
+    'matchTextDirection': data.matchTextDirection,
+  };
 }
 
-dynamic iconFromJSONString(dynamic jsonString) {
-  final Map<String, dynamic> map = Map<String, dynamic>.from(jsonString);
-  final hugeIconName = map['hugeIcon'] as String?;
-  if (hugeIconName != null) {
-    for (final option in checklistIconOptions) {
-      if (option.hugeIconName == hugeIconName) {
-        return option.icon;
-      }
-    }
+Object iconFromJSONString(Object? jsonValue) {
+  if (jsonValue is! Map) return Icons.checklist;
+
+  final map = Map<String, dynamic>.from(jsonValue);
+  if (map['key'] is! String) {
     return Icons.checklist;
   }
 
-  final codePoint = map['codePoint'] as int;
-  final fontFamily = map['fontFamily'] as String?;
-  final fontPackage = map['fontPackage'] as String?;
-
-  if (codePoint == checklistTrousersIcon.codePoint &&
-      fontFamily == checklistTrousersIcon.fontFamily) {
-    return checklistTrousersIcon;
-  }
-
-  for (final option in checklistIconOptions) {
-    final icon = option.icon;
-    if (icon is! IconData) continue;
-    if (icon.codePoint == codePoint &&
-        icon.fontFamily == fontFamily &&
-        icon.fontPackage == fontPackage) {
-      return icon;
-    }
-  }
-
-  return Icons.checklist;
+  return IconModel.fromJson(map).toEntity();
 }
 
 class ActionObject {
   String title;
-  dynamic icon;
+  Object icon;
   bool state;
   String description;
   String notes;
@@ -90,11 +62,11 @@ class ActionObject {
   }
 
   void clearImageUuid() {
-    this.image = null;
+    image = null;
   }
 
   factory ActionObject.fromJson(Map<String, dynamic> json) {
-    return new ActionObject(
+    return ActionObject(
       title: json['actionTitle'] as String? ?? '',
       icon: json['actionIcon'] == null
           ? Icons.edit
@@ -116,44 +88,33 @@ class ActionObject {
   };
 
   ActionObject copyAction() {
-    Map<String, dynamic> map = this.toJson();
-    return new ActionObject.fromJson(map);
+    return ActionObject.fromJson(toJson());
   }
 
-  updateWithActionObject(ActionObject sourceActionObject) {
-    this.title = sourceActionObject.title;
-    this.icon = sourceActionObject.icon;
-    this.description = sourceActionObject.description;
-    this.notes = sourceActionObject.notes;
-    this.image = sourceActionObject.image;
+  void updateWithActionObject(ActionObject sourceActionObject) {
+    title = sourceActionObject.title;
+    icon = sourceActionObject.icon;
+    description = sourceActionObject.description;
+    notes = sourceActionObject.notes;
+    image = sourceActionObject.image;
   }
 }
 
 class CheckList {
-  static final CheckList _checkListSingleton = new CheckList._internal();
+  CheckList(this.title, this.icon, this.description, this.notes)
+    : uuid = const Uuid().v1(),
+      dateTime = DateTime.now().toString();
 
-  static CheckList get() {
-    return _checkListSingleton;
-  }
-
-  CheckList._internal();
-
-  String title = "";
-  dynamic icon;
-  String description = "";
-  String notes = "";
+  String title;
+  Object icon;
+  String description;
+  String notes;
   List<ActionObject> checkListObjects = [];
-  late String uuid;
-  late String dateTime;
-
-  CheckList(this.title, this.icon, this.description, this.notes) {
-    final appUuid = const Uuid();
-    this.uuid = appUuid.v1().toString();
-    this.dateTime = DateTime.now().toString();
-  }
+  String uuid;
+  String dateTime;
 
   factory CheckList.fromJson(Map<String, dynamic> json) {
-    CheckList _checklist = new CheckList(
+    final checklist = CheckList(
       json['checkListTitle'] as String? ?? '',
       json['checkListIcon'] == null
           ? Icons.edit
@@ -162,17 +123,26 @@ class CheckList {
       json['checkListNotes'] as String? ?? '',
     );
 
-    _checklist.uuid = json['checkListUuid'];
-    _checklist.dateTime = json['checkListDateTime'];
+    checklist.uuid = json['checkListUuid'] as String? ?? checklist.uuid;
+    checklist.dateTime =
+        json['checkListDateTime'] as String? ?? checklist.dateTime;
 
-    if (json.keys.any((a) => a == 'checkListObjects')) {
-      final List<dynamic> dynamicList = json['checkListObjects'] ?? [];
-      _checklist.checkListObjects = dynamicList
-          .map((item) => ActionObject.fromJson(item))
-          .toList();
+    final rawActions = json['checkListObjects'];
+    if (rawActions != null) {
+      if (rawActions is! List) {
+        throw const FormatException('"checkListObjects" must be a list.');
+      }
+      checklist.checkListObjects = rawActions.map((item) {
+        if (item is! Map) {
+          throw const FormatException(
+            'Each checklist action must be a JSON object.',
+          );
+        }
+        return ActionObject.fromJson(Map<String, dynamic>.from(item));
+      }).toList();
     }
 
-    return _checklist;
+    return checklist;
   }
 
   Map<String, dynamic> toJson() {
@@ -189,64 +159,27 @@ class CheckList {
     };
   }
 
-  updateDateTime() {
-    this.dateTime = DateTime.now().toString();
-  }
-
-  updateWithChecklist(CheckList sourceChecklist) {
-    this.title = sourceChecklist.title;
-    this.icon = sourceChecklist.icon;
-    this.description = sourceChecklist.description;
-    this.notes = sourceChecklist.notes;
-    this.checkListObjects = [];
-    this.dateTime = DateTime.now().toString();
-    //this.uuid = sourceChecklist.uuid;
-
-    checkListObjects = sourceChecklist.checkListObjects
-        .map((action) => action.copyAction())
-        .toList();
+  void updateDateTime() {
+    dateTime = DateTime.now().toString();
   }
 
   void addNewActionObject(int? index) {
-    ActionObject _actionObject = new ActionObject();
-    _actionObject.title = "New checkpoint";
-    _actionObject.icon = FontAwesomeIcons.edit;
-    _actionObject.state = false;
-
+    final actionObject = ActionObject(
+      title: 'New checkpoint',
+      icon: FontAwesomeIcons.penToSquare,
+    );
     if (index == null) {
-      this.checkListObjects.add(_actionObject);
+      checkListObjects.add(actionObject);
     } else {
-      this.checkListObjects.insert(index + 1, _actionObject);
+      checkListObjects.insert(index + 1, actionObject);
     }
   }
 
   CheckList copyChecklist() {
-    CheckList varCheckList;
-    var appUuid = new Uuid();
-
-    Map<String, dynamic> map = this.toJson();
-    varCheckList = new CheckList.fromJson(map);
-    varCheckList.uuid = appUuid.v1().toString();
-    varCheckList.updateDateTime();
-    return varCheckList;
-  }
-
-  String generateMd5() {
-    Map<String, dynamic> map = this.toJson();
-    String encodedMap = jsonEncode(map);
-    return md5.convert(utf8.encode(encodedMap)).toString();
-  }
-
-  void ivvqFillCheckList(String actionText, int itemNumber, dynamic icon) {
-    checkListObjects = new List<ActionObject>.generate(itemNumber, (i) {
-      return ActionObject(
-        title: actionText + i.toString(),
-        icon: icon,
-        state: false,
-        description: "Description text can be very long for the test and cause issues in the way to display the ------------------------------------------------------------------------------------- text ",
-        notes: "Notes can be very long for the test and cause issues in the way to display the --------------------------------------------------------------------------------------------text",
-      );
-    });
+    final copy = CheckList.fromJson(toJson());
+    copy.uuid = const Uuid().v1();
+    copy.updateDateTime();
+    return copy;
   }
 }
 
@@ -256,18 +189,18 @@ class AppCheckLists {
   List<CheckList> allCheckLists = [];
 
   factory AppCheckLists.fromJson(Map<String, dynamic> json) {
-    AppCheckLists _appCheckLists = new AppCheckLists();
-
-    if (json.keys.any((a) => a == 'allCheckLists')) {
-      final List<dynamic> dynamicList = json['allCheckLists'] ?? [];
-      _appCheckLists.allCheckLists = dynamicList
-          .map((item) => CheckList.fromJson(item))
-          .toList();
-    } else {
-      print(" !!!! beware there is no key found !!!! ");
+    final rawChecklists = json['allCheckLists'];
+    if (rawChecklists is! List) {
+      throw const FormatException('"allCheckLists" must be a list.');
     }
 
-    return _appCheckLists;
+    return AppCheckLists()
+      ..allCheckLists = rawChecklists.map((item) {
+        if (item is! Map) {
+          throw const FormatException('Each checklist must be a JSON object.');
+        }
+        return CheckList.fromJson(Map<String, dynamic>.from(item));
+      }).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -279,45 +212,38 @@ class AppCheckLists {
   }
 
   void addNewChecklist() {
-    CheckList localChecklist;
-    ActionObject localActionObject;
-
-    localChecklist = new CheckList(
-      "New Checklist",
-      FontAwesomeIcons.edit,
-      "Describe your checklist here...",
-      "",
-    );
-    localChecklist.checkListObjects = [];
-    localActionObject = new ActionObject(
-      title: "New Checkpoint",
-      icon: FontAwesomeIcons.edit,
-      state: false,
-      description: "",
-      notes: "",
-    );
-    localChecklist.checkListObjects.add(localActionObject);
-    allCheckLists.add(localChecklist);
+    final checklist =
+        CheckList(
+            'New Checklist',
+            FontAwesomeIcons.penToSquare,
+            'Describe your checklist here...',
+            '',
+          )
+          ..checkListObjects.add(
+            ActionObject(
+              title: 'New Checkpoint',
+              icon: FontAwesomeIcons.penToSquare,
+            ),
+          );
+    allCheckLists.add(checklist);
   }
 
-  void ivvqFillAppCheckList(String checkListText) {
+  void addDemoChecklists() {
     String ivvqString;
-    dynamic ivvqIcon;
-    //int ivvqIndex = 0;
+    IconData ivvqIcon;
     ActionObject localActionObject;
     CheckList localChecklist;
 
-    //int ivvqIndex = 0;
-    ivvqString = "Long Travels and Trips and even longer title";
+    ivvqString = 'Long Travels and Trips and even longer title';
     ivvqIcon = Icons.terrain;
-    localChecklist = new CheckList(
+    localChecklist = CheckList(
       ivvqString,
       ivvqIcon,
       "Travel checklist for long local or abroad trips",
       "No specific notes",
     );
     localChecklist.checkListObjects = [];
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Shoes",
       icon: FontAwesomeIcons.shoePrints,
       state: false,
@@ -325,7 +251,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Socks",
       icon: FontAwesomeIcons.socks,
       state: false,
@@ -333,47 +259,47 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Pants / shorts / Casual",
-      icon: FontAwesomeIcons.tshirt,
+      icon: FontAwesomeIcons.shirt,
       state: false,
       description: "Description",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Underwear / Swim suit",
-      icon: FontAwesomeIcons.tshirt,
+      icon: FontAwesomeIcons.shirt,
       state: false,
       description: "Description",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Tshirt / Shirt / Tie",
-      icon: FontAwesomeIcons.tshirt,
+      icon: FontAwesomeIcons.shirt,
       state: false,
       description: "Description",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Sweater / Pull Over",
-      icon: FontAwesomeIcons.tshirt,
+      icon: FontAwesomeIcons.shirt,
       state: false,
       description: "Description",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Coat / Jacket",
-      icon: FontAwesomeIcons.tshirt,
+      icon: FontAwesomeIcons.shirt,
       state: false,
       description: "Description",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Belt / Hankerchief / Sun glasses",
       icon: FontAwesomeIcons.glasses,
       state: false,
@@ -382,7 +308,7 @@ class AppCheckLists {
     );
     localChecklist.checkListObjects.add(localActionObject);
 
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Razor / Shaving Cream",
       icon: FontAwesomeIcons.shower,
       state: false,
@@ -390,7 +316,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Tooth brush / Paste",
       icon: FontAwesomeIcons.shower,
       state: false,
@@ -398,7 +324,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Deodorant / Shower gel",
       icon: FontAwesomeIcons.shower,
       state: false,
@@ -406,15 +332,15 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Medications / Antihistamine / Flower bag",
-      icon: FontAwesomeIcons.ambulance,
+      icon: FontAwesomeIcons.truckMedical,
       state: false,
       description: "Including medications for India",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Toilet Paper / Napkins / Paper Towels / paper tissues",
       icon: FontAwesomeIcons.toiletPaper,
       state: false,
@@ -423,7 +349,7 @@ class AppCheckLists {
     );
     localChecklist.checkListObjects.add(localActionObject);
 
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Phone",
       icon: Icons.phone_android,
       state: false,
@@ -431,7 +357,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Charger / AC adapter",
       icon: Icons.power,
       state: false,
@@ -439,7 +365,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Laptop / Charger",
       icon: Icons.laptop,
       state: false,
@@ -447,7 +373,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "GPS App up to date on phone",
       icon: Icons.location_on,
       state: false,
@@ -455,7 +381,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "TV dongle & cable",
       icon: Icons.location_on,
       state: false,
@@ -464,7 +390,7 @@ class AppCheckLists {
     );
     localChecklist.checkListObjects.add(localActionObject);
 
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Cash / Check Book / Credit Card",
       icon: FontAwesomeIcons.creditCard,
       state: false,
@@ -472,7 +398,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "ID / Passport (including kids)",
       icon: FontAwesomeIcons.idCard,
       state: false,
@@ -480,15 +406,15 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Contacts phone / Travel insurrance",
-      icon: FontAwesomeIcons.userFriends,
+      icon: FontAwesomeIcons.userGroup,
       state: false,
       description: " ",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Phone list / Reservations ",
       icon: FontAwesomeIcons.addressBook,
       state: false,
@@ -496,7 +422,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Taxi reservation departure flight",
       icon: FontAwesomeIcons.taxi,
       state: false,
@@ -504,7 +430,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Books / Paper for notes / Pen",
       icon: Icons.import_contacts,
       state: false,
@@ -513,7 +439,7 @@ class AppCheckLists {
     );
     localChecklist.checkListObjects.add(localActionObject);
 
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Movies for the car / TV screens",
       icon: Icons.movie,
       state: false,
@@ -521,7 +447,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Books & Activities for kids",
       icon: Icons.toys,
       state: false,
@@ -529,7 +455,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Water / Snacks / Food",
       icon: Icons.fastfood,
       state: false,
@@ -537,7 +463,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Lamps for emergency or night",
       icon: Icons.lightbulb_outline,
       state: false,
@@ -545,7 +471,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Salt / Pepper / oil / Vinegar",
       icon: FontAwesomeIcons.oilCan,
       state: false,
@@ -553,15 +479,15 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Sponge / detergent / Dishwasher tablet / Towel",
-      icon: FontAwesomeIcons.medkit,
+      icon: FontAwesomeIcons.suitcaseMedical,
       state: false,
       description: " ",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Bed Sheets / Bathroom or beach towels",
       icon: FontAwesomeIcons.shower,
       state: false,
@@ -569,15 +495,15 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Hiking or small bags",
-      icon: FontAwesomeIcons.shoppingBag,
+      icon: FontAwesomeIcons.bagShopping,
       state: false,
       description: " ",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Head lamp / Swiss knife / ",
       icon: Icons.lightbulb_outline,
       state: false,
@@ -586,7 +512,7 @@ class AppCheckLists {
     );
     localChecklist.checkListObjects.add(localActionObject);
 
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Empty the dryer water tank",
       icon: FontAwesomeIcons.water,
       state: false,
@@ -594,7 +520,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Water the plants",
       icon: FontAwesomeIcons.leaf,
       state: false,
@@ -602,7 +528,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Empty fridge",
       icon: Icons.fastfood,
       state: false,
@@ -611,7 +537,7 @@ class AppCheckLists {
     );
     localChecklist.checkListObjects.add(localActionObject);
 
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Turn water heater off (summer)",
       icon: FontAwesomeIcons.water,
       state: false,
@@ -619,7 +545,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Turn PC & Wifi power off",
       icon: FontAwesomeIcons.powerOff,
       state: false,
@@ -627,7 +553,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Put trash & recycling out",
       icon: FontAwesomeIcons.trash,
       state: false,
@@ -635,7 +561,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Susan car in garage",
       icon: Icons.directions_car,
       state: false,
@@ -643,7 +569,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "check lights are off",
       icon: Icons.lightbulb_outline,
       state: false,
@@ -651,7 +577,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "All doors closed",
       icon: FontAwesomeIcons.doorClosed,
       state: false,
@@ -661,10 +587,9 @@ class AppCheckLists {
     localChecklist.checkListObjects.add(localActionObject);
     allCheckLists.add(localChecklist);
 
-    //ivvqIndex = 1;
-    ivvqString = "Paris Trip";
+    ivvqString = 'Paris Trip';
     ivvqIcon = Icons.airplanemode_active;
-    localChecklist = new CheckList(
+    localChecklist = CheckList(
       ivvqString,
       ivvqIcon,
       "Travel checklist for Paris trips",
@@ -672,7 +597,7 @@ class AppCheckLists {
     );
 
     localChecklist.checkListObjects = [];
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Socks",
       icon: FontAwesomeIcons.socks,
       state: false,
@@ -680,39 +605,39 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Underwear",
-      icon: FontAwesomeIcons.tshirt,
+      icon: FontAwesomeIcons.shirt,
       state: false,
       description: "Description",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Tshirt",
-      icon: FontAwesomeIcons.tshirt,
+      icon: FontAwesomeIcons.shirt,
       state: false,
       description: "Description",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Shirt",
-      icon: FontAwesomeIcons.tshirt,
+      icon: FontAwesomeIcons.shirt,
       state: false,
       description: "Description",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Spare pants",
-      icon: FontAwesomeIcons.tshirt,
+      icon: FontAwesomeIcons.shirt,
       state: false,
       description: "Description",
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Razor / Toothbrush / cream...",
       icon: FontAwesomeIcons.shower,
       state: false,
@@ -720,7 +645,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Phone Cable",
       icon: Icons.power,
       state: false,
@@ -728,7 +653,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Thales Badge",
       icon: Icons.badge,
       state: false,
@@ -736,7 +661,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Drivers licence",
       icon: Icons.credit_card,
       state: false,
@@ -744,7 +669,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "ID",
       icon: Icons.credit_card,
       state: false,
@@ -754,19 +679,17 @@ class AppCheckLists {
     localChecklist.checkListObjects.add(localActionObject);
     allCheckLists.add(localChecklist);
 
-    //ivvqIndex = 2;
-    ivvqString = "René school";
+    ivvqString = 'René school';
     ivvqIcon = Icons.school;
 
-    localChecklist = new CheckList(
+    localChecklist = CheckList(
       ivvqString,
       ivvqIcon,
       "Check before school",
       "No specific notes",
     );
-    //allCheckLists[IVVQIndex] = new CheckList(ivvqString, ivvqIcon, "Check before school", "No specific notes");
     localChecklist.checkListObjects = [];
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Phone",
       icon: Icons.phone,
       state: false,
@@ -774,7 +697,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Carnet correspondance",
       icon: Icons.import_contacts,
       state: false,
@@ -782,7 +705,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Carte cantine",
       icon: Icons.credit_card,
       state: false,
@@ -790,7 +713,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Keys",
       icon: Icons.vpn_key,
       state: false,
@@ -798,7 +721,7 @@ class AppCheckLists {
       notes: "Notes",
     );
     localChecklist.checkListObjects.add(localActionObject);
-    localActionObject = new ActionObject(
+    localActionObject = ActionObject(
       title: "Sport bag",
       icon: Icons.work,
       state: false,

@@ -1,0 +1,1446 @@
+[
+    {
+        "key":  "essentiel-checklist",
+        "label":  "Checklist",
+        "category":  "Essentiel",
+        "package":  "material",
+        "glyph":  "0xe15b",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "essentiel-tache-validee",
+        "label":  "Tâche validée",
+        "category":  "Essentiel",
+        "package":  "material",
+        "glyph":  "0xe646",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "essentiel-objectif",
+        "label":  "Objectif",
+        "category":  "Essentiel",
+        "package":  "material",
+        "glyph":  "0xf07b",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "essentiel-favori",
+        "label":  "Favori",
+        "category":  "Essentiel",
+        "package":  "material",
+        "glyph":  "0xe5fd",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "essentiel-rappel",
+        "label":  "Rappel",
+        "category":  "Essentiel",
+        "package":  "material",
+        "glyph":  "0xee66",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "essentiel-presse-papiers",
+        "label":  "Presse-papiers",
+        "category":  "Essentiel",
+        "package":  "icons_plus",
+        "glyph":  "0xe939",
+        "fontFamily":  "EvaIcons"
+    },
+    {
+        "key":  "essentiel-tache-terminee",
+        "label":  "Tâche terminée",
+        "category":  "Essentiel",
+        "package":  "icons_plus",
+        "glyph":  "0xe930",
+        "fontFamily":  "EvaIcons"
+    },
+    {
+        "key":  "essentiel-calendrier",
+        "label":  "Calendrier",
+        "category":  "Essentiel",
+        "package":  "icons_plus",
+        "glyph":  "0xec32",
+        "fontFamily":  "Iconsax"
+    },
+    {
+        "key":  "vetements-t-shirt",
+        "label":  "T-shirt",
+        "category":  "Vêtements",
+        "package":  "font_awesome_flutter",
+        "glyph":  "0xf553",
+        "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "vetements-pantalon",
+        "label":  "Pantalon",
+        "category":  "Vêtements",
+        "package":  "hugeicons",
+        "glyph":  "strokeRoundedJoggerPants"
+    },
+    {
+        "key":  "vetements-pantalon-court",
+        "label":  "Pantalon court",
+        "category":  "Vêtements",
+        "package":  "hugeicons",
+        "glyph":  "strokeRoundedShortsPants"
+    },
+    {
+        "key":  "vetements-robe",
+        "label":  "Robe",
+        "category":  "Vêtements",
+        "package":  "hugeicons",
+        "glyph":  "Robe"
+    },
+    {
+        "key":  "vetements-shoes",
+        "label":  "Shoes",
+        "category":  "Vêtements",
+        "package":  "hugeicons",
+        "glyph":  "Shoes"
+    },
+    {
+        "key":  "vetements-short",
+        "label":  "Short",
+        "category":  "Vêtements",
+        "package":  "icons_plus",
+        "glyph":  "0xf145",
+        "fontFamily":  "MingCute"
+    },
+    {
+        "key":  "vetements-chemise",
+        "label":  "Chemise",
+        "category":  "Vêtements",
+        "package":  "icons_plus",
+        "glyph":  "0xf135",
+        "fontFamily":  "MingCute"
+    },
+    {
+        "key":  "vetements-veste-et-manteau",
+        "label":  "Veste et manteau",
+        "category":  "Vêtements",
+        "package":  "material",
+        "glyph":  "0xe15d",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "vetements-pull",
+        "label":  "Pull",
+        "category":  "Vêtements",
+        "package":  "material",
+        "glyph":  "0xe15d",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "vetements-chaussures",
+        "label":  "Chaussures",
+        "category":  "Vêtements",
+        "package":  "font_awesome_flutter",
+        "glyph":  "0xf54b",
+        "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "vetements-chaussettes",
+        "label":  "Chaussettes",
+        "category":  "Vêtements",
+        "package":  "font_awesome_flutter",
+        "glyph":  "0xf696",
+        "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "vetements-lunettes-de-soleil",
+        "label":  "Lunettes de soleil",
+        "category":  "Vêtements",
+        "package":  "font_awesome_flutter",
+        "glyph":  "0xf530",
+        "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "vetements-tenue-a-laver",
+        "label":  "Tenue à laver",
+        "category":  "Vêtements",
+        "package":  "material",
+        "glyph":  "0xf180",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "vetements-nettoyage-a-sec",
+        "label":  "Nettoyage à sec",
+        "category":  "Vêtements",
+        "package":  "material",
+        "glyph":  "0xeffb",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "vetements-accessoires",
+        "label":  "Accessoires",
+        "category":  "Vêtements",
+        "package":  "material",
+        "glyph":  "0xf37d",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-avion",
+        "label":  "Avion",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xf085",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-avion-contour",
+        "label":  "Avion (contour)",
+        "category":  "Voyage",
+        "package":  "icons_plus",
+        "glyph":  "0xebb0",
+        "fontFamily":  "Iconsax"
+    },
+    {
+        "key":  "voyage-depart",
+        "label":  "Départ",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xe299",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-arrivee",
+        "label":  "Arrivée",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xe298",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-valise",
+        "label":  "Valise",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xf1a7",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-decouverte",
+        "label":  "Découverte",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xe67c",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-carte",
+        "label":  "Carte",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xf1ae",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-explorer",
+        "label":  "Explorer",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xf037",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-voiture",
+        "label":  "Voiture",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xefc6",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-voiture-contour",
+        "label":  "Voiture (contour)",
+        "category":  "Voyage",
+        "package":  "icons_plus",
+        "glyph":  "0xec48",
+        "fontFamily":  "Iconsax"
+    },
+    {
+        "key":  "voyage-bus",
+        "label":  "Bus",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xefc4",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-train",
+        "label":  "Train",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xf458",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-metro",
+        "label":  "Métro",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xf3fe",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-hotel",
+        "label":  "Hôtel",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xf10e",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-plage",
+        "label":  "Plage",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xeec6",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-randonnee",
+        "label":  "Randonnée",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xe313",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-photos",
+        "label":  "Photos",
+        "category":  "Voyage",
+        "package":  "material",
+        "glyph":  "0xf29b",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "voyage-taxi",
+        "label":  "Taxi",
+        "category":  "Voyage",
+        "package":  "font_awesome_flutter",
+        "glyph":  "0xf1ba",
+        "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "objets-de-voyage-passeport",
+        "label":  "Passeport",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xeeb8",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "objets-de-voyage-billet-et-reservation",
+        "label":  "Billet et réservation",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xef75",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "objets-de-voyage-sac-a-dos",
+        "label":  "Sac à dos",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xeeb4",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "objets-de-voyage-gourde",
+        "label":  "Gourde",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xf0695",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "objets-de-voyage-parapluie",
+        "label":  "Parapluie",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xf46d",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "objets-de-voyage-trousse-de-toilette",
+        "label":  "Trousse de toilette",
+        "category":  "Objets de voyage",
+        "package":  "font_awesome_flutter",
+        "glyph":  "0xf2cc",
+        "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "objets-de-voyage-chargeur",
+        "label":  "Chargeur",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xef41",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "objets-de-voyage-adaptateur-electrique",
+        "label":  "Adaptateur électrique",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xf016",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "objets-de-voyage-cles-de-voyage",
+        "label":  "Clés de voyage",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xf0624",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "objets-de-voyage-carte-bancaire",
+        "label":  "Carte bancaire",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xef8f",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "objets-de-voyage-documents",
+        "label":  "Documents",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xf090",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "objets-de-voyage-porte-documents",
+        "label":  "Porte-documents",
+        "category":  "Objets de voyage",
+        "package":  "icons_plus",
+        "glyph":  "0xec1a",
+        "fontFamily":  "Iconsax"
+    },
+    {
+        "key":  "objets-de-voyage-medicaments",
+        "label":  "Médicaments",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xf1bf",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "objets-de-voyage-mouchoirs",
+        "label":  "Mouchoirs",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xf4b6",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "objets-de-voyage-camping",
+        "label":  "Camping",
+        "category":  "Objets de voyage",
+        "package":  "material",
+        "glyph":  "0xef0c",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-fruits-et-legumes",
+        "label":  "Fruits et légumes",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf005",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-petit-dejeuner",
+        "label":  "Petit-déjeuner",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xe104",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-dejeuner",
+        "label":  "Déjeuner",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xe3c2",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-diner",
+        "label":  "Dîner",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xe1d0",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-pain-et-boulangerie",
+        "label":  "Pain et boulangerie",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xe0c9",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-oeufs",
+        "label":  "Œufs",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf05f1",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-repas",
+        "label":  "Repas",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf361",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-nouilles-et-soupe",
+        "label":  "Nouilles et soupe",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xe506",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-riz",
+        "label":  "Riz",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf31b",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-pizza",
+        "label":  "Pizza",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf188",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-sandwich",
+        "label":  "Sandwich",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf049",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-cafe",
+        "label":  "Café",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf175",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-tasse-de-cafe",
+        "label":  "Tasse de café",
+        "category":  "Nourriture",
+        "package":  "icons_plus",
+        "glyph":  "0xec7e",
+        "fontFamily":  "Iconsax"
+    },
+    {
+        "key":  "nourriture-boisson",
+        "label":  "Boisson",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf179",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-eau",
+        "label":  "Eau",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf0695",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-glace",
+        "label":  "Glace",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf11d",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-gateau",
+        "label":  "Gâteau",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xef0f",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-barbecue",
+        "label":  "Barbecue",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf248",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-epicerie",
+        "label":  "Épicerie",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf37e",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "nourriture-courses-alimentaires",
+        "label":  "Courses alimentaires",
+        "category":  "Nourriture",
+        "package":  "material",
+        "glyph":  "0xf37f",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-maison",
+        "label":  "Maison",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xf107",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-maison-contour",
+        "label":  "Maison (contour)",
+        "category":  "Maison",
+        "package":  "icons_plus",
+        "glyph":  "0xe97b",
+        "fontFamily":  "EvaIcons"
+    },
+    {
+        "key":  "maison-cles",
+        "label":  "Clés",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xf0624",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-porte",
+        "label":  "Porte",
+        "category":  "Maison",
+        "package":  "font_awesome_flutter",
+        "glyph":  "0xf52a",
+        "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "maison-nettoyage",
+        "label":  "Nettoyage",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xef56",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-lessive",
+        "label":  "Lessive",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xf180",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-meubles",
+        "label":  "Meubles",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xef3d",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-literie",
+        "label":  "Literie",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xeec7",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-eclairage",
+        "label":  "Éclairage",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xe37c",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-ampoule-contour",
+        "label":  "Ampoule (contour)",
+        "category":  "Maison",
+        "package":  "icons_plus",
+        "glyph":  "0xe92a",
+        "fontFamily":  "EvaIcons"
+    },
+    {
+        "key":  "maison-eau",
+        "label":  "Eau",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xf0695",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-electricite",
+        "label":  "Électricité",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xf2c5",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-jardin",
+        "label":  "Jardin",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xf4da",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-securite",
+        "label":  "Sécurité",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xe3b1",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-climatisation",
+        "label":  "Climatisation",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xf43a",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-recyclage",
+        "label":  "Recyclage",
+        "category":  "Maison",
+        "package":  "material",
+        "glyph":  "0xf0651",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "maison-plante",
+        "label":  "Plante",
+        "category":  "Maison",
+        "package":  "font_awesome_flutter",
+        "glyph":  "0xf06c",
+        "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "maison-douche",
+        "label":  "Douche",
+        "category":  "Maison",
+        "package":  "font_awesome_flutter",
+        "glyph":  "0xf2cc",
+        "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "sante-sante",
+        "label":  "Santé",
+        "category":  "Santé",
+        "package":  "material",
+        "glyph":  "0xf0f2",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "sante-medical",
+        "label":  "Médical",
+        "category":  "Santé",
+        "package":  "material",
+        "glyph":  "0xf1be",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "sante-medicaments",
+        "label":  "Médicaments",
+        "category":  "Santé",
+        "package":  "material",
+        "glyph":  "0xf1bf",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "sante-coeur",
+        "label":  "Cœur",
+        "category":  "Santé",
+        "package":  "material",
+        "glyph":  "0xf0635",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "sante-coeur-contour",
+        "label":  "Cœur (contour)",
+        "category":  "Santé",
+        "package":  "icons_plus",
+        "glyph":  "0xe97a",
+        "fontFamily":  "EvaIcons"
+    },
+    {
+        "key":  "sante-vaccin",
+        "label":  "Vaccin",
+        "category":  "Santé",
+        "package":  "material",
+        "glyph":  "0xf068b",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "sante-hopital",
+        "label":  "Hôpital",
+        "category":  "Santé",
+        "package":  "material",
+        "glyph":  "0xf17e",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "sante-urgence",
+        "label":  "Urgence",
+        "category":  "Santé",
+        "package":  "material",
+        "glyph":  "0xf05f4",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "sante-accessibilite",
+        "label":  "Accessibilité",
+        "category":  "Santé",
+        "package":  "material",
+        "glyph":  "0xe03d",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "sante-bien-etre",
+        "label":  "Bien-être",
+        "category":  "Santé",
+        "package":  "material",
+        "glyph":  "0xe56f",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "sante-sport",
+        "label":  "Sport",
+        "category":  "Santé",
+        "package":  "material",
+        "glyph":  "0xe28d",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "sante-trousse-medicale",
+        "label":  "Trousse médicale",
+        "category":  "Santé",
+        "package":  "font_awesome_flutter",
+        "glyph":  "0xf0fa",
+        "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "sante-premiers-soins",
+        "label":  "Premiers soins",
+        "category":  "Santé",
+        "package":  "font_awesome_flutter",
+        "glyph":  "0xf0f9",
+        "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "technologie-telephone",
+        "label":  "Téléphone",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xf3a9",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-telephone-contour",
+        "label":  "Téléphone (contour)",
+        "category":  "Technologie",
+        "package":  "icons_plus",
+        "glyph":  "0xe9af",
+        "fontFamily":  "EvaIcons"
+    },
+    {
+        "key":  "technologie-mobile",
+        "label":  "Mobile",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xe4a3",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-ordinateur",
+        "label":  "Ordinateur",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xf151",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-ecran",
+        "label":  "Écran",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xef74",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-ecouteurs",
+        "label":  "Écouteurs",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xf0ed",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-batterie",
+        "label":  "Batterie",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xe0d1",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-eclair",
+        "label":  "Éclair",
+        "category":  "Technologie",
+        "package":  "icons_plus",
+        "glyph":  "0xecfa",
+        "fontFamily":  "Iconsax"
+    },
+    {
+        "key":  "technologie-wi-fi",
+        "label":  "Wi-Fi",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xe6e7",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-routeur",
+        "label":  "Routeur",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xf325",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-appareil-photo",
+        "label":  "Appareil photo",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xef1e",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-cable",
+        "label":  "Câble",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xef0d",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-montre",
+        "label":  "Montre",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xf4b2",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-bluetooth",
+        "label":  "Bluetooth",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xeed7",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-prise",
+        "label":  "Prise",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xf016",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "technologie-carte-memoire",
+        "label":  "Carte mémoire",
+        "category":  "Technologie",
+        "package":  "material",
+        "glyph":  "0xf347",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "famille-personne",
+        "label":  "Personne",
+        "category":  "Famille",
+        "package":  "material",
+        "glyph":  "0xe497",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "famille-personne-contour",
+        "label":  "Personne (contour)",
+        "category":  "Famille",
+        "package":  "icons_plus",
+        "glyph":  "0xe9aa",
+        "fontFamily":  "EvaIcons"
+    },
+    {
+        "key":  "famille-famille",
+        "label":  "Famille",
+        "category":  "Famille",
+        "package":  "material",
+        "glyph":  "0xf046",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "famille-enfant",
+        "label":  "Enfant",
+        "category":  "Famille",
+        "package":  "material",
+        "glyph":  "0xef4f",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "famille-ecole",
+        "label":  "École",
+        "category":  "Famille",
+        "package":  "material",
+        "glyph":  "0xf33c",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "famille-sac-a-dos",
+        "label":  "Sac à dos",
+        "category":  "Famille",
+        "package":  "material",
+        "glyph":  "0xeeb4",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "famille-groupe",
+        "label":  "Groupe",
+        "category":  "Famille",
+        "package":  "material",
+        "glyph":  "0xf0db",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "famille-contacts",
+        "label":  "Contacts",
+        "category":  "Famille",
+        "package":  "material",
+        "glyph":  "0xef7e",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "famille-animal",
+        "label":  "Animal",
+        "category":  "Famille",
+        "package":  "material",
+        "glyph":  "0xf285",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "famille-chaussures-enfant",
+        "label":  "Chaussures enfant",
+        "category":  "Famille",
+        "package":  "font_awesome_flutter",
+        "glyph":  "0xf696",
+        "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "famille-badge",
+        "label":  "Badge",
+        "category":  "Famille",
+        "package":  "material",
+        "glyph":  "0xeeb8",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-football",
+        "label":  "Football",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xf3d5",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-basket",
+        "label":  "Basket",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xf3c8",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-velo",
+        "label":  "Vélo",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xefc0",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-ski",
+        "label":  "Ski",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe200",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-golf",
+        "label":  "Golf",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe2d8",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-tennis",
+        "label":  "Tennis",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe5f3",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-marche",
+        "label":  "Marche",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe1e1",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-course-a-pied",
+        "label":  "Course à pied",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe1dc",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-natation",
+        "label":  "Natation",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe4dc",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-volley",
+        "label":  "Volley",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe5f4",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-cricket",
+        "label":  "Cricket",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe5e7",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-rugby",
+        "label":  "Rugby",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe5f0",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-baseball",
+        "label":  "Baseball",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe5e5",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-hockey",
+        "label":  "Hockey",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe5ec",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-handball",
+        "label":  "Handball",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe5eb",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-arts-martiaux",
+        "label":  "Arts martiaux",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe5ee",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-gymnastique",
+        "label":  "Gymnastique",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xf06c3",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-football-americain",
+        "label":  "Football américain",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe5f2",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-sports-mecaniques",
+        "label":  "Sports mécaniques",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe5ef",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-surf",
+        "label":  "Surf",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe622",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-skateboard",
+        "label":  "Skateboard",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe5bc",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-snowboard",
+        "label":  "Snowboard",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe5cd",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-aviron",
+        "label":  "Aviron",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe543",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-kayak",
+        "label":  "Kayak",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe350",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-voile",
+        "label":  "Voile",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe54d",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-randonnee",
+        "label":  "Randonnée",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe313",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-musculation",
+        "label":  "Musculation",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe28d",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-yoga",
+        "label":  "Yoga",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe56f",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-patinage",
+        "label":  "Patinage",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xe330",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-piscine",
+        "label":  "Piscine",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xf2bf",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-musique",
+        "label":  "Musique",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xf1fb",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-note-de-musique",
+        "label":  "Note de musique",
+        "category":  "Loisirs",
+        "package":  "icons_plus",
+        "glyph":  "0xe99c",
+        "fontFamily":  "EvaIcons"
+    },
+    {
+        "key":  "loisirs-film",
+        "label":  "Film",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xf1f5",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-lecture",
+        "label":  "Lecture",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xf1c2",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-peinture",
+        "label":  "Peinture",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xf24f",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-dessin",
+        "label":  "Dessin",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xef02",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-camping",
+        "label":  "Camping",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xef0c",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-parc",
+        "label":  "Parc",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xf25c",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-celebration",
+        "label":  "Célébration",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xef38",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-jeu-video",
+        "label":  "Jeu vidéo",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xf3ca",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-cadeau",
+        "label":  "Cadeau",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xef2d",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "loisirs-cadeau-contour",
+        "label":  "Cadeau (contour)",
+        "category":  "Loisirs",
+        "package":  "icons_plus",
+        "glyph":  "0xe971",
+        "fontFamily":  "EvaIcons"
+    },
+    {
+        "key":  "loisirs-restaurant",
+        "label":  "Restaurant",
+        "category":  "Loisirs",
+        "package":  "material",
+        "glyph":  "0xf316",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "travail-travail",
+        "label":  "Travail",
+        "category":  "Travail",
+        "package":  "material",
+        "glyph":  "0xe6f4",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "travail-bureau",
+        "label":  "Bureau",
+        "category":  "Travail",
+        "package":  "material",
+        "glyph":  "0xef0a",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "travail-porte-documents-contour",
+        "label":  "Porte-documents (contour)",
+        "category":  "Travail",
+        "package":  "icons_plus",
+        "glyph":  "0xec1a",
+        "fontFamily":  "Iconsax"
+    },
+    {
+        "key":  "travail-outils",
+        "label":  "Outils",
+        "category":  "Travail",
+        "package":  "material",
+        "glyph":  "0xef06",
+        "fontFamily":  "MaterialIcons"
+    }
+]

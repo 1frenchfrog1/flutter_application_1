@@ -15,13 +15,17 @@ import 'package:flutter_application_1/service-checklist/screens/checkListEditing
 import 'package:flutter_application_1/service-checklist/screens/HomeCheckList.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/service-checklist/widgets/checklist_icon_picker.dart';
+import 'package:flutter_application_1/features/icons/data/datasources/icon_local_data_source.dart';
+import 'package:flutter_application_1/features/icons/di/icon_injection.dart';
+import 'package:flutter_application_1/features/icons/domain/entities/icon_entity.dart';
 
 void main() {
-  test('icon catalog prioritizes packing, travel, and food', () {
-    final labels = checklistIconOptions.map((option) => option.label).toSet();
-    final officeIcons = checklistIconOptions.where(
-      (option) => option.category == 'Travail',
-    );
+  setUpAll(configureIconDependencies);
+
+  test('icon catalog prioritizes packing, travel, and food', () async {
+    final icons = await IconLocalDataSourceImpl().fetchIcons();
+    final labels = icons.map((icon) => icon.label).toSet();
+    final officeIcons = icons.where((icon) => icon.category == 'Travail');
 
     expect(
       labels,
@@ -31,9 +35,7 @@ void main() {
         'Pantalon',
         'Pantalon court',
         'Short',
-        'Short (plein)',
         'Chemise',
-        'Chemise (pleine)',
       ]),
     );
     expect(
@@ -42,12 +44,18 @@ void main() {
     );
     expect(labels, containsAll(['Petit-déjeuner', 'Déjeuner', 'Pizza', 'Riz']));
     expect(officeIcons, hasLength(4));
+    expect(
+      labels.where((label) => label.startsWith('Ancienne icône')),
+      isEmpty,
+    );
   });
 
-  test('all catalog icons round-trip through saved JSON metadata', () {
-    for (final option in checklistIconOptions) {
-      final restored = iconFromJSONString(iconToJSONString(option.icon));
-      expect(restored, same(option.icon), reason: option.label);
+  test('all catalog icons round-trip through saved JSON metadata', () async {
+    final icons = await IconLocalDataSourceImpl().fetchIcons();
+    for (final icon in icons) {
+      final entity = icon.toEntity();
+      final restored = iconFromJSONString(iconToJSONString(entity));
+      expect(restored, entity, reason: icon.label);
     }
   });
 
@@ -352,7 +360,8 @@ void main() {
     checklist.checkListObjects = [checkpoint];
     final repository = _MemoryChecklistsRepository()
       ..savedChecklists = [checklist];
-    final selectedOption = checklistIconOptions[1];
+    final selectedIcon = (await IconLocalDataSourceImpl().fetchIcons())[1]
+        .toEntity();
 
     await tester.pumpWidget(
       BlocProvider(
@@ -375,7 +384,7 @@ void main() {
     await tester.tap(find.text('Choisir une icône'));
     await tester.pumpAndSettle();
     await tester.tap(
-      find.byTooltip('${selectedOption.label} · ${selectedOption.category}'),
+      find.byTooltip('${selectedIcon.label} · ${selectedIcon.category}'),
     );
     await tester.pumpAndSettle();
     await tester.tap(find.text('Enregistrer'));
@@ -383,9 +392,8 @@ void main() {
 
     final persistedIcon =
         repository.savedChecklists.single.checkListObjects.single.icon
-            as IconData;
-    expect(persistedIcon.codePoint, selectedOption.icon.codePoint);
-    expect(persistedIcon.fontFamily, selectedOption.icon.fontFamily);
+            as IconEntity;
+    expect(persistedIcon, selectedIcon);
   });
 
   testWidgets('icon picker searches through the categorized catalog', (
@@ -394,6 +402,7 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(home: ChecklistIconPickerDialog()),
     );
+    await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(TextField), 'telephone');
     await tester.pumpAndSettle();

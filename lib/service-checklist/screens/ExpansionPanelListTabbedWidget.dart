@@ -212,25 +212,22 @@ class _ExpansionPanelListTabbedWidgetState
   }) {
     final style = Theme.of(context).textTheme.titleMedium
         ?.copyWith(fontSize: 17);
-    return Text.rich(
-      TextSpan(
-        children: [
-          TextSpan(text: title),
-          if (showDetailsIndicator)
-            WidgetSpan(
-              alignment: PlaceholderAlignment.middle,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 2),
-                child: Icon(
-                  Icons.keyboard_arrow_down,
-                  size: 18,
-                  color: style?.color,
-                ),
-              ),
-            ),
-        ],
-      ),
-      style: style,
+    if (!showDetailsIndicator) return Text(title, style: style);
+
+    return Row(
+      children: [
+        Flexible(
+          child: Text(title, style: style, overflow: TextOverflow.ellipsis),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 2),
+          child: Icon(
+            Icons.keyboard_arrow_down,
+            size: 18,
+            color: style?.color,
+          ),
+        ),
+      ],
     );
   }
 

@@ -12,8 +12,11 @@ import 'service-todo-list/bloc/todos_bloc.dart';
 import 'service-todo-list/bloc/todos_events.dart';
 import 'service-todo-list/datamodel/todo_file_storage.dart';
 import 'service-todo-list/screens/todo_listshome_screen.dart';
+import 'features/icons/di/icon_injection.dart';
+import 'features/icons/presentation/pages/icon_catalog_page.dart';
 
 void main() {
+  configureIconDependencies();
   runApp(const TodoApp());
 }
 
@@ -159,6 +162,17 @@ class TodoLandingPage extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => const HomeCheckList()),
+                  );
+                },
+              ),
+              _HomeActionTile(
+                icon: Icons.grid_view,
+                title: 'Ouvrir le catalogue d’icônes',
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const IconCatalogPage(),
+                    ),
                   );
                 },
               ),

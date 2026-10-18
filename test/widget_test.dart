@@ -13,12 +13,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_application_1/main.dart';
 
 void main() {
-  testWidgets('home offers todo and checklist services', (tester) async {
+  testWidgets('home offers todo, checklist, and icon catalog', (tester) async {
     await tester.pumpWidget(
       MaterialApp(home: TodoLandingPage(directory: Directory.systemTemp)),
     );
 
     expect(find.text('Ouvrir ma todo-list'), findsOneWidget);
     expect(find.text('Ouvrir mes checklists'), findsOneWidget);
+    expect(find.text('Ouvrir le catalogue d’icônes'), findsOneWidget);
   });
 }
