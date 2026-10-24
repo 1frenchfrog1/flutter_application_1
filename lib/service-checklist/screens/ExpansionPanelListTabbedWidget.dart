@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
 import '../bloc/checklists_state.dart';
+import '../../features/icons/domain/entities/icon_entity.dart';
 import '../datamodel/CheckListDataModel.dart';
 import '../datamodel/CheckListFileAccess.dart';
 import '../widgets/checklist_icon_picker.dart';
@@ -221,17 +222,13 @@ class _ExpansionPanelListTabbedWidgetState
         ),
         Padding(
           padding: const EdgeInsets.only(left: 2),
-          child: Icon(
-            Icons.keyboard_arrow_down,
-            size: 18,
-            color: style?.color,
-          ),
+          child: Icon(Icons.keyboard_arrow_down, size: 18, color: style?.color),
         ),
       ],
     );
   }
 
-  Widget _iconFor(dynamic icon) {
+  Widget _iconFor(IconEntity icon) {
     return ChecklistIconView(icon: icon);
   }
 }

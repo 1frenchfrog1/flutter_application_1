@@ -116,28 +116,51 @@
         "fontFamily":  "MingCute"
     },
     {
-        "key":  "vetements-veste-et-manteau",
-        "label":  "Veste et manteau",
+        "key":  "vetements-sweatshirt",
+        "label":  "Sweatshirt",
         "category":  "Vêtements",
-        "package":  "material",
-        "glyph":  "0xe15d",
-        "fontFamily":  "MaterialIcons"
+        "package":  "hugeicons",
+        "glyph":  "strokeRoundedHoodie"
     },
     {
-        "key":  "vetements-pull",
-        "label":  "Pull",
+        "key":  "vetements-veste",
+        "label":  "Veste",
         "category":  "Vêtements",
-        "package":  "material",
-        "glyph":  "0xe15d",
-        "fontFamily":  "MaterialIcons"
+        "package":  "icons_plus",
+        "glyph":  "0xeb47",
+        "fontFamily":  "MingCute"
     },
     {
-        "key":  "vetements-chaussures",
-        "label":  "Chaussures",
+        "key":  "vetements-bermuda",
+        "label":  "Bermuda",
         "category":  "Vêtements",
-        "package":  "font_awesome_flutter",
-        "glyph":  "0xf54b",
-        "fontFamily":  "FontAwesomeSolid"
+        "package":  "icons_plus",
+        "glyph":  "0xf144",
+        "fontFamily":  "MingCute"
+    },
+    {
+        "key":  "vetements-chapeau",
+        "label":  "Chapeau",
+        "category":  "Vêtements",
+        "package":  "icons_plus",
+        "glyph":  "0xedd3",
+        "fontFamily":  "MingCute"
+    },
+    {
+        "key":  "vetements-foulard",
+        "label":  "Foulard",
+        "category":  "Vêtements",
+        "package":  "icons_plus",
+        "glyph":  "0xf0ed",
+        "fontFamily":  "MingCute"
+    },
+    {
+        "key":  "vetements-gants",
+        "label":  "Gants",
+        "category":  "Vêtements",
+        "package":  "icons_plus",
+        "glyph":  "0xed9f",
+        "fontFamily":  "MingCute"
     },
     {
         "key":  "vetements-chaussettes",
@@ -154,30 +177,6 @@
         "package":  "font_awesome_flutter",
         "glyph":  "0xf530",
         "fontFamily":  "FontAwesomeSolid"
-    },
-    {
-        "key":  "vetements-tenue-a-laver",
-        "label":  "Tenue à laver",
-        "category":  "Vêtements",
-        "package":  "material",
-        "glyph":  "0xf180",
-        "fontFamily":  "MaterialIcons"
-    },
-    {
-        "key":  "vetements-nettoyage-a-sec",
-        "label":  "Nettoyage à sec",
-        "category":  "Vêtements",
-        "package":  "material",
-        "glyph":  "0xeffb",
-        "fontFamily":  "MaterialIcons"
-    },
-    {
-        "key":  "vetements-accessoires",
-        "label":  "Accessoires",
-        "category":  "Vêtements",
-        "package":  "material",
-        "glyph":  "0xf37d",
-        "fontFamily":  "MaterialIcons"
     },
     {
         "key":  "voyage-avion",
@@ -322,6 +321,78 @@
         "package":  "font_awesome_flutter",
         "glyph":  "0xf1ba",
         "fontFamily":  "FontAwesomeSolid"
+    },
+    {
+        "key":  "meteo-soleil",
+        "label":  "Soleil",
+        "category":  "Météo",
+        "package":  "material",
+        "glyph":  "0xf0575",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "meteo-nuage",
+        "label":  "Nuage",
+        "category":  "Météo",
+        "package":  "material",
+        "glyph":  "0xe16f",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "meteo-pluie",
+        "label":  "Pluie",
+        "category":  "Météo",
+        "package":  "material",
+        "glyph":  "0xf05a2",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "meteo-orage",
+        "label":  "Orage",
+        "category":  "Météo",
+        "package":  "material",
+        "glyph":  "0xf07cb",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "meteo-neige",
+        "label":  "Neige",
+        "category":  "Météo",
+        "package":  "material",
+        "glyph":  "0xf04cf",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "meteo-vent",
+        "label":  "Vent",
+        "category":  "Météo",
+        "package":  "material",
+        "glyph":  "0xe064",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "meteo-brouillard",
+        "label":  "Brouillard",
+        "category":  "Météo",
+        "package":  "material",
+        "glyph":  "0xf0505",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "meteo-froid",
+        "label":  "Froid",
+        "category":  "Météo",
+        "package":  "material",
+        "glyph":  "0xe037",
+        "fontFamily":  "MaterialIcons"
+    },
+    {
+        "key":  "meteo-temperature",
+        "label":  "Température",
+        "category":  "Météo",
+        "package":  "material",
+        "glyph":  "0xe656",
+        "fontFamily":  "MaterialIcons"
     },
     {
         "key":  "objets-de-voyage-passeport",

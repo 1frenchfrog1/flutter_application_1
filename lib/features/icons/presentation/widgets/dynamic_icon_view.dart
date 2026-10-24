@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hugeicons/hugeicons.dart';
 
+import '../../di/icon_injection.dart';
 import '../../domain/entities/icon_entity.dart';
+import '../../domain/usecases/get_dynamic_icons_use_case.dart';
 import 'icon_glyph_registry.dart';
 
 class DynamicIconView extends StatelessWidget {
@@ -20,10 +22,48 @@ class DynamicIconView extends StatelessWidget {
     'Shoes': HugeIcons.strokeRoundedShoes,
     'strokeRoundedShoes': HugeIcons.strokeRoundedShoes,
     'strokeRoundedShirt01': HugeIcons.strokeRoundedShirt01,
+    'strokeRoundedHoodie': HugeIcons.strokeRoundedHoodie,
+    'strokeRoundedTissuePaper': HugeIcons.strokeRoundedTissuePaper,
+    'strokeRoundedCapRound': HugeIcons.strokeRoundedCapRound,
   };
 
   @override
   Widget build(BuildContext context) {
+    if (icon.packageName != null && icon.glyphName != null) {
+      return _buildResolvedIcon(icon);
+    }
+
+    return FutureBuilder(
+      future: iconGetIt<GetDynamicIconsUseCase>()(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Tooltip(
+            message:
+                'Impossible de charger le catalogue d’icônes : '
+                '${snapshot.error}',
+            child: Icon(Icons.error_outline, size: size),
+          );
+        }
+        if (!snapshot.hasData) {
+          return SizedBox.square(dimension: size);
+        }
+
+        final resolvedIcons = snapshot.data!.where(
+          (candidate) => candidate.key == icon.key,
+        );
+        final resolvedIcon = resolvedIcons.firstOrNull;
+        if (resolvedIcon == null) {
+          return Tooltip(
+            message: 'Icône introuvable dans le catalogue : ${icon.key}',
+            child: Icon(Icons.help_outline, size: size),
+          );
+        }
+        return _buildResolvedIcon(resolvedIcon);
+      },
+    );
+  }
+
+  Widget _buildResolvedIcon(IconEntity icon) {
     if (icon.packageName == 'hugeicons') {
       final hugeIcon = _hugeIcons[icon.glyphName];
       if (hugeIcon != null) {
@@ -31,9 +71,8 @@ class DynamicIconView extends StatelessWidget {
       }
     }
 
-    final data = IconGlyphRegistry.iconData[
-      '${icon.packageName}|${icon.fontFamily}|${icon.glyphName}'
-    ];
+    final data = IconGlyphRegistry
+        .iconData['${icon.packageName}|${icon.fontFamily}|${icon.glyphName}'];
     if (data != null) {
       if (icon.packageName == 'font_awesome_flutter') {
         return FaIcon(FaIconData(data), size: size);
@@ -47,5 +86,4 @@ class DynamicIconView extends StatelessWidget {
       child: Icon(Icons.help_outline, size: size),
     );
   }
-
 }

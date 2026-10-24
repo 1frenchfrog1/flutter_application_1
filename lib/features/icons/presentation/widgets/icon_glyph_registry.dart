@@ -853,5 +853,66 @@ class IconGlyphRegistry {
       0xef06,
       fontFamily: 'MaterialIcons',
     ),
+    'material|MaterialIcons|0xf0575': IconData(
+      0xf0575,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe16f': IconData(
+      0xe16f,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xf05a2': IconData(
+      0xf05a2,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xf07cb': IconData(
+      0xf07cb,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xf04cf': IconData(
+      0xf04cf,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe064': IconData(
+      0xe064,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xf0505': IconData(
+      0xf0505,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe037': IconData(
+      0xe037,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe656': IconData(
+      0xe656,
+      fontFamily: 'MaterialIcons',
+    ),
+    'icons_plus|MingCute|0xeb47': IconData(
+      0xeb47,
+      fontFamily: 'MingCute',
+      fontPackage: 'icons_plus',
+    ),
+    'icons_plus|MingCute|0xf144': IconData(
+      0xf144,
+      fontFamily: 'MingCute',
+      fontPackage: 'icons_plus',
+    ),
+    'icons_plus|MingCute|0xedd3': IconData(
+      0xedd3,
+      fontFamily: 'MingCute',
+      fontPackage: 'icons_plus',
+    ),
+    'icons_plus|MingCute|0xf0ed': IconData(
+      0xf0ed,
+      fontFamily: 'MingCute',
+      fontPackage: 'icons_plus',
+    ),
+    'icons_plus|MingCute|0xed9f': IconData(
+      0xed9f,
+      fontFamily: 'MingCute',
+      fontPackage: 'icons_plus',
+    ),
   };
 }

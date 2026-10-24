@@ -12,20 +12,13 @@ import '../../features/icons/presentation/widgets/dynamic_icon_view.dart';
 class ChecklistIconView extends StatelessWidget {
   const ChecklistIconView({super.key, required this.icon, this.size});
 
-  final Object? icon;
+  final IconEntity icon;
   final double? size;
 
   @override
   Widget build(BuildContext context) {
     final iconSize = size ?? IconTheme.of(context).size ?? 24;
-    final value = icon;
-    if (value is IconEntity) {
-      return DynamicIconView(icon: value, size: iconSize);
-    }
-    if (value is IconData) {
-      return Icon(value, size: iconSize);
-    }
-    return Icon(Icons.checklist, size: iconSize);
+    return DynamicIconView(icon: icon, size: iconSize);
   }
 }
 
@@ -73,7 +66,7 @@ class _ChecklistIconPickerContentState
               category == 'Tout' || icon.category == category;
           final matchesQuery =
               query.isEmpty ||
-              _normalize(icon.label).contains(query) ||
+              _normalize(icon.label ?? '').contains(query) ||
               _normalize(icon.category ?? '').contains(query);
           return matchesCategory && matchesQuery;
         })
@@ -215,7 +208,7 @@ class _ChecklistIconPickerContentState
                         final icon = filteredIcons[index];
                         final category = icon.category ?? '';
                         return IconButton.filledTonal(
-                          tooltip: '${icon.label} · $category',
+                          tooltip: '${icon.label ?? icon.key} · $category',
                           onPressed: () => Navigator.of(context).pop(icon),
                           icon: DynamicIconView(icon: icon),
                         );

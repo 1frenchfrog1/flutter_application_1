@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_application_1/service-checklist/bloc/checklists_event.da
 import 'package:flutter_application_1/service-checklist/bloc/checklists_state.dart';
 import 'package:flutter_application_1/service-checklist/datamodel/CheckListDataModel.dart';
 import 'package:flutter_application_1/service-checklist/datamodel/checklists_repository.dart';
+import 'package:flutter_application_1/service-checklist/datamodel/CheckListFileAccess.dart';
 import 'package:flutter_application_1/service-checklist/screens/CheckPointListEditingPanel.dart';
 import 'package:flutter_application_1/service-checklist/screens/CheckPointEditingPanel.dart';
 import 'package:flutter_application_1/service-checklist/screens/ExpansionPanelListTabbedWidget.dart';
@@ -31,7 +33,7 @@ void main() {
       labels,
       containsAll([
         'T-shirt',
-        'Veste et manteau',
+        'Veste',
         'Pantalon',
         'Pantalon court',
         'Short',
@@ -50,14 +52,26 @@ void main() {
     );
   });
 
-  test('all catalog icons round-trip through saved JSON metadata', () async {
-    final icons = await IconLocalDataSourceImpl().fetchIcons();
-    for (final icon in icons) {
-      final entity = icon.toEntity();
-      final restored = iconFromJSONString(iconToJSONString(entity));
-      expect(restored, entity, reason: icon.label);
-    }
-  });
+  test(
+    'checklist icons persist only their key and load legacy metadata',
+    () async {
+      final icons = await IconLocalDataSourceImpl().fetchIcons();
+      for (final icon in icons) {
+        final entity = icon.toEntity();
+        expect(iconToJSONString(entity), {'key': icon.key}, reason: icon.label);
+        expect(
+          iconFromJSONString(iconToJSONString(entity)),
+          IconEntity(key: icon.key),
+          reason: icon.label,
+        );
+        expect(
+          iconFromJSONString(icon.toJson()),
+          IconEntity(key: icon.key),
+          reason: 'Legacy metadata must still load for ${icon.label}.',
+        );
+      }
+    },
+  );
 
   test(
     'loads, mutates and persists checklists through the repository',
@@ -102,8 +116,126 @@ void main() {
     },
   );
 
+  test('demo checklists use key-only icons from the catalog', () async {
+    final catalog = await IconLocalDataSourceImpl().fetchIcons();
+    final repository = _MemoryChecklistsRepository();
+    final bloc = ChecklistsBloc(repository: repository);
+    addTearDown(bloc.close);
+
+    final loaded = bloc.stream.firstWhere(
+      (state) => state is ChecklistsLoadSuccess,
+    );
+    bloc.add(ChecklistsLoadRequested());
+    await loaded;
+
+    final demoLoaded = bloc.stream.firstWhere(
+      (state) => state is ChecklistsLoadSuccess,
+    );
+    bloc.add(ChecklistsDemoDataRequested());
+    final state = await demoLoaded as ChecklistsLoadSuccess;
+
+    expect(state.checklists, hasLength(3));
+    for (final checklist in state.checklists) {
+      final icon = checklist.icon;
+      expect(catalog.any((candidate) => candidate.key == icon.key), isTrue);
+      expect(iconToJSONString(icon), {'key': icon.key});
+
+      for (final checkpoint in checklist.checkListObjects) {
+        final checkpointIcon = checkpoint.icon;
+        expect(
+          catalog.any((candidate) => candidate.key == checkpointIcon.key),
+          isTrue,
+        );
+        expect(iconToJSONString(checkpointIcon), {'key': checkpointIcon.key});
+      }
+    }
+  });
+
+  test('legacy font icons migrate to catalog keys when matched', () {
+    final legacyIconKeys = {
+      'material|MaterialIcons|e15b': 'essentiel-checklist',
+    };
+    final restored = iconFromJSONString({
+      'codePoint': 0xe15b,
+      'fontFamily': 'MaterialIcons',
+      'fontPackage': null,
+      'matchTextDirection': false,
+    }, legacyIconKeys: legacyIconKeys);
+
+    expect(restored, const IconEntity(key: 'essentiel-checklist'));
+    expect(iconToJSONString(restored), {'key': 'essentiel-checklist'});
+  });
+
+  test(
+    'file storage migrates legacy icons and saves only catalog keys',
+    () async {
+      final storage = _MemoryAppCheckListStorage(
+        jsonEncode({
+          'allCheckLists': [
+            {
+              'checkListTitle': 'Legacy checklist',
+              'checkListIcon': {
+                'codePoint': 0xe15b,
+                'fontFamily': 'MaterialIcons',
+                'fontPackage': null,
+                'matchTextDirection': false,
+              },
+              'checkListObjects': [
+                {
+                  'actionTitle': 'Legacy checkpoint',
+                  'actionIcon': {
+                    'codePoint': 0xe15b,
+                    'fontFamily': 'MaterialIcons',
+                    'fontPackage': null,
+                    'matchTextDirection': false,
+                  },
+                },
+              ],
+            },
+          ],
+        }),
+      );
+      final repository = FileChecklistsRepository(storage: storage);
+
+      final checklists = await repository.loadChecklists();
+      expect(checklists.single.icon.key, 'essentiel-checklist');
+      expect(
+        checklists.single.checkListObjects.single.icon.key,
+        'essentiel-checklist',
+      );
+
+      await repository.saveChecklists(checklists);
+      final saved = jsonDecode(storage.savedContents!) as Map<String, dynamic>;
+      final savedChecklist =
+          (saved['allCheckLists'] as List).single as Map<String, dynamic>;
+      expect(savedChecklist['checkListIcon'], {'key': 'essentiel-checklist'});
+      final savedAction =
+          (savedChecklist['checkListObjects'] as List).single
+              as Map<String, dynamic>;
+      expect(savedAction['actionIcon'], {'key': 'essentiel-checklist'});
+    },
+  );
+
+  test(
+    'unmatched legacy icons fail explicitly instead of using a fallback',
+    () {
+      expect(
+        () => iconFromJSONString({
+          'codePoint': 0xdead,
+          'fontFamily': 'UnknownIcons',
+        }),
+        throwsFormatException,
+      );
+    },
+  );
+
   test('reorders checkpoints using the supplied destination index', () async {
-    final checklist = CheckList('Packing', Icons.edit, '', '');
+    final checklist = CheckList(
+      'Packing',
+      const IconEntity(key: 'essentiel-checklist'),
+      '',
+      '',
+    );
     checklist.checkListObjects = [
       ActionObject(title: 'First'),
       ActionObject(title: 'Second'),
@@ -134,7 +266,12 @@ void main() {
   });
 
   test('saving checklist fields keeps newer checkpoint changes', () async {
-    final checklist = CheckList('Packing', Icons.edit, '', '');
+    final checklist = CheckList(
+      'Packing',
+      const IconEntity(key: 'essentiel-checklist'),
+      '',
+      '',
+    );
     checklist.checkListObjects = [ActionObject(title: 'Passport')];
     final repository = _MemoryChecklistsRepository()
       ..savedChecklists = [checklist];
@@ -168,7 +305,12 @@ void main() {
   testWidgets('detail route inherits the app-scoped checklist BLoC', (
     tester,
   ) async {
-    final checklist = CheckList('Route test', Icons.edit, '', '');
+    final checklist = CheckList(
+      'Route test',
+      const IconEntity(key: 'essentiel-checklist'),
+      '',
+      '',
+    );
     checklist.checkListObjects = [ActionObject(title: 'Checkpoint')];
     final repository = _MemoryChecklistsRepository()
       ..savedChecklists = [checklist];
@@ -193,7 +335,12 @@ void main() {
   testWidgets('adding a checkpoint renders without an icon type error', (
     tester,
   ) async {
-    final checklist = CheckList('Add test', Icons.edit, '', '');
+    final checklist = CheckList(
+      'Add test',
+      const IconEntity(key: 'essentiel-checklist'),
+      '',
+      '',
+    );
     final repository = _MemoryChecklistsRepository()
       ..savedChecklists = [checklist];
 
@@ -225,11 +372,20 @@ void main() {
   });
 
   testWidgets('checkpoints without details cannot be expanded', (tester) async {
-    final checklist = CheckList('Expansion test', Icons.edit, '', '')
-      ..checkListObjects = [
-        ActionObject(title: 'Empty checkpoint'),
-        ActionObject(title: 'Checkpoint with notes', notes: 'Bring a charger'),
-      ];
+    final checklist =
+        CheckList(
+            'Expansion test',
+            const IconEntity(key: 'essentiel-checklist'),
+            '',
+            '',
+          )
+          ..checkListObjects = [
+            ActionObject(title: 'Empty checkpoint'),
+            ActionObject(
+              title: 'Checkpoint with notes',
+              notes: 'Bring a charger',
+            ),
+          ];
     final repository = _MemoryChecklistsRepository()
       ..savedChecklists = [checklist];
 
@@ -296,7 +452,12 @@ void main() {
   });
 
   testWidgets('checklist form requires a title', (tester) async {
-    final checklist = CheckList('', Icons.edit, '', '');
+    final checklist = CheckList(
+      '',
+      const IconEntity(key: 'essentiel-checklist'),
+      '',
+      '',
+    );
     final repository = _MemoryChecklistsRepository()
       ..savedChecklists = [checklist];
 
@@ -319,7 +480,12 @@ void main() {
   });
 
   testWidgets('checkpoint form requires a title', (tester) async {
-    final checklist = CheckList('Packing', Icons.edit, '', '');
+    final checklist = CheckList(
+      'Packing',
+      const IconEntity(key: 'essentiel-checklist'),
+      '',
+      '',
+    );
     final checkpoint = ActionObject(title: '');
     checklist.checkListObjects = [checkpoint];
     final repository = _MemoryChecklistsRepository()
@@ -355,7 +521,12 @@ void main() {
   testWidgets('checkpoint icon selection is saved with the checkpoint', (
     tester,
   ) async {
-    final checklist = CheckList('Packing', Icons.edit, '', '');
+    final checklist = CheckList(
+      'Packing',
+      const IconEntity(key: 'essentiel-checklist'),
+      '',
+      '',
+    );
     final checkpoint = ActionObject(title: 'Passport');
     checklist.checkListObjects = [checkpoint];
     final repository = _MemoryChecklistsRepository()
@@ -391,9 +562,31 @@ void main() {
     await tester.pumpAndSettle();
 
     final persistedIcon =
-        repository.savedChecklists.single.checkListObjects.single.icon
-            as IconEntity;
-    expect(persistedIcon, selectedIcon);
+        repository.savedChecklists.single.checkListObjects.single.icon;
+    expect(persistedIcon, IconEntity(key: selectedIcon.key));
+  });
+
+  testWidgets('key-only checklist icons resolve with the current catalog', (
+    tester,
+  ) async {
+    final icon = (await IconLocalDataSourceImpl().fetchIcons()).first;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: ChecklistIconView(icon: IconEntity(key: icon.key)),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.byWidgetPredicate(
+        (widget) => widget is Icon && widget.icon?.codePoint == 0xe15b,
+      ),
+      findsOneWidget,
+    );
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('icon picker searches through the categorized catalog', (
@@ -421,5 +614,21 @@ class _MemoryChecklistsRepository implements ChecklistsRepository {
   @override
   Future<void> saveChecklists(List<CheckList> checklists) async {
     savedChecklists = checklists;
+  }
+}
+
+class _MemoryAppCheckListStorage extends AppCheckListStorage {
+  _MemoryAppCheckListStorage(this.contents);
+
+  final String contents;
+  String? savedContents;
+
+  @override
+  Future<String> readAllCheckLists() async => contents;
+
+  @override
+  Future<File> writeAllCheckLists(String contents) async {
+    savedContents = contents;
+    return File('memory-checklists.json');
   }
 }

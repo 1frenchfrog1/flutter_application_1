@@ -4,17 +4,17 @@ import 'package:equatable/equatable.dart';
 class IconEntity extends Equatable {
   const IconEntity({
     required this.key,
-    required this.label,
-    required this.packageName,
-    required this.glyphName,
+    this.label,
+    this.packageName,
+    this.glyphName,
     this.category,
     this.fontFamily,
   });
 
   final String key;
-  final String label;
-  final String packageName;
-  final String glyphName;
+  final String? label;
+  final String? packageName;
+  final String? glyphName;
   final String? category;
   final String? fontFamily;
 

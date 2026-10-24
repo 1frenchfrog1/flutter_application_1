@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../features/icons/domain/entities/icon_entity.dart';
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
 import '../bloc/checklists_state.dart';
@@ -162,7 +163,7 @@ class _CheckPointListEditingPanelState
     }
   }
 
-  Widget _iconFor(dynamic icon) {
+  Widget _iconFor(IconEntity icon) {
     return ChecklistIconView(icon: icon);
   }
 }

@@ -41,7 +41,7 @@ class IconListView extends StatelessWidget {
               final icon = icons[index];
               return ListTile(
                 leading: DynamicIconView(icon: icon),
-                title: Text(icon.label),
+                title: Text(icon.label ?? icon.key),
                 subtitle: Text(icon.category ?? icon.key),
               );
             },

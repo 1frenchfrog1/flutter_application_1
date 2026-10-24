@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../features/icons/domain/entities/icon_entity.dart';
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
 import '../datamodel/CheckListDataModel.dart';
@@ -247,13 +248,15 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
     );
   }
 
-  Widget _iconFor(dynamic icon) {
+  Widget _iconFor(IconEntity icon) {
     return ChecklistIconView(icon: icon);
   }
 
   Future<void> _selectIcon() async {
     final icon = await showChecklistIconPicker(context);
-    if (icon != null && mounted) setState(() => _draft.icon = icon);
+    if (icon != null && mounted) {
+      setState(() => _draft.icon = IconEntity(key: icon.key));
+    }
   }
 
   void _saveChecklist() {

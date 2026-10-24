@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
 
+import '../../features/icons/di/icon_injection.dart';
+import '../../features/icons/domain/entities/icon_entity.dart';
+import '../../features/icons/domain/usecases/get_dynamic_icons_use_case.dart';
 import '../datamodel/CheckListDataModel.dart';
 import '../datamodel/checklists_repository.dart';
 import 'checklists_event.dart';
@@ -12,9 +15,10 @@ class ChecklistsBloc extends Bloc<ChecklistsEvent, ChecklistsState> {
     : super(ChecklistsLoadInProgress()) {
     on<ChecklistsLoadRequested>(_loadChecklists);
     on<ChecklistsDemoDataRequested>((event, emit) async {
+      final icons = await iconGetIt<GetDynamicIconsUseCase>()();
       await _updateChecklists(emit, (checklists) {
         final collection = AppCheckLists()..allCheckLists = checklists;
-        collection.addDemoChecklists();
+        collection.addDemoChecklists(icons);
         return collection.allCheckLists;
       });
     });
@@ -49,7 +53,7 @@ class ChecklistsBloc extends Bloc<ChecklistsEvent, ChecklistsState> {
           if (checklist.uuid != event.checklist.uuid) return checklist;
           final updated = _copyChecklist(checklist)
             ..title = event.checklist.title
-            ..icon = event.checklist.icon
+            ..icon = IconEntity(key: event.checklist.icon.key)
             ..description = event.checklist.description
             ..notes = event.checklist.notes
             ..dateTime = event.checklist.dateTime;

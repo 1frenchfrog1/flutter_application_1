@@ -38,29 +38,13 @@ class IconLocalDataSourceImpl implements IconLocalDataSource {
       throw const FormatException('Icon keys in the catalog must be unique.');
     }
 
-    final stableKeys = icons.map((icon) {
+    for (final icon in icons) {
       final category = icon.category;
       if (category == null || category.isEmpty) {
         throw const FormatException(
           'Each catalog icon must have a non-empty "category".',
         );
       }
-
-      final stableKey = IconModel.keyFor(
-        category: category,
-        label: icon.label,
-      );
-      if (icon.key != stableKey) {
-        throw FormatException(
-          'Icon "${icon.label}" in "$category" must use key "$stableKey".',
-        );
-      }
-      return stableKey;
-    }).toSet();
-    if (stableKeys.length != icons.length) {
-      throw const FormatException(
-        'Each icon must have a unique category and label.',
-      );
     }
 
     return icons;

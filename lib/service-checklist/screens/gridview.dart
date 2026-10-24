@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../features/icons/domain/entities/icon_entity.dart';
 import '../datamodel/CheckListDataModel.dart';
 import '../widgets/checklist_icon_picker.dart';
 import 'ExpansionPanelListTabbedWidget.dart';
@@ -55,7 +57,7 @@ class CheckListGridView extends StatelessWidget {
     );
   }
 
-  Widget _iconFor(dynamic icon) {
+  Widget _iconFor(IconEntity icon) {
     return ChecklistIconView(icon: icon);
   }
 }
