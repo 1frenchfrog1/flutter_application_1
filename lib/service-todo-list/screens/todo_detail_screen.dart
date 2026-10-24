@@ -21,7 +21,7 @@ class DetailsScreen extends StatelessWidget {
     return BlocBuilder<TodosBloc, TodosState>(
       builder: (context, state) {
         final todo = state is TodosLoadCompleted
-            ? (state as TodosLoadCompleted).todos
+            ? (state).todos
                       .where((item) => item.id == initialTodo.id)
                       .firstOrNull ??
                   initialTodo
