@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../l10n/localization_context.dart';
+import '../l10n/checklist_localization_context.dart';
 
 class CheckPointImageSelectionPanel extends StatefulWidget {
   static const String routeName = '/editCheckPointImage';

@@ -10,7 +10,14 @@ import 'l10n/localization_context.dart';
 import 'service-checklist/bloc/checklists_bloc.dart';
 import 'service-checklist/bloc/checklists_event.dart';
 import 'service-checklist/datamodel/checklists_repository.dart';
+import 'service-checklist/l10n/generated/checklist_localizations.dart';
 import 'service-checklist/screens/HomeCheckList.dart';
+import 'service-cooklist/bloc/cooklists_bloc.dart';
+import 'service-cooklist/bloc/cooklists_event.dart';
+import 'service-cooklist/datamodel/cooklists_repository.dart';
+import 'service-cooklist/l10n/cook_localization_context.dart';
+import 'service-cooklist/l10n/generated/cook_localizations.dart';
+import 'service-cooklist/screens/cook_home_screen.dart';
 import 'service-todo-list/bloc/todos_bloc.dart';
 import 'service-todo-list/bloc/todos_events.dart';
 import 'service-todo-list/datamodel/todo_file_storage.dart';
@@ -108,15 +115,28 @@ class _TodoAppState extends State<TodoApp> {
           onSurface: warmText,
         );
 
-    return BlocProvider(
-      create: (_) =>
-          ChecklistsBloc(repository: FileChecklistsRepository())
-            ..add(ChecklistsLoadRequested()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) =>
+              ChecklistsBloc(repository: FileChecklistsRepository())
+                ..add(ChecklistsLoadRequested()),
+        ),
+        BlocProvider(
+          create: (_) =>
+              CooklistsBloc(repository: FileCooklistsRepository())
+                ..add(CooklistsLoadRequested()),
+        ),
+      ],
       child: MaterialApp(
         onGenerateTitle: (context) => context.l10n.appTitle,
         locale: _locale,
         supportedLocales: _supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: const [
+          ...AppLocalizations.localizationsDelegates,
+          ChecklistLocalizations.delegate,
+          CookLocalizations.delegate,
+        ],
         theme: ThemeData(
           colorScheme: colorScheme,
           useMaterial3: true,
@@ -324,6 +344,15 @@ class TodoLandingPage extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => const HomeCheckList()),
+                  );
+                },
+              ),
+              _HomeActionTile(
+                icon: Icons.restaurant_menu,
+                title: context.cookL10n.myCooklists,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const HomeCookList()),
                   );
                 },
               ),

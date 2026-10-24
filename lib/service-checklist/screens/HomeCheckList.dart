@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../l10n/localization_context.dart';
+import '../l10n/checklist_localization_context.dart';
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
 import '../bloc/checklists_state.dart';

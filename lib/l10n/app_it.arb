@@ -21,7 +21,6 @@
   "addTodo": "Aggiungi attività",
   "todoTitle": "Titolo",
   "description": "Descrizione",
-  "notes": "Note",
   "todoDetails": "Dettagli dell'attività",
   "deleteCompletedTodos": "Elimina le attività completate",
   "todoDeleted": "Attività eliminata",
@@ -58,76 +57,8 @@
   },
   "homeTooltip": "Home",
   "toolsTooltip": "Strumenti",
-  "myChecklists": "Le mie checklist",
-  "unableToLoadChecklists": "Impossibile caricare le checklist",
-  "evaluationTools": "Strumenti di valutazione",
-  "reload": "Ricarica",
-  "addChecklist": "Aggiungi checklist",
-  "evaluationPanel": "Pannello di valutazione",
-  "back": "Indietro",
-  "addSampleChecklists": "Aggiungi checklist di esempio",
-  "reloadFromStorage": "Ricarica dall'archivio",
-  "deleteAllChecklists": "Elimina tutte le checklist",
-  "editChecklist": "Modifica checklist",
-  "otherActions": "Altre azioni",
-  "duplicate": "Duplica",
-  "uncheckAll": "Deseleziona tutto",
-  "checklistName": "Nome della checklist",
-  "checklistNameHint": "Es. Preparare un viaggio",
-  "checklistNameRequired": "Inserisci un nome per questa checklist.",
-  "checkpoints": "Punti di controllo",
-  "manageCheckpoints": "Gestisci i punti di controllo",
-  "checkpointCount": "{count, plural, =0{Nessun punto di controllo} one{1 punto di controllo} other{{count} punti di controllo}}",
-  "@checkpointCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "iconChoice": "Scegli un'icona",
   "icon": "Icona",
-  "chooseChecklistIcon": "Scegli un'icona per la checklist",
-  "checklistDescriptionHint": "A cosa serve questa checklist?",
-  "optionalNotes": "Note facoltative",
-  "saveChecklist": "Salva checklist",
-  "deleteChecklistConfirmation": "Eliminare questa checklist?",
-  "irreversibleAction": "Questa azione è definitiva.",
-  "editCheckpoint": "Modifica punto di controllo",
-  "editCheckpointTooltip": "Modifica punto di controllo",
-  "removeCheckpoint": "Rimuovi punto di controllo",
-  "addCheckpoint": "Aggiungi punto di controllo",
-  "deleteCheckpointConfirmation": "Eliminare questo punto di controllo?",
-  "cannotUndo": "Questa azione non può essere annullata.",
-  "checkpointTitleRequired": "Inserisci un titolo per questo punto di controllo.",
-  "checkpointIcon": "Icona del punto di controllo",
-  "chooseIcon": "Scegli un'icona",
-  "iconWillAppearInList": "Apparirà nell'elenco",
-  "photo": "Foto",
-  "noPhotoAdded": "Nessuna foto aggiunta",
-  "addPhoto": "Aggiungi foto",
-  "replace": "Sostituisci",
-  "removePhoto": "Rimuovi foto",
-  "usefulDetails": "Dettagli utili",
-  "saving": "Salvataggio…",
-  "photoSaveError": "Impossibile salvare la foto.",
-  "selectImageSource": "Seleziona la sorgente dell'immagine",
-  "camera": "Fotocamera",
-  "gallery": "Galleria",
-  "selectCheckpointImage": "Seleziona un'immagine per il punto di controllo",
-  "nothingSelected": "Nessuna immagine selezionata",
-  "chooseImage": "Scegli un'immagine",
-  "select": "Seleziona",
-  "notesLabel": "Note: {notes}",
-  "@notesLabel": {
-    "placeholders": {
-      "notes": {
-        "type": "String"
-      }
-    }
-  },
   "iconCatalog": "Catalogo delle icone",
-  "allCategories": "Tutte",
   "categoryEssential": "Elementi essenziali",
   "categoryFamily": "Famiglia",
   "categoryLeisure": "Tempo libero",
@@ -140,7 +71,6 @@
   "categoryWork": "Lavoro",
   "categoryClothing": "Abbigliamento",
   "categoryTravel": "Viaggio",
-  "passportExample": "Es. Passaporto",
   "noIconsLoaded": "Nessuna icona caricata.",
   "iconLoadError": "Impossibile caricare le icone: {message}",
   "@iconLoadError": {
@@ -151,10 +81,5 @@
     }
   },
   "noIconsAvailable": "Nessuna icona disponibile.",
-  "noIconsFound": "Nessuna icona trovata",
-  "searchIcon": "Cerca icone",
-  "clearSearch": "Cancella ricerca",
-  "iconLoadingErrorTitle": "Impossibile caricare",
-  "close": "Chiudi",
-  "checklistIconPickerTitle": "Scegli un'icona"
+  "close": "Chiudi"
 }

@@ -2,14 +2,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../l10n/localization_context.dart';
+import '../l10n/checklist_localization_context.dart';
+import '../l10n/generated/checklist_localizations.dart';
 import '../../features/icons/di/icon_injection.dart';
 import '../../features/icons/domain/entities/icon_entity.dart';
-import '../../features/icons/presentation/icon_category_localization.dart';
 import '../../features/icons/presentation/bloc/icon_bloc.dart';
 import '../../features/icons/presentation/bloc/icon_event.dart';
 import '../../features/icons/presentation/bloc/icon_state.dart';
 import '../../features/icons/presentation/widgets/dynamic_icon_view.dart';
+
+String localizeChecklistIconCategory(
+  ChecklistLocalizations l10n,
+  String category,
+) {
+  return switch (category) {
+    'Essentiel' => l10n.categoryEssential,
+    'Famille' => l10n.categoryFamily,
+    'Loisirs' => l10n.categoryLeisure,
+    'Météo' => l10n.categoryWeather,
+    'Maison' => l10n.categoryHome,
+    'Nourriture' => l10n.categoryFood,
+    'Objets de voyage' => l10n.categoryTravelItems,
+    'Santé' => l10n.categoryHealth,
+    'Technologie' => l10n.categoryTechnology,
+    'Travail' => l10n.categoryWork,
+    'Vêtements' => l10n.categoryClothing,
+    'Voyage' => l10n.categoryTravel,
+    _ => category,
+  };
+}
 
 class ChecklistIconView extends StatelessWidget {
   const ChecklistIconView({super.key, required this.icon, this.size});
@@ -190,7 +211,10 @@ class _ChecklistIconPickerContentState
                     label: Text(
                       category == null
                           ? context.l10n.allCategories
-                          : localizeIconCategory(context.l10n, category),
+                          : localizeChecklistIconCategory(
+                              context.l10n,
+                              category,
+                            ),
                     ),
                     selected: category == activeCategory,
                     onSelected: (_) =>
@@ -217,7 +241,7 @@ class _ChecklistIconPickerContentState
                         final category = icon.category ?? '';
                         return IconButton.filledTonal(
                           tooltip:
-                              '${icon.label ?? icon.key} · ${localizeIconCategory(context.l10n, category)}',
+                              '${icon.label ?? icon.key} · ${localizeChecklistIconCategory(context.l10n, category)}',
                           onPressed: () => Navigator.of(context).pop(icon),
                           icon: DynamicIconView(icon: icon),
                         );

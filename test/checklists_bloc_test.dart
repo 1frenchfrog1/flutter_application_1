@@ -18,14 +18,31 @@ import 'package:flutter_application_1/service-checklist/screens/HomeCheckList.da
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/service-checklist/widgets/checklist_icon_picker.dart';
 import 'package:flutter_application_1/features/icons/data/datasources/icon_local_data_source.dart';
+import 'package:flutter_application_1/features/icons/data/models/icon_model.dart';
 import 'package:flutter_application_1/features/icons/di/icon_injection.dart';
+import 'package:flutter_application_1/features/icons/domain/usecases/get_dynamic_icons_use_case.dart';
 import 'package:flutter_application_1/features/icons/domain/entities/icon_entity.dart';
 
 void main() {
-  setUpAll(configureIconDependencies);
+  // Lets icon futures resolved outside FakeAsync deliver to widgets.
+  Future<void> settle(WidgetTester tester) async {
+    await tester.pump();
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+    await tester.pumpAndSettle();
+  }
+
+  // Loaded once outside FakeAsync: asset I/O inside testWidgets never completes.
+  late final List<IconModel> catalog;
+
+  setUpAll(() async {
+    configureIconDependencies();
+    catalog = await IconLocalDataSourceImpl().fetchIcons();
+    // Warms the repository cache so widgets resolve icons without asset I/O.
+    await iconGetIt<GetDynamicIconsUseCase>()();
+  });
 
   test('icon catalog prioritizes packing, travel, and food', () async {
-    final icons = await IconLocalDataSourceImpl().fetchIcons();
+    final icons = catalog;
     final labels = icons.map((icon) => icon.label).toSet();
     final officeIcons = icons.where((icon) => icon.category == 'Travail');
 
@@ -55,7 +72,7 @@ void main() {
   test(
     'checklist icons persist only their key and load legacy metadata',
     () async {
-      final icons = await IconLocalDataSourceImpl().fetchIcons();
+      final icons = catalog;
       for (final icon in icons) {
         final entity = icon.toEntity();
         expect(iconToJSONString(entity), {'key': icon.key}, reason: icon.label);
@@ -117,7 +134,6 @@ void main() {
   );
 
   test('demo checklists use key-only icons from the catalog', () async {
-    final catalog = await IconLocalDataSourceImpl().fetchIcons();
     final repository = _MemoryChecklistsRepository();
     final bloc = ChecklistsBloc(repository: repository);
     addTearDown(bloc.close);
@@ -427,28 +443,28 @@ void main() {
         ),
       ),
     );
-    await tester.tap(find.text('Ouvrir mes checklists'));
+    await tester.tap(find.text('Mes checklists'));
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Accueil'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Ouvrir ma todo-list'), findsOneWidget);
-    expect(find.text('Ouvrir mes checklists'), findsOneWidget);
+    expect(find.text('Mes todo-list'), findsOneWidget);
+    expect(find.text('Mes checklists'), findsOneWidget);
   });
 
   testWidgets('todo home returns to the service selector', (tester) async {
     await tester.pumpWidget(
       MaterialApp(home: TodoLandingPage(directory: Directory.systemTemp)),
     );
-    await tester.tap(find.text('Ouvrir ma todo-list'));
+    await tester.tap(find.text('Mes todo-list'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
     await tester.tap(find.byTooltip('Accueil'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
 
-    expect(find.text('Ouvrir ma todo-list'), findsOneWidget);
-    expect(find.text('Ouvrir mes checklists'), findsOneWidget);
+    expect(find.text('Mes todo-list'), findsOneWidget);
+    expect(find.text('Mes checklists'), findsOneWidget);
   });
 
   testWidgets('checklist form requires a title', (tester) async {
@@ -531,8 +547,7 @@ void main() {
     checklist.checkListObjects = [checkpoint];
     final repository = _MemoryChecklistsRepository()
       ..savedChecklists = [checklist];
-    final selectedIcon = (await IconLocalDataSourceImpl().fetchIcons())[1]
-        .toEntity();
+    final selectedIcon = catalog[1].toEntity();
 
     await tester.pumpWidget(
       BlocProvider(
@@ -550,16 +565,16 @@ void main() {
         ),
       ),
     );
-    await tester.pumpAndSettle();
+    await settle(tester);
 
     await tester.tap(find.text('Choisir une icône'));
-    await tester.pumpAndSettle();
+    await settle(tester);
     await tester.tap(
       find.byTooltip('${selectedIcon.label} · ${selectedIcon.category}'),
     );
-    await tester.pumpAndSettle();
+    await settle(tester);
     await tester.tap(find.text('Enregistrer'));
-    await tester.pumpAndSettle();
+    await settle(tester);
 
     final persistedIcon =
         repository.savedChecklists.single.checkListObjects.single.icon;
@@ -569,7 +584,7 @@ void main() {
   testWidgets('key-only checklist icons resolve with the current catalog', (
     tester,
   ) async {
-    final icon = (await IconLocalDataSourceImpl().fetchIcons()).first;
+    final icon = catalog.first;
 
     await tester.pumpWidget(
       MaterialApp(
@@ -578,7 +593,7 @@ void main() {
         ),
       ),
     );
-    await tester.pumpAndSettle();
+    await settle(tester);
 
     expect(
       find.byWidgetPredicate(
@@ -595,10 +610,10 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(home: ChecklistIconPickerDialog()),
     );
-    await tester.pumpAndSettle();
+    await settle(tester);
 
     await tester.enterText(find.byType(TextField), 'telephone');
-    await tester.pumpAndSettle();
+    await settle(tester);
 
     expect(find.byTooltip('Téléphone · Technologie'), findsOneWidget);
     expect(find.byTooltip('Avion · Voyage'), findsNothing);
