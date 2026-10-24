@@ -18,7 +18,7 @@ import '../bloc/todo_apptab_events.dart';
 import '../bloc/todo_apptab_bloc.dart';
 import 'todo_tools_screen.dart';
 
-import '../../service-transverse/datamodel/transverse_thisapp_localization.dart';
+import '../../l10n/localization_context.dart';
 
 class HomeToDoList extends StatelessWidget {
   static const String routeName = "/HomeToDoList";
@@ -60,7 +60,7 @@ class HomeToDoBody extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              tooltip: 'Accueil',
+              tooltip: context.l10n.homeTooltip,
               icon: const Icon(Icons.home_outlined),
               onPressed: () =>
                   Navigator.of(context).popUntil((route) => route.isFirst),
@@ -69,7 +69,7 @@ class HomeToDoBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  ThisAppLocalizations.of(context).my_To_Do_ListLocalText,
+                  context.l10n.myTodoList,
                   style: Theme.of(context).textTheme.titleLarge
                       ?.copyWith(fontWeight: FontWeight.w800),
                 ),
@@ -79,7 +79,7 @@ class HomeToDoBody extends StatelessWidget {
                       : 0,
                   builder: (context, count) {
                     return Text(
-                      '$count tâche${count == 1 ? '' : 's'} ouverte${count == 1 ? '' : 's'}',
+                      context.l10n.openTaskCount(count),
                       style: Theme.of(context).textTheme.bodySmall,
                     );
                   },
@@ -88,7 +88,7 @@ class HomeToDoBody extends StatelessWidget {
             ),
             actions: <Widget>[
               IconButton(
-                tooltip: 'Outils',
+                tooltip: context.l10n.toolsTooltip,
                 icon: const Icon(Icons.tune_rounded),
                 onPressed: () {
                   Navigator.of(context).push(
@@ -125,16 +125,16 @@ class HomeToDoBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
                   child: SegmentedButton<ToDoAppTab>(
-                    segments: const [
+                    segments: [
                       ButtonSegment(
                         value: ToDoAppTab.allToDos,
-                        label: Text('Toutes'),
-                        icon: Icon(Icons.list_alt_rounded),
+                        label: Text(context.l10n.all),
+                        icon: const Icon(Icons.list_alt_rounded),
                       ),
                       ButtonSegment(
                         value: ToDoAppTab.openToDos,
-                        label: Text('À faire'),
-                        icon: Icon(Icons.radio_button_unchecked),
+                        label: Text(context.l10n.leftToDo),
+                        icon: const Icon(Icons.radio_button_unchecked),
                       ),
                     ],
                     selected: {
@@ -181,7 +181,7 @@ class HomeToDoBody extends StatelessWidget {
                 builder: (context, isReady) {
                   return FilledButton.icon(
                     icon: const Icon(Icons.add_rounded),
-                    label: const Text('Ajouter'),
+                    label: Text(context.l10n.addTodoAction),
                     onPressed: isReady
                         ? () {
                             final todosBloc = context.read<TodosBloc>();

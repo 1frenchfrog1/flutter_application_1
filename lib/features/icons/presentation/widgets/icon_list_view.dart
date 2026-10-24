@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../l10n/localization_context.dart';
+import '../icon_category_localization.dart';
 import '../bloc/icon_bloc.dart';
 import '../bloc/icon_event.dart';
 import '../bloc/icon_state.dart';
@@ -15,24 +17,24 @@ class IconListView extends StatelessWidget {
     return BlocBuilder<IconBloc, IconState>(
       builder: (context, state) {
         return switch (state) {
-          IconInitial() => const Center(child: Text('Aucune icône chargée.')),
+          IconInitial() => Center(child: Text(context.l10n.noIconsLoaded)),
           IconLoading() => const Center(child: CircularProgressIndicator()),
           IconError(:final message) => Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Impossible de charger les icônes : $message'),
+                Text(context.l10n.iconLoadError(message)),
                 const SizedBox(height: 8),
                 FilledButton(
                   onPressed: () =>
                       context.read<IconBloc>().add(const FetchIcons()),
-                  child: const Text('Réessayer'),
+                  child: Text(context.l10n.retry),
                 ),
               ],
             ),
           ),
-          IconLoaded(:final icons) when icons.isEmpty => const Center(
-            child: Text('Aucune icône disponible.'),
+          IconLoaded(:final icons) when icons.isEmpty => Center(
+            child: Text(context.l10n.noIconsAvailable),
           ),
           IconLoaded(:final icons) => ListView.separated(
             itemCount: icons.length,
@@ -42,7 +44,12 @@ class IconListView extends StatelessWidget {
               return ListTile(
                 leading: DynamicIconView(icon: icon),
                 title: Text(icon.label ?? icon.key),
-                subtitle: Text(icon.category ?? icon.key),
+                subtitle: Text(
+                  localizeIconCategory(
+                    context.l10n,
+                    icon.category ?? icon.key,
+                  ),
+                ),
               );
             },
           ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../datamodel/todo_models.dart';
 
-import '../../service-transverse/datamodel/transverse_thisapp_localization.dart';
+import '../../l10n/localization_context.dart';
 
 typedef OnSaveCallback = Function(String title, String description);
 
@@ -36,8 +36,8 @@ class _AddEditScreenState extends State<AddEditScreen> {
       appBar: AppBar(
         title: Text(
           isEditing
-              ? ThisAppLocalizations.of(context).edit_ToDoLocalText
-              : ThisAppLocalizations.of(context).add_new_ToDoLocalText,
+              ? context.l10n.editTodo
+              : context.l10n.addTodo,
           style: TextStyle(
             color: Theme.of(context).colorScheme.secondary,
             fontWeight: FontWeight.w800,
@@ -52,7 +52,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Titre',
+                context.l10n.todoTitle,
                 style: Theme.of(context).textTheme.titleMedium
                     ?.copyWith(fontWeight: FontWeight.w700),
               ),
@@ -67,16 +67,18 @@ class _AddEditScreenState extends State<AddEditScreen> {
                 textCapitalization: TextCapitalization.sentences,
                 decoration: _fieldDecoration(
                   context,
-                  ThisAppLocalizations.of(context).enter_new_ToDoLocalText,
+                  context.l10n.todoTitle,
                 ),
                 validator: (val) {
-                  return (val ?? '').trim().isEmpty ? 'is empty' : null;
+                  return (val ?? '').trim().isEmpty
+                      ? context.l10n.todoTitleRequired
+                      : null;
                 },
                 onSaved: (value) => _title = value ?? '',
               ),
               const SizedBox(height: 20),
               Text(
-                'Points à traiter',
+                context.l10n.todoPoints,
                 style: Theme.of(context).textTheme.titleMedium
                     ?.copyWith(fontWeight: FontWeight.w700),
               ),
@@ -92,7 +94,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
                   textCapitalization: TextCapitalization.sentences,
                   decoration: _fieldDecoration(
                     context,
-                    ThisAppLocalizations.of(context).enter_descriptionLocalText,
+                    context.l10n.description,
                   ),
                   onSaved: (value) => _description = value ?? '',
                 ),
@@ -112,7 +114,9 @@ class _AddEditScreenState extends State<AddEditScreen> {
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
             child: FilledButton.icon(
               icon: Icon(isEditing ? Icons.check_rounded : Icons.add_rounded),
-              label: Text(isEditing ? 'Enregistrer' : 'Ajouter la todo'),
+              label: Text(
+                isEditing ? context.l10n.save : context.l10n.addTodoAction,
+              ),
               onPressed: () {
                 if (_formKey.currentState?.validate() ?? false) {
                   _formKey.currentState?.save();

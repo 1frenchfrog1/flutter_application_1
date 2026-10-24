@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'l10n/generated/app_localizations.dart';
+import 'l10n/localization_context.dart';
 import 'service-checklist/bloc/checklists_bloc.dart';
 import 'service-checklist/bloc/checklists_event.dart';
 import 'service-checklist/datamodel/checklists_repository.dart';
@@ -13,15 +16,76 @@ import 'service-todo-list/bloc/todos_events.dart';
 import 'service-todo-list/datamodel/todo_file_storage.dart';
 import 'service-todo-list/screens/todo_listshome_screen.dart';
 import 'features/icons/di/icon_injection.dart';
-import 'features/icons/presentation/pages/icon_catalog_page.dart';
 
 void main() {
   configureIconDependencies();
   runApp(const TodoApp());
 }
 
-class TodoApp extends StatelessWidget {
+class TodoApp extends StatefulWidget {
   const TodoApp({super.key});
+
+  @override
+  State<TodoApp> createState() => _TodoAppState();
+}
+
+class _TodoAppState extends State<TodoApp> {
+  static const _languagePreferenceKey = 'app_language_code';
+  static const _supportedLocales = [
+    Locale('fr'),
+    Locale('en'),
+    Locale('es'),
+    Locale('de'),
+    Locale('it'),
+  ];
+
+  final SharedPreferencesAsync _preferences = SharedPreferencesAsync();
+  Locale _locale = const Locale('fr');
+  late Future<void> _localePreference;
+  late Future<Directory> _documentsDirectory;
+
+  @override
+  void initState() {
+    super.initState();
+    _localePreference = _loadLocalePreference();
+    _documentsDirectory = getApplicationDocumentsDirectory();
+  }
+
+  Future<void> _loadLocalePreference() async {
+    final languageCode = await _preferences.getString(_languagePreferenceKey);
+    if (languageCode == null) return;
+
+    if (!_supportedLocales.any(
+      (supportedLocale) => supportedLocale.languageCode == languageCode,
+    )) {
+      throw FormatException('Unsupported saved language: $languageCode');
+    }
+
+    if (mounted) {
+      setState(() => _locale = Locale(languageCode));
+    }
+  }
+
+  void _retryLocalePreferenceLoad() {
+    setState(() => _localePreference = _loadLocalePreference());
+  }
+
+  void _continueWithDefaultLanguage() {
+    setState(() => _localePreference = Future<void>.value());
+  }
+
+  Future<void> _changeLocale(BuildContext context, Locale locale) async {
+    setState(() => _locale = locale);
+    try {
+      await _preferences.setString(_languagePreferenceKey, locale.languageCode);
+    } catch (error) {
+      debugPrint('Unable to save the selected application language: $error');
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.languageSaveError)));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +113,10 @@ class TodoApp extends StatelessWidget {
           ChecklistsBloc(repository: FileChecklistsRepository())
             ..add(ChecklistsLoadRequested()),
       child: MaterialApp(
-        title: 'Todo List',
+        onGenerateTitle: (context) => context.l10n.appTitle,
+        locale: _locale,
+        supportedLocales: _supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
         theme: ThemeData(
           colorScheme: colorScheme,
           useMaterial3: true,
@@ -101,15 +168,66 @@ class TodoApp extends StatelessWidget {
             ),
           ),
         ),
-        home: FutureBuilder<Directory>(
-          future: getApplicationDocumentsDirectory(),
+        home: FutureBuilder<void>(
+          future: _localePreference,
           builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
+            if (snapshot.hasError) {
+              return Scaffold(
+                appBar: AppBar(title: Text(context.l10n.home)),
+                body: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          context.l10n.languageLoadError,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 12),
+                        FilledButton(
+                          onPressed: _retryLocalePreferenceLoad,
+                          child: Text(context.l10n.retry),
+                        ),
+                        TextButton(
+                          onPressed: _continueWithDefaultLanguage,
+                          child: Text(context.l10n.continueInFrench),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               );
             }
-            return TodoLandingPage(directory: snapshot.data!);
+            if (snapshot.connectionState != ConnectionState.done) {
+              return Scaffold(
+                body: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const CircularProgressIndicator(),
+                      const SizedBox(height: 12),
+                      Text(context.l10n.loadingLanguage),
+                    ],
+                  ),
+                ),
+              );
+            }
+            return FutureBuilder<Directory>(
+              future: _documentsDirectory,
+              builder: (context, directorySnapshot) {
+                if (!directorySnapshot.hasData) {
+                  return const Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
+                  );
+                }
+                return TodoLandingPage(
+                  directory: directorySnapshot.data!,
+                  locale: _locale,
+                  onLocaleSelected: (locale) => _changeLocale(context, locale),
+                );
+              },
+            );
           },
         ),
       ),
@@ -119,14 +237,58 @@ class TodoApp extends StatelessWidget {
 
 class TodoLandingPage extends StatelessWidget {
   final Directory directory;
+  final Locale locale;
+  final ValueChanged<Locale>? onLocaleSelected;
 
-  const TodoLandingPage({super.key, required this.directory});
+  const TodoLandingPage({
+    super.key,
+    required this.directory,
+    this.locale = const Locale('fr'),
+    this.onLocaleSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
     final tileSize = MediaQuery.sizeOf(context).width / 3;
     return Scaffold(
-      appBar: AppBar(title: const Text('Accueil')),
+      appBar: AppBar(
+        title: Text(context.l10n.home),
+        actions: [
+          if (onLocaleSelected != null)
+            PopupMenuButton<Locale>(
+              tooltip: context.l10n.changeLanguage,
+              icon: const Icon(Icons.translate),
+              onSelected: onLocaleSelected,
+              itemBuilder: (context) => [
+                _languageMenuItem(
+                  const Locale('fr'),
+                  locale,
+                  context.l10n.languageFrench,
+                ),
+                _languageMenuItem(
+                  const Locale('en'),
+                  locale,
+                  context.l10n.languageEnglish,
+                ),
+                _languageMenuItem(
+                  const Locale('es'),
+                  locale,
+                  context.l10n.languageSpanish,
+                ),
+                _languageMenuItem(
+                  const Locale('de'),
+                  locale,
+                  context.l10n.languageGerman,
+                ),
+                _languageMenuItem(
+                  const Locale('it'),
+                  locale,
+                  context.l10n.languageItalian,
+                ),
+              ],
+            ),
+        ],
+      ),
       body: Align(
         alignment: Alignment.topCenter,
         child: SizedBox(
@@ -139,7 +301,7 @@ class TodoLandingPage extends StatelessWidget {
             children: [
               _HomeActionTile(
                 icon: Icons.checklist,
-                title: 'Ouvrir ma todo-list',
+                title: context.l10n.openTodoList,
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -158,27 +320,37 @@ class TodoLandingPage extends StatelessWidget {
               ),
               _HomeActionTile(
                 icon: Icons.fact_check,
-                title: 'Ouvrir mes checklists',
+                title: context.l10n.openChecklists,
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => const HomeCheckList()),
                   );
                 },
               ),
-              _HomeActionTile(
-                icon: Icons.grid_view,
-                title: 'Ouvrir le catalogue d’icônes',
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const IconCatalogPage(),
-                    ),
-                  );
-                },
-              ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  PopupMenuItem<Locale> _languageMenuItem(
+    Locale itemLocale,
+    Locale selectedLocale,
+    String label,
+  ) {
+    return PopupMenuItem(
+      value: itemLocale,
+      child: Row(
+        children: [
+          SizedBox(
+            width: 24,
+            child: itemLocale == selectedLocale
+                ? const Icon(Icons.check, size: 18)
+                : null,
+          ),
+          Text(label),
+        ],
       ),
     );
   }

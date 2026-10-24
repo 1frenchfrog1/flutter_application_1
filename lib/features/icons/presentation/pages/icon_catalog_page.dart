@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../l10n/localization_context.dart';
 import '../../di/icon_injection.dart';
 import '../bloc/icon_bloc.dart';
 import '../bloc/icon_event.dart';
@@ -15,7 +16,7 @@ class IconCatalogPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => iconGetIt<IconBloc>()..add(const FetchIcons()),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Catalogue d’icônes')),
+        appBar: AppBar(title: Text(context.l10n.iconCatalog)),
         body: const IconListView(),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../l10n/localization_context.dart';
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
 import '../bloc/checklists_state.dart';
@@ -35,28 +36,28 @@ class _ChecklistHomeContent extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.black26,
             leading: IconButton(
-              tooltip: 'Accueil',
+              tooltip: context.l10n.homeTooltip,
               icon: const Icon(Icons.home_outlined),
               onPressed: () =>
                   Navigator.of(context).popUntil((route) => route.isFirst),
             ),
-            title: const Text(
-              'My Checklists',
+            title: Text(
+              context.l10n.myChecklists,
               style: TextStyle(color: Colors.orange),
             ),
           ),
           body: state is ChecklistsLoadInProgress
               ? const Center(child: CircularProgressIndicator())
               : state is ChecklistsLoadFailure
-              ? const Center(child: Text('Unable to load checklists'))
+              ? Center(child: Text(context.l10n.unableToLoadChecklists))
               : CheckListGridView(checklists: checklists),
           drawer: Drawer(
             child: ListView(
               children: [
-                const DrawerHeader(child: Text('My Checklists')),
+                DrawerHeader(child: Text(context.l10n.myChecklists)),
                 ListTile(
                   leading: const Icon(Icons.assessment),
-                  title: const Text('Evaluation tools'),
+                  title: Text(context.l10n.evaluationTools),
                   onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).push(
@@ -67,8 +68,8 @@ class _ChecklistHomeContent extends StatelessWidget {
                     );
                   },
                 ),
-                const AboutListTile(
-                  applicationName: 'Application Name',
+                AboutListTile(
+                  applicationName: context.l10n.myChecklists,
                   applicationVersion: 'v1.1.0',
                 ),
               ],
@@ -83,7 +84,7 @@ class _ChecklistHomeContent extends StatelessWidget {
                   ChecklistsLoadRequested(),
                 ),
                 backgroundColor: Colors.orange,
-                tooltip: 'Reload',
+                tooltip: context.l10n.reload,
                 child: const Icon(Icons.cloud_queue, color: Colors.black),
               ),
               const SizedBox(width: 8),
@@ -92,7 +93,7 @@ class _ChecklistHomeContent extends StatelessWidget {
                 onPressed: () =>
                     context.read<ChecklistsBloc>().add(ChecklistCreated()),
                 backgroundColor: Colors.orange,
-                tooltip: 'Add checklist',
+                tooltip: context.l10n.addChecklist,
                 child: const Icon(Icons.add, color: Colors.black),
               ),
             ],

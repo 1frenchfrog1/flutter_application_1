@@ -10,7 +10,7 @@ import 'todo_dismissableItem_widget.dart';
 import '../screens/todo_detail_screen.dart';
 import 'todo_delete_snackbar_widget.dart';
 
-import '../../service-transverse/datamodel/transverse_thisapp_localization.dart';
+import '../../l10n/localization_context.dart';
 
 class FilteredTodos extends StatelessWidget {
   const FilteredTodos({super.key});
@@ -37,13 +37,13 @@ class FilteredTodos extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Tout est en ordre',
+                      context.l10n.emptyTodoTitle,
                       style: Theme.of(context).textTheme.titleLarge
                           ?.copyWith(fontWeight: FontWeight.w800),
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Ajoutez une tâche pour commencer.',
+                      context.l10n.emptyTodoMessage,
                       style: Theme.of(context).textTheme.bodyMedium,
                       textAlign: TextAlign.center,
                     ),
@@ -71,12 +71,13 @@ class FilteredTodos extends StatelessWidget {
                                 .add(TodoAdded(todo)),
                         onOk: () =>
                             ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-                        thisAppLocalizations: ThisAppLocalizations.of(context),
+                        thisAppLocalizations: context.l10n,
                       ),
                     );
                   },
                   onTap: () async {
                     final todosBloc = context.read<TodosBloc>();
+                    final localizations = context.l10n;
                     final removedTodo = await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) {
@@ -87,6 +88,7 @@ class FilteredTodos extends StatelessWidget {
                         },
                       ),
                     );
+                    if (!context.mounted) return;
                     if (removedTodo != null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         DeleteTodoSnackBar(
@@ -97,9 +99,7 @@ class FilteredTodos extends StatelessWidget {
                           onOk: () =>
                               ScaffoldMessenger.of(context)
                                   .hideCurrentSnackBar(),
-                          thisAppLocalizations: ThisAppLocalizations.of(
-                            context,
-                          ),
+                          thisAppLocalizations: localizations,
                         ),
                       );
                     }

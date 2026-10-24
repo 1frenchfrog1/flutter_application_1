@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/todos_bloc.dart';
 import '../bloc/todos_events.dart';
 
-import '../../service-transverse/datamodel/transverse_thisapp_localization.dart';
+import '../../l10n/localization_context.dart';
 
 class ToDoToolsScreen extends StatelessWidget {
   const ToDoToolsScreen({super.key});
@@ -14,7 +14,7 @@ class ToDoToolsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          ThisAppLocalizations.of(context).toDo_detailsLocalText,
+          context.l10n.tools,
           style: TextStyle(
             color: Theme.of(context).colorScheme.secondary,
             fontWeight: FontWeight.w800,
@@ -32,8 +32,7 @@ class ToDoToolsScreen extends StatelessWidget {
                 BlocProvider.of<TodosBloc>(context).add(ClearCompleted());
               },
               label: Text(
-                ThisAppLocalizations.of(context)
-                    .delete_Completed_ToDosLocalText,
+                context.l10n.deleteCompletedTodos,
               ),
             ),
           ],

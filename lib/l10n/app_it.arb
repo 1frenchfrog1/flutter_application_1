@@ -1,0 +1,160 @@
+{
+  "@@locale": "it",
+  "appTitle": "Lista delle cose da fare",
+  "home": "Home",
+  "openTodoList": "Apri la mia lista di cose da fare",
+  "openChecklists": "Apri le mie checklist",
+  "openIconCatalog": "Apri il catalogo delle icone",
+  "changeLanguage": "Cambia lingua",
+  "loadingLanguage": "Caricamento della lingua…",
+  "languageLoadError": "Impossibile caricare la lingua salvata.",
+  "languageSaveError": "Impossibile salvare la lingua. La scelta non verrà mantenuta al riavvio dell'app.",
+  "continueInFrench": "Continua in francese",
+  "retry": "Riprova",
+  "languageFrench": "Français",
+  "languageEnglish": "English",
+  "languageSpanish": "Español",
+  "languageGerman": "Deutsch",
+  "languageItalian": "Italiano",
+  "myTodoList": "La mia lista di cose da fare",
+  "editTodo": "Modifica attività",
+  "addTodo": "Aggiungi attività",
+  "todoTitle": "Titolo",
+  "description": "Descrizione",
+  "notes": "Note",
+  "todoDetails": "Dettagli dell'attività",
+  "deleteCompletedTodos": "Elimina le attività completate",
+  "todoDeleted": "Attività eliminata",
+  "undo": "Annulla",
+  "tools": "Strumenti",
+  "all": "Tutte",
+  "leftToDo": "Da fare",
+  "openTaskCount": "{count, plural, =0{Nessuna attività aperta} one{1 attività aperta} other{{count} attività aperte}}",
+  "@openTaskCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todoPoints": "Elementi da affrontare",
+  "emptyTodoDescription": "Questa attività non contiene elementi.",
+  "emptyTodoTitle": "Hai completato tutto",
+  "emptyTodoMessage": "Aggiungi un'attività per iniziare.",
+  "todoTitleRequired": "Il titolo non può essere vuoto.",
+  "save": "Salva",
+  "addTodoAction": "Aggiungi attività",
+  "cancel": "Annulla",
+  "delete": "Elimina",
+  "modify": "Modifica",
+  "deleteTodoConfirmation": "Eliminare questa attività?",
+  "deleteTodoConfirmationContent": "L'attività «{title}» verrà eliminata definitivamente.",
+  "@deleteTodoConfirmationContent": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "homeTooltip": "Home",
+  "toolsTooltip": "Strumenti",
+  "myChecklists": "Le mie checklist",
+  "unableToLoadChecklists": "Impossibile caricare le checklist",
+  "evaluationTools": "Strumenti di valutazione",
+  "reload": "Ricarica",
+  "addChecklist": "Aggiungi checklist",
+  "evaluationPanel": "Pannello di valutazione",
+  "back": "Indietro",
+  "addSampleChecklists": "Aggiungi checklist di esempio",
+  "reloadFromStorage": "Ricarica dall'archivio",
+  "deleteAllChecklists": "Elimina tutte le checklist",
+  "editChecklist": "Modifica checklist",
+  "otherActions": "Altre azioni",
+  "duplicate": "Duplica",
+  "uncheckAll": "Deseleziona tutto",
+  "checklistName": "Nome della checklist",
+  "checklistNameHint": "Es. Preparare un viaggio",
+  "checklistNameRequired": "Inserisci un nome per questa checklist.",
+  "checkpoints": "Punti di controllo",
+  "manageCheckpoints": "Gestisci i punti di controllo",
+  "checkpointCount": "{count, plural, =0{Nessun punto di controllo} one{1 punto di controllo} other{{count} punti di controllo}}",
+  "@checkpointCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "iconChoice": "Scegli un'icona",
+  "icon": "Icona",
+  "chooseChecklistIcon": "Scegli un'icona per la checklist",
+  "checklistDescriptionHint": "A cosa serve questa checklist?",
+  "optionalNotes": "Note facoltative",
+  "saveChecklist": "Salva checklist",
+  "deleteChecklistConfirmation": "Eliminare questa checklist?",
+  "irreversibleAction": "Questa azione è definitiva.",
+  "editCheckpoint": "Modifica punto di controllo",
+  "editCheckpointTooltip": "Modifica punto di controllo",
+  "removeCheckpoint": "Rimuovi punto di controllo",
+  "addCheckpoint": "Aggiungi punto di controllo",
+  "deleteCheckpointConfirmation": "Eliminare questo punto di controllo?",
+  "cannotUndo": "Questa azione non può essere annullata.",
+  "checkpointTitleRequired": "Inserisci un titolo per questo punto di controllo.",
+  "checkpointIcon": "Icona del punto di controllo",
+  "chooseIcon": "Scegli un'icona",
+  "iconWillAppearInList": "Apparirà nell'elenco",
+  "photo": "Foto",
+  "noPhotoAdded": "Nessuna foto aggiunta",
+  "addPhoto": "Aggiungi foto",
+  "replace": "Sostituisci",
+  "removePhoto": "Rimuovi foto",
+  "usefulDetails": "Dettagli utili",
+  "saving": "Salvataggio…",
+  "photoSaveError": "Impossibile salvare la foto.",
+  "selectImageSource": "Seleziona la sorgente dell'immagine",
+  "camera": "Fotocamera",
+  "gallery": "Galleria",
+  "selectCheckpointImage": "Seleziona un'immagine per il punto di controllo",
+  "nothingSelected": "Nessuna immagine selezionata",
+  "chooseImage": "Scegli un'immagine",
+  "select": "Seleziona",
+  "notesLabel": "Note: {notes}",
+  "@notesLabel": {
+    "placeholders": {
+      "notes": {
+        "type": "String"
+      }
+    }
+  },
+  "iconCatalog": "Catalogo delle icone",
+  "allCategories": "Tutte",
+  "categoryEssential": "Elementi essenziali",
+  "categoryFamily": "Famiglia",
+  "categoryLeisure": "Tempo libero",
+  "categoryWeather": "Meteo",
+  "categoryHome": "Casa",
+  "categoryFood": "Cibo",
+  "categoryTravelItems": "Accessori da viaggio",
+  "categoryHealth": "Salute",
+  "categoryTechnology": "Tecnologia",
+  "categoryWork": "Lavoro",
+  "categoryClothing": "Abbigliamento",
+  "categoryTravel": "Viaggio",
+  "passportExample": "Es. Passaporto",
+  "noIconsLoaded": "Nessuna icona caricata.",
+  "iconLoadError": "Impossibile caricare le icone: {message}",
+  "@iconLoadError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "noIconsAvailable": "Nessuna icona disponibile.",
+  "noIconsFound": "Nessuna icona trovata",
+  "searchIcon": "Cerca icone",
+  "clearSearch": "Cancella ricerca",
+  "iconLoadingErrorTitle": "Impossibile caricare",
+  "close": "Chiudi",
+  "checklistIconPickerTitle": "Scegli un'icona"
+}

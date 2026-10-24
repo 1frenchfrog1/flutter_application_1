@@ -1,0 +1,160 @@
+{
+  "@@locale": "de",
+  "appTitle": "Todo List",
+  "home": "Startseite",
+  "openTodoList": "Meine Aufgabenliste öffnen",
+  "openChecklists": "Meine Checklisten öffnen",
+  "openIconCatalog": "Symbolkatalog öffnen",
+  "changeLanguage": "Sprache ändern",
+  "loadingLanguage": "Sprache wird geladen…",
+  "languageLoadError": "Die gespeicherte Sprache konnte nicht geladen werden.",
+  "languageSaveError": "Die Sprache konnte nicht gespeichert werden. Die Auswahl bleibt nach einem Neustart nicht erhalten.",
+  "continueInFrench": "Auf Französisch fortfahren",
+  "retry": "Erneut versuchen",
+  "languageFrench": "Français",
+  "languageEnglish": "English",
+  "languageSpanish": "Español",
+  "languageGerman": "Deutsch",
+  "languageItalian": "Italiano",
+  "myTodoList": "Meine Aufgabenliste",
+  "editTodo": "Aufgabe bearbeiten",
+  "addTodo": "Aufgabe hinzufügen",
+  "todoTitle": "Titel",
+  "description": "Beschreibung",
+  "notes": "Notizen",
+  "todoDetails": "Aufgabendetails",
+  "deleteCompletedTodos": "Erledigte Aufgaben löschen",
+  "todoDeleted": "Aufgabe gelöscht",
+  "undo": "Rückgängig",
+  "tools": "Werkzeuge",
+  "all": "Alle",
+  "leftToDo": "Offen",
+  "openTaskCount": "{count, plural, =0{Keine offenen Aufgaben} one{1 offene Aufgabe} other{{count} offene Aufgaben}}",
+  "@openTaskCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todoPoints": "Zu erledigende Punkte",
+  "emptyTodoDescription": "Für diese Aufgabe gibt es keinen Inhalt.",
+  "emptyTodoTitle": "Alles erledigt",
+  "emptyTodoMessage": "Füge eine Aufgabe hinzu, um zu beginnen.",
+  "todoTitleRequired": "Der Titel darf nicht leer sein.",
+  "save": "Speichern",
+  "addTodoAction": "Aufgabe hinzufügen",
+  "cancel": "Abbrechen",
+  "delete": "Löschen",
+  "modify": "Bearbeiten",
+  "deleteTodoConfirmation": "Diese Aufgabe löschen?",
+  "deleteTodoConfirmationContent": "Die Aufgabe „{title}“ wird endgültig gelöscht.",
+  "@deleteTodoConfirmationContent": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "homeTooltip": "Startseite",
+  "toolsTooltip": "Werkzeuge",
+  "myChecklists": "Meine Checklisten",
+  "unableToLoadChecklists": "Checklisten konnten nicht geladen werden",
+  "evaluationTools": "Auswertungswerkzeuge",
+  "reload": "Neu laden",
+  "addChecklist": "Checkliste hinzufügen",
+  "evaluationPanel": "Auswertungsbereich",
+  "back": "Zurück",
+  "addSampleChecklists": "Beispiel-Checklisten hinzufügen",
+  "reloadFromStorage": "Aus dem Speicher neu laden",
+  "deleteAllChecklists": "Alle Checklisten löschen",
+  "editChecklist": "Checkliste bearbeiten",
+  "otherActions": "Weitere Aktionen",
+  "duplicate": "Duplizieren",
+  "uncheckAll": "Alle abwählen",
+  "checklistName": "Name der Checkliste",
+  "checklistNameHint": "Z. B. eine Reise vorbereiten",
+  "checklistNameRequired": "Gib einen Namen für diese Checkliste ein.",
+  "checkpoints": "Kontrollpunkte",
+  "manageCheckpoints": "Kontrollpunkte verwalten",
+  "checkpointCount": "{count, plural, =0{Keine Kontrollpunkte} one{1 Kontrollpunkt} other{{count} Kontrollpunkte}}",
+  "@checkpointCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "iconChoice": "Symbol auswählen",
+  "icon": "Symbol",
+  "chooseChecklistIcon": "Wähle ein Symbol für die Checkliste",
+  "checklistDescriptionHint": "Wofür ist diese Checkliste gedacht?",
+  "optionalNotes": "Optionale Notizen",
+  "saveChecklist": "Checkliste speichern",
+  "deleteChecklistConfirmation": "Diese Checkliste löschen?",
+  "irreversibleAction": "Diese Aktion ist endgültig.",
+  "editCheckpoint": "Kontrollpunkt bearbeiten",
+  "editCheckpointTooltip": "Kontrollpunkt bearbeiten",
+  "removeCheckpoint": "Kontrollpunkt entfernen",
+  "addCheckpoint": "Kontrollpunkt hinzufügen",
+  "deleteCheckpointConfirmation": "Diesen Kontrollpunkt löschen?",
+  "cannotUndo": "Diese Aktion kann nicht rückgängig gemacht werden.",
+  "checkpointTitleRequired": "Gib einen Titel für diesen Kontrollpunkt ein.",
+  "checkpointIcon": "Symbol des Kontrollpunkts",
+  "chooseIcon": "Symbol auswählen",
+  "iconWillAppearInList": "Es wird in der Liste angezeigt",
+  "photo": "Foto",
+  "noPhotoAdded": "Kein Foto hinzugefügt",
+  "addPhoto": "Foto hinzufügen",
+  "replace": "Ersetzen",
+  "removePhoto": "Foto entfernen",
+  "usefulDetails": "Nützliche Details",
+  "saving": "Wird gespeichert…",
+  "photoSaveError": "Das Foto konnte nicht gespeichert werden.",
+  "selectImageSource": "Bildquelle auswählen",
+  "camera": "Kamera",
+  "gallery": "Galerie",
+  "selectCheckpointImage": "Bild für den Kontrollpunkt auswählen",
+  "nothingSelected": "Kein Bild ausgewählt",
+  "chooseImage": "Bild auswählen",
+  "select": "Auswählen",
+  "notesLabel": "Notizen: {notes}",
+  "@notesLabel": {
+    "placeholders": {
+      "notes": {
+        "type": "String"
+      }
+    }
+  },
+  "iconCatalog": "Symbolkatalog",
+  "allCategories": "Alle",
+  "categoryEssential": "Grundlagen",
+  "categoryFamily": "Familie",
+  "categoryLeisure": "Freizeit",
+  "categoryWeather": "Wetter",
+  "categoryHome": "Haushalt",
+  "categoryFood": "Lebensmittel",
+  "categoryTravelItems": "Reiseutensilien",
+  "categoryHealth": "Gesundheit",
+  "categoryTechnology": "Technologie",
+  "categoryWork": "Arbeit",
+  "categoryClothing": "Kleidung",
+  "categoryTravel": "Reisen",
+  "passportExample": "Z. B. Reisepass",
+  "noIconsLoaded": "Keine Symbole geladen.",
+  "iconLoadError": "Symbole konnten nicht geladen werden: {message}",
+  "@iconLoadError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "noIconsAvailable": "Keine Symbole verfügbar.",
+  "noIconsFound": "Keine Symbole gefunden",
+  "searchIcon": "Symbole suchen",
+  "clearSearch": "Suche löschen",
+  "iconLoadingErrorTitle": "Laden fehlgeschlagen",
+  "close": "Schließen",
+  "checklistIconPickerTitle": "Symbol auswählen"
+}

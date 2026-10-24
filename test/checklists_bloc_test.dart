@@ -328,7 +328,7 @@ void main() {
     await tester.tap(find.text('Route test'));
     await tester.pumpAndSettle();
 
-    expect(find.text('All'), findsOneWidget);
+    expect(find.text('Toutes'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -356,7 +356,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byTooltip('Add checkpoint'));
+    await tester.tap(find.byTooltip('Ajouter un point de contrôle'));
     await tester.pumpAndSettle();
 
     expect(find.text('New checkpoint'), findsOneWidget);
@@ -410,7 +410,7 @@ void main() {
 
     await tester.tap(find.text('Checkpoint with notes'));
     await tester.pumpAndSettle();
-    expect(find.text('Notes: Bring a charger'), findsOneWidget);
+    expect(find.text('Notes : Bring a charger'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

@@ -8,7 +8,7 @@ import '../datamodel/todo_models.dart';
 
 import 'todo_addedit_screen.dart';
 
-import '../../service-transverse/datamodel/transverse_thisapp_localization.dart';
+import '../../l10n/localization_context.dart';
 
 class DetailsScreen extends StatelessWidget {
   final ToDoActionModel initialTodo;
@@ -29,7 +29,7 @@ class DetailsScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              ThisAppLocalizations.of(context).toDo_detailsLocalText,
+              context.l10n.todoDetails,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.secondary,
                 fontWeight: FontWeight.w800,
@@ -62,7 +62,7 @@ class DetailsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Points à traiter',
+                  context.l10n.todoPoints,
                   style: Theme.of(context).textTheme.titleMedium
                       ?.copyWith(fontWeight: FontWeight.w700),
                 ),
@@ -76,7 +76,7 @@ class DetailsScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(18),
                         child: Text(
                           todo.description.isEmpty
-                              ? 'Aucun contenu pour cette todo.'
+                              ? context.l10n.emptyTodoDescription
                               : todo.description,
                           style: Theme.of(context).textTheme.bodyLarge
                               ?.copyWith(color: const Color(0xFF303030)),
@@ -96,7 +96,7 @@ class DetailsScreen extends StatelessWidget {
                   Expanded(
                     child: OutlinedButton.icon(
                       icon: const Icon(Icons.delete_outline_rounded),
-                      label: const Text('Supprimer'),
+                      label: Text(context.l10n.delete),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: Theme.of(context).colorScheme.error,
                         side: BorderSide(
@@ -107,15 +107,17 @@ class DetailsScreen extends StatelessWidget {
                         final shouldDelete = await showDialog<bool>(
                           context: context,
                           builder: (dialogContext) => AlertDialog(
-                            title: const Text('Supprimer la todo ?'),
+                            title: Text(context.l10n.deleteTodoConfirmation),
                             content: Text(
-                              'La todo « ${todo.title} » sera définitivement supprimée.',
+                              context.l10n.deleteTodoConfirmationContent(
+                                todo.title,
+                              ),
                             ),
                             actions: [
                               TextButton(
                                 onPressed: () =>
                                     Navigator.pop(dialogContext, false),
-                                child: const Text('Annuler'),
+                                child: Text(dialogContext.l10n.cancel),
                               ),
                               FilledButton(
                                 style: FilledButton.styleFrom(
@@ -128,7 +130,7 @@ class DetailsScreen extends StatelessWidget {
                                 ),
                                 onPressed: () =>
                                     Navigator.pop(dialogContext, true),
-                                child: const Text('Supprimer'),
+                                child: Text(dialogContext.l10n.delete),
                               ),
                             ],
                           ),
@@ -145,7 +147,7 @@ class DetailsScreen extends StatelessWidget {
                   Expanded(
                     child: FilledButton.icon(
                       icon: const Icon(Icons.edit_outlined),
-                      label: const Text('Modifier'),
+                      label: Text(context.l10n.modify),
                       onPressed: () {
                         final todosBloc = context.read<TodosBloc>();
                         Navigator.of(context).push(

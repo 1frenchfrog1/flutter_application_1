@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/generated/app_localizations.dart';
 import '../datamodel/todo_models.dart';
 
-import '../../service-transverse/datamodel/transverse_thisapp_localization.dart';
-
 class DeleteTodoSnackBar extends SnackBar {
-  final ThisAppLocalizations thisAppLocalizations;
+  final AppLocalizations thisAppLocalizations;
 
   DeleteTodoSnackBar({
     super.key,
@@ -18,7 +17,7 @@ class DeleteTodoSnackBar extends SnackBar {
            children: [
              Expanded(
                child: Text(
-                 thisAppLocalizations.toDo_deletedLocalText,
+                 thisAppLocalizations.todoDeleted,
                  maxLines: 1,
                  overflow: TextOverflow.ellipsis,
                ),
@@ -32,7 +31,7 @@ class DeleteTodoSnackBar extends SnackBar {
          ),
          duration: Duration(seconds: 2),
          action: SnackBarAction(
-           label: thisAppLocalizations.undoLocalText,
+           label: thisAppLocalizations.undo,
            onPressed: onUndo,
          ),
        );

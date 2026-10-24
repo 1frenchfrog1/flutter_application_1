@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../l10n/localization_context.dart';
+
 class CheckPointImageSelectionPanel extends StatefulWidget {
   static const String routeName = '/editCheckPointImage';
 
@@ -22,15 +24,15 @@ class _CheckPointImageSelectionPanelState
     final source = await showDialog<ImageSource>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Select image source'),
+        title: Text(context.l10n.selectImageSource),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, ImageSource.camera),
-            child: const Text('Camera'),
+            child: Text(context.l10n.camera),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, ImageSource.gallery),
-            child: const Text('Gallery'),
+            child: Text(context.l10n.gallery),
           ),
         ],
       ),
@@ -51,15 +53,15 @@ class _CheckPointImageSelectionPanelState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[600],
-      appBar: AppBar(title: const Text('Select checkpoint image')),
+      appBar: AppBar(title: Text(context.l10n.selectCheckpointImage)),
       body: Center(
         child: _pickedImage == null
-            ? const Text('Nothing selected')
+            ? Text(context.l10n.nothingSelected)
             : Image.file(_pickedImage!, fit: BoxFit.contain),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _pickImage,
-        tooltip: 'Choose image',
+        tooltip: context.l10n.chooseImage,
         child: const Icon(Icons.image),
       ),
       bottomNavigationBar: SafeArea(
@@ -70,12 +72,12 @@ class _CheckPointImageSelectionPanelState
             children: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
+                child: Text(context.l10n.cancel),
               ),
               const SizedBox(width: 8),
               FilledButton(
                 onPressed: () => Navigator.pop(context, _pickedImage),
-                child: const Text('Select'),
+                child: Text(context.l10n.select),
               ),
             ],
           ),

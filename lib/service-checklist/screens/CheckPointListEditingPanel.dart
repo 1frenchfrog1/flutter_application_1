@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../l10n/localization_context.dart';
 import '../../features/icons/domain/entities/icon_entity.dart';
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
@@ -79,7 +80,7 @@ class _CheckPointListEditingPanelState
                         ?.copyWith(fontSize: 17),
                   ),
                   trailing: IconButton(
-                    tooltip: 'Edit checkpoint',
+                    tooltip: context.l10n.editCheckpointTooltip,
                     visualDensity: VisualDensity.compact,
                     onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(
@@ -107,7 +108,7 @@ class _CheckPointListEditingPanelState
             children: [
               FloatingActionButton(
                 heroTag: 'checkpoint-delete',
-                tooltip: 'Remove checkpoint',
+                tooltip: context.l10n.removeCheckpoint,
                 backgroundColor: Colors.orange,
                 onPressed: _selectedIndex == null
                     ? null
@@ -117,7 +118,7 @@ class _CheckPointListEditingPanelState
               const SizedBox(width: 8),
               FloatingActionButton(
                 heroTag: 'checkpoint-add',
-                tooltip: 'Add checkpoint',
+                tooltip: context.l10n.addCheckpoint,
                 backgroundColor: Colors.orange,
                 onPressed: () {
                   context.read<ChecklistsBloc>().add(
@@ -141,16 +142,16 @@ class _CheckPointListEditingPanelState
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete checkpoint?'),
-        content: const Text('This action cannot be undone.'),
+        title: Text(context.l10n.deleteCheckpointConfirmation),
+        content: Text(context.l10n.cannotUndo),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Delete'),
+            child: Text(context.l10n.delete),
           ),
         ],
       ),

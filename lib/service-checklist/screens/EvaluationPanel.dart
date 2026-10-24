@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../l10n/localization_context.dart';
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
 import '../datamodel/CheckListDataModel.dart';
@@ -17,7 +18,7 @@ class EvaluationPanel extends StatelessWidget {
       backgroundColor: Colors.grey[600],
       appBar: AppBar(
         backgroundColor: Colors.black26,
-        title: const Text('Evaluation panel'),
+        title: Text(context.l10n.evaluationPanel),
       ),
       body: Center(
         child: Wrap(
@@ -28,26 +29,26 @@ class EvaluationPanel extends StatelessWidget {
             OutlinedButton.icon(
               onPressed: () => Navigator.of(context).pop(),
               icon: const Icon(Icons.arrow_back),
-              label: const Text('Back'),
+              label: Text(context.l10n.back),
             ),
             FilledButton.icon(
               onPressed: () => context.read<ChecklistsBloc>().add(
                 ChecklistsDemoDataRequested(),
               ),
               icon: const Icon(Icons.library_add),
-              label: const Text('Add sample checklists'),
+              label: Text(context.l10n.addSampleChecklists),
             ),
             OutlinedButton.icon(
               onPressed: () =>
                   context.read<ChecklistsBloc>().add(ChecklistsLoadRequested()),
               icon: const Icon(Icons.refresh),
-              label: const Text('Reload from storage'),
+              label: Text(context.l10n.reloadFromStorage),
             ),
             FilledButton.icon(
               onPressed: () =>
                   context.read<ChecklistsBloc>().add(ChecklistsCleared()),
               icon: const Icon(Icons.delete_forever),
-              label: const Text('Delete all checklists'),
+              label: Text(context.l10n.deleteAllChecklists),
             ),
           ],
         ),

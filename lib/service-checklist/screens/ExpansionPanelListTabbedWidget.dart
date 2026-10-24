@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../l10n/localization_context.dart';
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
 import '../bloc/checklists_state.dart';
@@ -49,8 +50,8 @@ class _ExpansionPanelListTabbedWidgetState
           );
         }
         if (state is ChecklistsLoadFailure) {
-          return const Scaffold(
-            body: Center(child: Text('Unable to load checklists')),
+          return Scaffold(
+            body: Center(child: Text(context.l10n.unableToLoadChecklists)),
           );
         }
         if (state is! ChecklistsLoadSuccess) {
@@ -75,15 +76,18 @@ class _ExpansionPanelListTabbedWidgetState
           ),
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.black26,
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.build), label: 'Tools'),
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.check_box),
-                label: 'All',
+                icon: const Icon(Icons.build),
+                label: context.l10n.tools,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.check_box_outline_blank),
-                label: 'Left To Do',
+                icon: const Icon(Icons.check_box),
+                label: context.l10n.all,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.check_box_outline_blank),
+                label: context.l10n.leftToDo,
               ),
             ],
             currentIndex: _selectedIndex,
@@ -187,7 +191,11 @@ class _ExpansionPanelListTabbedWidgetState
                               ? Text(checkpoint.description.trim())
                               : null,
                           subtitle: hasNotes
-                              ? Text('Notes: ${checkpoint.notes.trim()}')
+                              ? Text(
+                                  context.l10n.notesLabel(
+                                    checkpoint.notes.trim(),
+                                  ),
+                                )
                               : null,
                         ),
                     ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../l10n/localization_context.dart';
 import '../../features/icons/domain/entities/icon_entity.dart';
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
@@ -52,7 +53,7 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Modifier la checklist'),
+        title: Text(context.l10n.editChecklist),
         actions: [
           SizedBox(
             width: 84,
@@ -74,7 +75,7 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
             ),
           ),
           PopupMenuButton<String>(
-            tooltip: 'Autres actions',
+            tooltip: context.l10n.otherActions,
             onSelected: (action) {
               if (action == 'clone') _cloneChecklist();
               if (action == 'uncheck') {
@@ -84,13 +85,13 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
               }
               if (action == 'delete') _confirmDelete();
             },
-            itemBuilder: (context) => const [
+            itemBuilder: (context) => [
               PopupMenuItem(
                 value: 'clone',
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(Icons.copy_outlined),
-                  title: Text('Dupliquer'),
+                  title: Text(context.l10n.duplicate),
                 ),
               ),
               PopupMenuItem(
@@ -98,7 +99,7 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(Icons.check_box_outline_blank),
-                  title: Text('Tout décocher'),
+                  title: Text(context.l10n.uncheckAll),
                 ),
               ),
               PopupMenuItem(
@@ -106,7 +107,7 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(Icons.delete_outline),
-                  title: Text('Supprimer'),
+                  title: Text(context.l10n.delete),
                 ),
               ),
             ],
@@ -118,7 +119,7 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
           children: [
-            _sectionLabel(context, 'Nom de la checklist'),
+            _sectionLabel(context, context.l10n.checklistName),
             const SizedBox(height: 4),
             TextFormField(
               controller: _titleController,
@@ -129,21 +130,24 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF303030),
               ),
-              decoration: _fieldDecoration(context, 'Ex. Préparer un voyage'),
+              decoration: _fieldDecoration(
+                context,
+                context.l10n.checklistNameHint,
+              ),
               validator: (value) => (value ?? '').trim().isEmpty
-                  ? 'Saisissez un nom pour la checklist.'
+                  ? context.l10n.checklistNameRequired
                   : null,
             ),
             const SizedBox(height: 8),
-            _sectionLabel(context, 'Points de contrôle'),
+            _sectionLabel(context, context.l10n.checkpoints),
             const SizedBox(height: 2),
             ListTile(
               dense: true,
               visualDensity: VisualDensity.compact,
               contentPadding: EdgeInsets.zero,
               leading: const Icon(Icons.checklist_outlined),
-              title: const Text('Gérer les points de contrôle'),
-              subtitle: Text('$total point${total == 1 ? '' : 's'}'),
+              title: Text(context.l10n.manageCheckpoints),
+              subtitle: Text(context.l10n.checkpointCount(total)),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
@@ -154,20 +158,20 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
               ),
             ),
             const SizedBox(height: 6),
-            _sectionLabel(context, 'Choix de l’icône'),
+            _sectionLabel(context, context.l10n.iconChoice),
             const SizedBox(height: 2),
             ListTile(
               dense: true,
               visualDensity: VisualDensity.compact,
               contentPadding: EdgeInsets.zero,
               leading: _iconFor(_draft.icon),
-              title: const Text('Icône'),
-              subtitle: const Text('Choisir un symbole pour la checklist'),
+              title: Text(context.l10n.icon),
+              subtitle: Text(context.l10n.chooseChecklistIcon),
               trailing: const Icon(Icons.chevron_right),
               onTap: _selectIcon,
             ),
             const SizedBox(height: 8),
-            _sectionLabel(context, 'Description'),
+            _sectionLabel(context, context.l10n.description),
             const SizedBox(height: 4),
             TextFormField(
               controller: _descriptionController,
@@ -179,11 +183,11 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
                   ?.copyWith(color: const Color(0xFF303030)),
               decoration: _fieldDecoration(
                 context,
-                'À quoi sert cette checklist ?',
+                context.l10n.checklistDescriptionHint,
               ),
             ),
             const SizedBox(height: 8),
-            _sectionLabel(context, 'Notes'),
+            _sectionLabel(context, context.l10n.optionalNotes),
             const SizedBox(height: 4),
             TextFormField(
               controller: _notesController,
@@ -193,7 +197,7 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
               textCapitalization: TextCapitalization.sentences,
               style: Theme.of(context).textTheme.bodyLarge
                   ?.copyWith(color: const Color(0xFF303030)),
-              decoration: _fieldDecoration(context, 'Notes facultatives'),
+              decoration: _fieldDecoration(context, context.l10n.optionalNotes),
             ),
           ],
         ),
@@ -209,7 +213,7 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
             child: FilledButton.icon(
               icon: const Icon(Icons.save_outlined),
-              label: const Text('Enregistrer la checklist'),
+              label: Text(context.l10n.saveChecklist),
               onPressed: _saveChecklist,
             ),
           ),
@@ -279,16 +283,16 @@ class _CheckListEditingPanelState extends State<CheckListEditingPanel> {
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Supprimer la checklist ?'),
-        content: const Text('Cette action est définitive.'),
+        title: Text(context.l10n.deleteChecklistConfirmation),
+        content: Text(context.l10n.irreversibleAction),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Annuler'),
+            child: Text(context.l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Supprimer'),
+            child: Text(context.l10n.delete),
           ),
         ],
       ),

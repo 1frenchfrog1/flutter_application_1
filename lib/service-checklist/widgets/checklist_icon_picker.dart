@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../l10n/localization_context.dart';
 import '../../features/icons/di/icon_injection.dart';
 import '../../features/icons/domain/entities/icon_entity.dart';
+import '../../features/icons/presentation/icon_category_localization.dart';
 import '../../features/icons/presentation/bloc/icon_bloc.dart';
 import '../../features/icons/presentation/bloc/icon_event.dart';
 import '../../features/icons/presentation/bloc/icon_state.dart';
@@ -45,25 +47,25 @@ class _ChecklistIconPickerContent extends StatefulWidget {
 class _ChecklistIconPickerContentState
     extends State<_ChecklistIconPickerContent> {
   final TextEditingController _searchController = TextEditingController();
-  String _activeCategory = 'Tout';
+  String? _activeCategory;
   String _query = '';
 
   List<String> _categories(List<IconEntity> icons) {
     final categories =
         icons.map((icon) => icon.category).whereType<String>().toSet().toList()
           ..sort();
-    return ['Tout', ...categories];
+    return categories;
   }
 
   List<IconEntity> _filteredIcons(
     List<IconEntity> icons, {
-    required String category,
+    required String? category,
   }) {
     final query = _normalize(_query);
     return icons
         .where((icon) {
           final matchesCategory =
-              category == 'Tout' || icon.category == category;
+              category == null || icon.category == category;
           final matchesQuery =
               query.isEmpty ||
               _normalize(icon.label ?? '').contains(query) ||
@@ -106,16 +108,16 @@ class _ChecklistIconPickerContentState
           ),
         ),
         IconError(:final message) => AlertDialog(
-          title: const Text('Chargement impossible'),
+          title: Text(context.l10n.iconLoadingErrorTitle),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () => context.read<IconBloc>().add(const FetchIcons()),
-              child: const Text('Réessayer'),
+              child: Text(context.l10n.retry),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Fermer'),
+              child: Text(context.l10n.close),
             ),
           ],
         ),
@@ -138,11 +140,11 @@ class _ChecklistIconPickerContentState
     final categories = _categories(icons);
     final activeCategory = categories.contains(_activeCategory)
         ? _activeCategory
-        : 'Tout';
+        : null;
     final filteredIcons = _filteredIcons(icons, category: activeCategory);
 
     return AlertDialog(
-      title: const Text('Choisir une icône'),
+      title: Text(context.l10n.checklistIconPickerTitle),
       contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
       content: SizedBox(
         width: dialogWidth,
@@ -153,12 +155,12 @@ class _ChecklistIconPickerContentState
               controller: _searchController,
               onChanged: (value) => setState(() => _query = value),
               decoration: InputDecoration(
-                hintText: 'Rechercher une icône',
+                hintText: context.l10n.searchIcon,
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _query.isEmpty
                     ? null
                     : IconButton(
-                        tooltip: 'Effacer la recherche',
+                        tooltip: context.l10n.clearSearch,
                         onPressed: () {
                           _searchController.clear();
                           setState(() => _query = '');
@@ -178,12 +180,18 @@ class _ChecklistIconPickerContentState
               height: 42,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                itemCount: categories.length,
+                itemCount: categories.length + 1,
                 separatorBuilder: (_, _) => const SizedBox(width: 8),
                 itemBuilder: (context, index) {
-                  final category = categories[index];
+                  final category = index == 0
+                      ? null
+                      : categories[index - 1];
                   return ChoiceChip(
-                    label: Text(category),
+                    label: Text(
+                      category == null
+                          ? context.l10n.allCategories
+                          : localizeIconCategory(context.l10n, category),
+                    ),
                     selected: category == activeCategory,
                     onSelected: (_) =>
                         setState(() => _activeCategory = category),
@@ -194,7 +202,7 @@ class _ChecklistIconPickerContentState
             const SizedBox(height: 8),
             Expanded(
               child: filteredIcons.isEmpty
-                  ? const Center(child: Text('Aucune icône trouvée'))
+                  ? Center(child: Text(context.l10n.noIconsFound))
                   : GridView.builder(
                       itemCount: filteredIcons.length,
                       gridDelegate:
@@ -208,7 +216,8 @@ class _ChecklistIconPickerContentState
                         final icon = filteredIcons[index];
                         final category = icon.category ?? '';
                         return IconButton.filledTonal(
-                          tooltip: '${icon.label ?? icon.key} · $category',
+                          tooltip:
+                              '${icon.label ?? icon.key} · ${localizeIconCategory(context.l10n, category)}',
                           onPressed: () => Navigator.of(context).pop(icon),
                           icon: DynamicIconView(icon: icon),
                         );
@@ -221,11 +230,12 @@ class _ChecklistIconPickerContentState
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Annuler'),
+          child: Text(context.l10n.cancel),
         ),
       ],
     );
   }
+
 }
 
 Future<IconEntity?> showChecklistIconPicker(BuildContext context) {

@@ -1,0 +1,160 @@
+{
+  "@@locale": "en",
+  "appTitle": "Todo List",
+  "home": "Home",
+  "openTodoList": "Open my todo list",
+  "openChecklists": "Open my checklists",
+  "openIconCatalog": "Open icon catalog",
+  "changeLanguage": "Change language",
+  "loadingLanguage": "Loading language…",
+  "languageLoadError": "Unable to load the saved language.",
+  "languageSaveError": "The language could not be saved. Your choice will not be kept after restarting the app.",
+  "continueInFrench": "Continue in French",
+  "retry": "Retry",
+  "languageFrench": "Français",
+  "languageEnglish": "English",
+  "languageSpanish": "Español",
+  "languageGerman": "Deutsch",
+  "languageItalian": "Italiano",
+  "myTodoList": "My todo list",
+  "editTodo": "Edit task",
+  "addTodo": "Add task",
+  "todoTitle": "Title",
+  "description": "Description",
+  "notes": "Notes",
+  "todoDetails": "Task details",
+  "deleteCompletedTodos": "Delete completed tasks",
+  "todoDeleted": "Task deleted",
+  "undo": "Undo",
+  "tools": "Tools",
+  "all": "All",
+  "leftToDo": "To do",
+  "openTaskCount": "{count, plural, =0{No open tasks} one{1 open task} other{{count} open tasks}}",
+  "@openTaskCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todoPoints": "Items to address",
+  "emptyTodoDescription": "There is no content for this task.",
+  "emptyTodoTitle": "You're all caught up",
+  "emptyTodoMessage": "Add a task to get started.",
+  "todoTitleRequired": "The title can't be empty.",
+  "save": "Save",
+  "addTodoAction": "Add task",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "modify": "Edit",
+  "deleteTodoConfirmation": "Delete this task?",
+  "deleteTodoConfirmationContent": "The task “{title}” will be permanently deleted.",
+  "@deleteTodoConfirmationContent": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "homeTooltip": "Home",
+  "toolsTooltip": "Tools",
+  "myChecklists": "My Checklists",
+  "unableToLoadChecklists": "Unable to load checklists",
+  "evaluationTools": "Evaluation tools",
+  "reload": "Reload",
+  "addChecklist": "Add checklist",
+  "evaluationPanel": "Evaluation panel",
+  "back": "Back",
+  "addSampleChecklists": "Add sample checklists",
+  "reloadFromStorage": "Reload from storage",
+  "deleteAllChecklists": "Delete all checklists",
+  "editChecklist": "Edit checklist",
+  "otherActions": "More actions",
+  "duplicate": "Duplicate",
+  "uncheckAll": "Uncheck all",
+  "checklistName": "Checklist name",
+  "checklistNameHint": "E.g. Get ready for a trip",
+  "checklistNameRequired": "Enter a name for this checklist.",
+  "checkpoints": "Checkpoints",
+  "manageCheckpoints": "Manage checkpoints",
+  "checkpointCount": "{count, plural, =0{No checkpoints} one{1 checkpoint} other{{count} checkpoints}}",
+  "@checkpointCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "iconChoice": "Choose an icon",
+  "icon": "Icon",
+  "chooseChecklistIcon": "Choose an icon for the checklist",
+  "checklistDescriptionHint": "What is this checklist for?",
+  "optionalNotes": "Optional notes",
+  "saveChecklist": "Save checklist",
+  "deleteChecklistConfirmation": "Delete this checklist?",
+  "irreversibleAction": "This action is permanent.",
+  "editCheckpoint": "Edit checkpoint",
+  "editCheckpointTooltip": "Edit checkpoint",
+  "removeCheckpoint": "Remove checkpoint",
+  "addCheckpoint": "Add checkpoint",
+  "deleteCheckpointConfirmation": "Delete this checkpoint?",
+  "cannotUndo": "This action cannot be undone.",
+  "checkpointTitleRequired": "Enter a title for this checkpoint.",
+  "checkpointIcon": "Checkpoint icon",
+  "chooseIcon": "Choose an icon",
+  "iconWillAppearInList": "It will appear in the list",
+  "photo": "Photo",
+  "noPhotoAdded": "No photo added",
+  "addPhoto": "Add photo",
+  "replace": "Replace",
+  "removePhoto": "Remove photo",
+  "usefulDetails": "Useful details",
+  "saving": "Saving…",
+  "photoSaveError": "Unable to save the photo.",
+  "selectImageSource": "Select image source",
+  "camera": "Camera",
+  "gallery": "Gallery",
+  "selectCheckpointImage": "Select checkpoint image",
+  "nothingSelected": "No image selected",
+  "chooseImage": "Choose image",
+  "select": "Select",
+  "notesLabel": "Notes: {notes}",
+  "@notesLabel": {
+    "placeholders": {
+      "notes": {
+        "type": "String"
+      }
+    }
+  },
+  "iconCatalog": "Icon catalog",
+  "allCategories": "All",
+  "categoryEssential": "Essentials",
+  "categoryFamily": "Family",
+  "categoryLeisure": "Leisure",
+  "categoryWeather": "Weather",
+  "categoryHome": "Home",
+  "categoryFood": "Food",
+  "categoryTravelItems": "Travel items",
+  "categoryHealth": "Health",
+  "categoryTechnology": "Technology",
+  "categoryWork": "Work",
+  "categoryClothing": "Clothing",
+  "categoryTravel": "Travel",
+  "passportExample": "E.g. Passport",
+  "noIconsLoaded": "No icons loaded.",
+  "iconLoadError": "Unable to load icons: {message}",
+  "@iconLoadError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "noIconsAvailable": "No icons available.",
+  "noIconsFound": "No icons found",
+  "searchIcon": "Search icons",
+  "clearSearch": "Clear search",
+  "iconLoadingErrorTitle": "Unable to load",
+  "close": "Close",
+  "checklistIconPickerTitle": "Choose an icon"
+}

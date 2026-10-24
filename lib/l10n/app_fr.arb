@@ -1,0 +1,160 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Todo List",
+  "home": "Accueil",
+  "openTodoList": "Mes todo-list",
+  "openChecklists": "Mes checklists",
+  "openIconCatalog": "Ouvrir le catalogue d’icônes",
+  "changeLanguage": "Changer la langue",
+  "loadingLanguage": "Chargement de la langue…",
+  "languageLoadError": "Impossible de charger la langue enregistrée.",
+  "languageSaveError": "La langue n’a pas pu être enregistrée. Votre choix ne sera pas conservé au prochain démarrage.",
+  "continueInFrench": "Continuer en français",
+  "retry": "Réessayer",
+  "languageFrench": "Français",
+  "languageEnglish": "English",
+  "languageSpanish": "Español",
+  "languageGerman": "Deutsch",
+  "languageItalian": "Italiano",
+  "myTodoList": "Ma todo-list",
+  "editTodo": "Modifier la tâche",
+  "addTodo": "Ajouter une tâche",
+  "todoTitle": "Titre",
+  "description": "Description",
+  "notes": "Notes",
+  "todoDetails": "Détails de la tâche",
+  "deleteCompletedTodos": "Supprimer les tâches terminées",
+  "todoDeleted": "Tâche supprimée",
+  "undo": "Annuler",
+  "tools": "Outils",
+  "all": "Toutes",
+  "leftToDo": "À faire",
+  "openTaskCount": "{count, plural, =0{Aucune tâche ouverte} one{1 tâche ouverte} other{{count} tâches ouvertes}}",
+  "@openTaskCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todoPoints": "Points à traiter",
+  "emptyTodoDescription": "Aucun contenu pour cette tâche.",
+  "emptyTodoTitle": "Tout est en ordre",
+  "emptyTodoMessage": "Ajoutez une tâche pour commencer.",
+  "todoTitleRequired": "Le titre ne peut pas être vide.",
+  "save": "Enregistrer",
+  "addTodoAction": "Ajouter la tâche",
+  "cancel": "Annuler",
+  "delete": "Supprimer",
+  "modify": "Modifier",
+  "deleteTodoConfirmation": "Supprimer cette tâche ?",
+  "deleteTodoConfirmationContent": "La tâche « {title} » sera supprimée définitivement.",
+  "@deleteTodoConfirmationContent": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "homeTooltip": "Accueil",
+  "toolsTooltip": "Outils",
+  "myChecklists": "Mes checklists",
+  "unableToLoadChecklists": "Impossible de charger les checklists",
+  "evaluationTools": "Outils d’évaluation",
+  "reload": "Recharger",
+  "addChecklist": "Ajouter une checklist",
+  "evaluationPanel": "Panneau d’évaluation",
+  "back": "Retour",
+  "addSampleChecklists": "Ajouter des checklists d’exemple",
+  "reloadFromStorage": "Recharger depuis le stockage",
+  "deleteAllChecklists": "Supprimer toutes les checklists",
+  "editChecklist": "Modifier la checklist",
+  "otherActions": "Autres actions",
+  "duplicate": "Dupliquer",
+  "uncheckAll": "Tout décocher",
+  "checklistName": "Nom de la checklist",
+  "checklistNameHint": "Ex. Préparer un voyage",
+  "checklistNameRequired": "Saisissez un nom pour la checklist.",
+  "checkpoints": "Points de contrôle",
+  "manageCheckpoints": "Gérer les points de contrôle",
+  "checkpointCount": "{count, plural, =0{Aucun point} one{1 point} other{{count} points}}",
+  "@checkpointCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "iconChoice": "Choix de l’icône",
+  "icon": "Icône",
+  "chooseChecklistIcon": "Choisir un symbole pour la checklist",
+  "checklistDescriptionHint": "À quoi sert cette checklist ?",
+  "optionalNotes": "Notes facultatives",
+  "saveChecklist": "Enregistrer la checklist",
+  "deleteChecklistConfirmation": "Supprimer la checklist ?",
+  "irreversibleAction": "Cette action est définitive.",
+  "editCheckpoint": "Modifier le point",
+  "editCheckpointTooltip": "Modifier le point de contrôle",
+  "removeCheckpoint": "Retirer le point de contrôle",
+  "addCheckpoint": "Ajouter un point de contrôle",
+  "deleteCheckpointConfirmation": "Supprimer le point de contrôle ?",
+  "cannotUndo": "Cette action ne peut pas être annulée.",
+  "checkpointTitleRequired": "Saisissez un titre pour ce point.",
+  "checkpointIcon": "Icône du point de contrôle",
+  "chooseIcon": "Choisir une icône",
+  "iconWillAppearInList": "Elle apparaîtra dans la liste",
+  "photo": "Photo",
+  "noPhotoAdded": "Aucune photo ajoutée",
+  "addPhoto": "Ajouter une photo",
+  "replace": "Remplacer",
+  "removePhoto": "Retirer la photo",
+  "usefulDetails": "Détails utiles",
+  "saving": "Enregistrement…",
+  "photoSaveError": "Impossible d’enregistrer la photo.",
+  "selectImageSource": "Sélectionner la source de l’image",
+  "camera": "Appareil photo",
+  "gallery": "Galerie",
+  "selectCheckpointImage": "Sélectionner une image pour le point",
+  "nothingSelected": "Aucune image sélectionnée",
+  "chooseImage": "Choisir une image",
+  "select": "Sélectionner",
+  "notesLabel": "Notes : {notes}",
+  "@notesLabel": {
+    "placeholders": {
+      "notes": {
+        "type": "String"
+      }
+    }
+  },
+  "iconCatalog": "Catalogue d’icônes",
+  "allCategories": "Tout",
+  "categoryEssential": "Essentiel",
+  "categoryFamily": "Famille",
+  "categoryLeisure": "Loisirs",
+  "categoryWeather": "Météo",
+  "categoryHome": "Maison",
+  "categoryFood": "Nourriture",
+  "categoryTravelItems": "Objets de voyage",
+  "categoryHealth": "Santé",
+  "categoryTechnology": "Technologie",
+  "categoryWork": "Travail",
+  "categoryClothing": "Vêtements",
+  "categoryTravel": "Voyage",
+  "passportExample": "Ex. Passeport",
+  "noIconsLoaded": "Aucune icône chargée.",
+  "iconLoadError": "Impossible de charger les icônes : {message}",
+  "@iconLoadError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "noIconsAvailable": "Aucune icône disponible.",
+  "noIconsFound": "Aucune icône trouvée",
+  "searchIcon": "Rechercher une icône",
+  "clearSearch": "Effacer la recherche",
+  "iconLoadingErrorTitle": "Chargement impossible",
+  "close": "Fermer",
+  "checklistIconPickerTitle": "Choisir une icône"
+}

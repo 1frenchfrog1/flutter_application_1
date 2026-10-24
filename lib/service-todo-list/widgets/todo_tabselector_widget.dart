@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/localization_context.dart';
 import '../bloc/todo_apptab_states.dart';
 import '../screens/todo_tools_screen.dart';
-import '../../service-transverse/datamodel/transverse_thisapp_localization.dart';
 
 class ToDoTabSelector extends StatelessWidget {
   final ToDoAppTab activeTab;
@@ -34,15 +34,15 @@ class ToDoTabSelector extends StatelessWidget {
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.build),
-          label: ThisAppLocalizations.of(context).toolsLocalText,
+          label: context.l10n.tools,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.check_box),
-          label: ThisAppLocalizations.of(context).allLocalText,
+          label: context.l10n.all,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.check_box_outline_blank),
-          label: ThisAppLocalizations.of(context).left_To_DoLocalText,
+          label: context.l10n.leftToDo,
         ),
       ],
     );

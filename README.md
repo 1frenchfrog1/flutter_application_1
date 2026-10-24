@@ -2,6 +2,19 @@
 
 A new Flutter project.
 
+## Localisation
+
+The app supports French (default), English, Spanish, and German. Change the
+language from the translate button on the home screen; the selection is saved
+for the next launch.
+
+Translations are stored in `lib/l10n/app_*.arb` and generated with Flutter's
+`gen_l10n` tooling. After editing an ARB file, run:
+
+```sh
+flutter gen-l10n
+```
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

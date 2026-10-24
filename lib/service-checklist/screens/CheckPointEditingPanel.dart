@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../l10n/localization_context.dart';
 import '../../features/icons/domain/entities/icon_entity.dart';
 import '../bloc/checklists_bloc.dart';
 import '../bloc/checklists_event.dart';
@@ -78,13 +79,13 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Modifier le point')),
+      appBar: AppBar(title: Text(context.l10n.editCheckpoint)),
       body: Form(
         key: _formKey,
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
           children: [
-            _sectionLabel(context, 'Titre'),
+            _sectionLabel(context, context.l10n.todoTitle),
             const SizedBox(height: 4),
             TextFormField(
               controller: _titleController,
@@ -95,25 +96,28 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF303030),
               ),
-              decoration: _fieldDecoration(context, 'Ex. Passeport'),
+              decoration: _fieldDecoration(
+                context,
+                context.l10n.passportExample,
+              ),
               validator: (value) => (value ?? '').trim().isEmpty
-                  ? 'Saisissez un titre pour ce point.'
+                  ? context.l10n.checkpointTitleRequired
                   : null,
             ),
             const SizedBox(height: 8),
-            _sectionLabel(context, 'Icône du point de contrôle'),
+            _sectionLabel(context, context.l10n.checkpointIcon),
             ListTile(
               dense: true,
               visualDensity: VisualDensity.compact,
               contentPadding: EdgeInsets.zero,
               leading: _iconFor(_draft.icon),
-              title: const Text('Choisir une icône'),
-              subtitle: const Text('Elle apparaîtra dans la liste'),
+              title: Text(context.l10n.chooseIcon),
+              subtitle: Text(context.l10n.iconWillAppearInList),
               trailing: const Icon(Icons.chevron_right),
               onTap: _selectIcon,
             ),
             const SizedBox(height: 8),
-            _sectionLabel(context, 'Photo'),
+            _sectionLabel(context, context.l10n.photo),
             const SizedBox(height: 4),
             ClipRRect(
               borderRadius: BorderRadius.circular(18),
@@ -123,13 +127,13 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
                   height: 150,
                   width: double.infinity,
                   child: _pickedImage == null
-                      ? const Center(
+                      ? Center(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(Icons.image_outlined, size: 36),
                               SizedBox(height: 8),
-                              Text('Aucune photo ajoutée'),
+                              Text(context.l10n.noPhotoAdded),
                             ],
                           ),
                         )
@@ -145,19 +149,21 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
                   onPressed: _selectImage,
                   icon: const Icon(Icons.add_a_photo_outlined),
                   label: Text(
-                    _pickedImage == null ? 'Ajouter une photo' : 'Remplacer',
+                    _pickedImage == null
+                        ? context.l10n.addPhoto
+                        : context.l10n.replace,
                   ),
                 ),
                 if (_pickedImage != null)
                   TextButton.icon(
                     onPressed: _clearImage,
                     icon: const Icon(Icons.delete_outline),
-                    label: const Text('Retirer'),
+                    label: Text(context.l10n.removePhoto),
                   ),
               ],
             ),
             const SizedBox(height: 8),
-            _sectionLabel(context, 'Description'),
+            _sectionLabel(context, context.l10n.description),
             const SizedBox(height: 4),
             TextFormField(
               controller: _descriptionController,
@@ -167,10 +173,10 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
               textCapitalization: TextCapitalization.sentences,
               style: Theme.of(context).textTheme.bodyLarge
                   ?.copyWith(color: const Color(0xFF303030)),
-              decoration: _fieldDecoration(context, 'Détails utiles'),
+              decoration: _fieldDecoration(context, context.l10n.usefulDetails),
             ),
             const SizedBox(height: 8),
-            _sectionLabel(context, 'Notes'),
+            _sectionLabel(context, context.l10n.notes),
             const SizedBox(height: 4),
             TextFormField(
               controller: _notesController,
@@ -180,7 +186,7 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
               textCapitalization: TextCapitalization.sentences,
               style: Theme.of(context).textTheme.bodyLarge
                   ?.copyWith(color: const Color(0xFF303030)),
-              decoration: _fieldDecoration(context, 'Notes facultatives'),
+              decoration: _fieldDecoration(context, context.l10n.optionalNotes),
             ),
           ],
         ),
@@ -202,7 +208,7 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
                         ? null
                         : () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.close_rounded),
-                    label: const Text('Annuler'),
+                    label: Text(context.l10n.cancel),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -211,7 +217,7 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
                     onPressed: _isSaving ? null : _save,
                     icon: const Icon(Icons.check_rounded),
                     label: Text(
-                      _isSaving ? 'Enregistrement...' : 'Enregistrer',
+                      _isSaving ? context.l10n.saving : context.l10n.save,
                     ),
                   ),
                 ),
@@ -311,7 +317,7 @@ class _CheckPointEditingPanelState extends State<CheckPointEditingPanel> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Impossible d’enregistrer la photo.')),
+          SnackBar(content: Text(context.l10n.photoSaveError)),
         );
       }
     } finally {
