@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../datamodel/cook_list_data_model.dart';
+import '../widgets/cook_classification_line.dart';
 import '../widgets/cook_icon_picker.dart';
 import 'cook_expansion_panel_list_tabbed_widget.dart';
 
@@ -34,20 +35,35 @@ class CookListGridView extends StatelessWidget {
                 ),
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.start,
+            child: Stack(
               children: [
-                const Align(
-                  alignment: Alignment(0.9, 0),
+                const Positioned(
+                  top: 4,
+                  right: 6,
                   child: Icon(
                     Icons.cloud,
                     color: Colors.orangeAccent,
                     size: 20,
                   ),
                 ),
-                CookIconView(icon: cooklist.icon),
-                Text(cooklist.title, textAlign: TextAlign.center),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 4),
+                    Center(child: CookIconView(icon: cooklist.icon)),
+                    const SizedBox(height: 12),
+                    Text(cooklist.title, textAlign: TextAlign.center),
+                    const SizedBox(height: 12),
+                    Center(
+                      child: CookClassificationLine(
+                        cooklist: cooklist,
+                        textAlign: TextAlign.center,
+                        stacked: true,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

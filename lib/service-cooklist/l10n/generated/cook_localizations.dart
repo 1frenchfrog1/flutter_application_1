@@ -299,6 +299,144 @@ abstract class CookLocalizations {
   /// **'Ajouter une étape'**
   String get addStep;
 
+  /// No description provided for @ingredients.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ingrédients'**
+  String get ingredients;
+
+  /// No description provided for @noIngredients.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun ingrédient'**
+  String get noIngredients;
+
+  /// No description provided for @editIngredients.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier les ingrédients'**
+  String get editIngredients;
+
+  /// No description provided for @editIngredient.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier l\'ingrédient'**
+  String get editIngredient;
+
+  /// No description provided for @addIngredient.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un ingrédient'**
+  String get addIngredient;
+
+  /// No description provided for @removeIngredient.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer l\'ingrédient'**
+  String get removeIngredient;
+
+  /// No description provided for @deleteIngredientConfirmation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer cet ingrédient ?'**
+  String get deleteIngredientConfirmation;
+
+  /// No description provided for @ingredientName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ingrédient'**
+  String get ingredientName;
+
+  /// No description provided for @ingredientNameExample.
+  ///
+  /// In fr, this message translates to:
+  /// **'Farine, crème, œufs…'**
+  String get ingredientNameExample;
+
+  /// No description provided for @ingredientNameRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Saisissez le nom de l\'ingrédient'**
+  String get ingredientNameRequired;
+
+  /// No description provided for @ingredientQuantity.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quantité'**
+  String get ingredientQuantity;
+
+  /// No description provided for @ingredientQuantityInvalid.
+  ///
+  /// In fr, this message translates to:
+  /// **'Saisissez un nombre valide'**
+  String get ingredientQuantityInvalid;
+
+  /// No description provided for @ingredientUnit.
+  ///
+  /// In fr, this message translates to:
+  /// **'Unité'**
+  String get ingredientUnit;
+
+  /// No description provided for @utensils.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ustensiles & outils'**
+  String get utensils;
+
+  /// No description provided for @noUtensils.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun ustensile'**
+  String get noUtensils;
+
+  /// No description provided for @editUtensils.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier les ustensiles & outils'**
+  String get editUtensils;
+
+  /// No description provided for @editUtensil.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier l\'ustensile'**
+  String get editUtensil;
+
+  /// No description provided for @addUtensil.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un ustensile'**
+  String get addUtensil;
+
+  /// No description provided for @removeUtensil.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer l\'ustensile'**
+  String get removeUtensil;
+
+  /// No description provided for @deleteUtensilConfirmation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer cet ustensile ?'**
+  String get deleteUtensilConfirmation;
+
+  /// No description provided for @utensilName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ustensile ou outil'**
+  String get utensilName;
+
+  /// No description provided for @utensilNameExample.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bol, four, fouet…'**
+  String get utensilNameExample;
+
+  /// No description provided for @utensilNameRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Saisissez le nom de l\'ustensile'**
+  String get utensilNameRequired;
+
   /// No description provided for @deleteStepConfirmation.
   ///
   /// In fr, this message translates to:

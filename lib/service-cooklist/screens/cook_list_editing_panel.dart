@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/icons/domain/entities/icon_entity.dart';
 import '../bloc/cooklists_bloc.dart';
 import '../bloc/cooklists_event.dart';
+import '../datamodel/cook_classification.dart';
 import '../datamodel/cook_list_data_model.dart';
 import '../l10n/cook_localization_context.dart';
 import '../widgets/cook_icon_picker.dart';
@@ -24,6 +25,8 @@ class _CookListEditingPanelState extends State<CookListEditingPanel> {
   late final TextEditingController _titleController;
   late final TextEditingController _descriptionController;
   late final TextEditingController _notesController;
+  late final TextEditingController _genreController;
+  final _genreFocusNode = FocusNode();
   late final CookList _draft;
 
   @override
@@ -33,6 +36,7 @@ class _CookListEditingPanelState extends State<CookListEditingPanel> {
     _titleController = TextEditingController(text: _draft.title);
     _descriptionController = TextEditingController(text: _draft.description);
     _notesController = TextEditingController(text: _draft.notes);
+    _genreController = TextEditingController();
   }
 
   @override
@@ -40,7 +44,157 @@ class _CookListEditingPanelState extends State<CookListEditingPanel> {
     _titleController.dispose();
     _descriptionController.dispose();
     _notesController.dispose();
+    _genreController.dispose();
+    _genreFocusNode.dispose();
     super.dispose();
+  }
+
+  void _addLabel(String value) {
+    final label = value.trim();
+    _genreController.clear();
+    if (label.isEmpty) return;
+    final exists = _draft.labels.any(
+      (l) => l.toLowerCase() == label.toLowerCase(),
+    );
+    if (!exists) setState(() => _draft.labels.add(label));
+  }
+
+  Widget _classificationSection(BuildContext context) {
+    final languageCode = Localizations.localeOf(context).languageCode;
+    final labels = cookClassificationLabels(languageCode);
+    final textStyle = Theme.of(context).textTheme.bodyLarge
+        ?.copyWith(color: const Color(0xFF303030));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _sectionLabel(context, labels.servings),
+        Row(
+          children: [
+            IconButton(
+              tooltip: '-',
+              icon: const Icon(Icons.remove_circle_outline),
+              onPressed: _draft.servings > 1
+                  ? () => setState(() => _draft.servings--)
+                  : null,
+            ),
+            Text(
+              labels.servingsCount(_draft.servings),
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            IconButton(
+              tooltip: '+',
+              icon: const Icon(Icons.add_circle_outline),
+              onPressed: _draft.servings < 99
+                  ? () => setState(() => _draft.servings++)
+                  : null,
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        _sectionLabel(context, labels.type),
+        const SizedBox(height: 4),
+        Row(
+          children: [
+            for (final type in CookType.values)
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  child: ChoiceChip(
+                    padding: EdgeInsets.zero,
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 2),
+                    visualDensity: VisualDensity.compact,
+                    showCheckmark: false,
+                    label: SizedBox(
+                      width: double.infinity,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(labels.typeLabel(type)),
+                      ),
+                    ),
+                    selected: _draft.type == type,
+                    onSelected: (selected) =>
+                        setState(() => _draft.type = selected ? type : null),
+                  ),
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        _sectionLabel(context, labels.genre),
+        const SizedBox(height: 4),
+        if (_draft.labels.isNotEmpty)
+          Wrap(
+            spacing: 6,
+            runSpacing: 0,
+            children: [
+              for (final label in _draft.labels)
+                InputChip(
+                  label: Text(label),
+                  visualDensity: VisualDensity.compact,
+                  onDeleted: () => setState(() => _draft.labels.remove(label)),
+                ),
+            ],
+          ),
+        RawAutocomplete<String>(
+          textEditingController: _genreController,
+          focusNode: _genreFocusNode,
+          onSelected: (value) => _addLabel(value),
+          optionsBuilder: (value) {
+            final query = value.text.trim().toLowerCase();
+            final existing = _draft.labels.map((l) => l.toLowerCase()).toSet();
+            return cookGenreSuggestions(languageCode, _draft.type)
+                .where(
+                  (name) =>
+                      !existing.contains(name.toLowerCase()) &&
+                      name.toLowerCase().contains(query),
+                )
+                .take(8);
+          },
+          fieldViewBuilder: (context, controller, focusNode, onSubmitted) =>
+              TextFormField(
+                controller: controller,
+                focusNode: focusNode,
+                maxLength: 40,
+                textCapitalization: TextCapitalization.sentences,
+                style: textStyle,
+                decoration: _fieldDecoration(context, labels.genreHint)
+                    .copyWith(
+                      suffixIcon: IconButton(
+                        tooltip: '+',
+                        icon: const Icon(Icons.add),
+                        onPressed: () => _addLabel(controller.text),
+                      ),
+                    ),
+                onFieldSubmitted: (_) => _addLabel(controller.text),
+              ),
+          optionsViewBuilder: (context, onSelected, options) => Align(
+            alignment: Alignment.topLeft,
+            child: Material(
+              elevation: 4,
+              borderRadius: BorderRadius.circular(12),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxHeight: 220,
+                  maxWidth: 320,
+                ),
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  children: [
+                    for (final option in options)
+                      ListTile(
+                        dense: true,
+                        title: Text(option),
+                        onTap: () => onSelected(option),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -135,6 +289,8 @@ class _CookListEditingPanelState extends State<CookListEditingPanel> {
                   : null,
             ),
             const SizedBox(height: 8),
+            _classificationSection(context),
+            const SizedBox(height: 8),
             _sectionLabel(context, l10n.steps),
             const SizedBox(height: 2),
             ListTile(
@@ -174,10 +330,12 @@ class _CookListEditingPanelState extends State<CookListEditingPanel> {
               minLines: 3,
               maxLines: 6,
               textCapitalization: TextCapitalization.sentences,
-              style: Theme.of(
+              style: Theme.of(context).textTheme.bodyLarge
+                  ?.copyWith(color: const Color(0xFF303030)),
+              decoration: _fieldDecoration(
                 context,
-              ).textTheme.bodyLarge?.copyWith(color: const Color(0xFF303030)),
-              decoration: _fieldDecoration(context, l10n.cooklistDescriptionHint),
+                l10n.cooklistDescriptionHint,
+              ),
             ),
             const SizedBox(height: 8),
             _sectionLabel(context, l10n.optionalNotes),
@@ -188,9 +346,8 @@ class _CookListEditingPanelState extends State<CookListEditingPanel> {
               minLines: 2,
               maxLines: 5,
               textCapitalization: TextCapitalization.sentences,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyLarge?.copyWith(color: const Color(0xFF303030)),
+              style: Theme.of(context).textTheme.bodyLarge
+                  ?.copyWith(color: const Color(0xFF303030)),
               decoration: _fieldDecoration(context, l10n.optionalNotes),
             ),
           ],
@@ -218,9 +375,8 @@ class _CookListEditingPanelState extends State<CookListEditingPanel> {
 
   Widget _sectionLabel(BuildContext context, String label) => Text(
     label,
-    style: Theme.of(
-      context,
-    ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+    style: Theme.of(context).textTheme.titleMedium
+        ?.copyWith(fontWeight: FontWeight.w700),
   );
 
   InputDecoration _fieldDecoration(BuildContext context, String hintText) {
@@ -256,6 +412,7 @@ class _CookListEditingPanelState extends State<CookListEditingPanel> {
 
   void _saveCooklist() {
     if (!(_formKey.currentState?.validate() ?? false)) return;
+    _addLabel(_genreController.text);
     _draft
       ..title = _titleController.text.trim()
       ..description = _descriptionController.text.trim()

@@ -117,6 +117,75 @@ class CookLocalizationsFr extends CookLocalizations {
   String get addStep => 'Ajouter une étape';
 
   @override
+  String get ingredients => 'Ingrédients';
+
+  @override
+  String get noIngredients => 'Aucun ingrédient';
+
+  @override
+  String get editIngredients => 'Modifier les ingrédients';
+
+  @override
+  String get editIngredient => 'Modifier l\'ingrédient';
+
+  @override
+  String get addIngredient => 'Ajouter un ingrédient';
+
+  @override
+  String get removeIngredient => 'Supprimer l\'ingrédient';
+
+  @override
+  String get deleteIngredientConfirmation => 'Supprimer cet ingrédient ?';
+
+  @override
+  String get ingredientName => 'Ingrédient';
+
+  @override
+  String get ingredientNameExample => 'Farine, crème, œufs…';
+
+  @override
+  String get ingredientNameRequired => 'Saisissez le nom de l\'ingrédient';
+
+  @override
+  String get ingredientQuantity => 'Quantité';
+
+  @override
+  String get ingredientQuantityInvalid => 'Saisissez un nombre valide';
+
+  @override
+  String get ingredientUnit => 'Unité';
+
+  @override
+  String get utensils => 'Ustensiles & outils';
+
+  @override
+  String get noUtensils => 'Aucun ustensile';
+
+  @override
+  String get editUtensils => 'Modifier les ustensiles & outils';
+
+  @override
+  String get editUtensil => 'Modifier l\'ustensile';
+
+  @override
+  String get addUtensil => 'Ajouter un ustensile';
+
+  @override
+  String get removeUtensil => 'Supprimer l\'ustensile';
+
+  @override
+  String get deleteUtensilConfirmation => 'Supprimer cet ustensile ?';
+
+  @override
+  String get utensilName => 'Ustensile ou outil';
+
+  @override
+  String get utensilNameExample => 'Bol, four, fouet…';
+
+  @override
+  String get utensilNameRequired => 'Saisissez le nom de l\'ustensile';
+
+  @override
   String get deleteStepConfirmation => 'Supprimer l’étape ?';
 
   @override

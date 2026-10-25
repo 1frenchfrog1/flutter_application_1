@@ -9,7 +9,9 @@ import '../bloc/cooklists_state.dart';
 import '../datamodel/cook_list_data_model.dart';
 import '../datamodel/cook_list_file_access.dart';
 import '../l10n/cook_localization_context.dart';
+import '../widgets/cook_classification_line.dart';
 import '../widgets/cook_icon_picker.dart';
+import '../widgets/cook_summary_dialog.dart';
 import 'cook_list_editing_panel.dart';
 
 class CookExpansionPanelListTabbedWidget extends StatefulWidget {
@@ -102,6 +104,10 @@ class _CookExpansionPanelListTabbedWidgetState
     );
   }
 
+  Widget _classificationLine(CookList cooklist) {
+    return CookClassificationLine(cooklist: cooklist, color: Colors.white70);
+  }
+
   Widget _stepList(CookList cooklist, {required bool showCompleted}) {
     final indexedSteps = cooklist.cookSteps
         .asMap()
@@ -113,7 +119,25 @@ class _CookExpansionPanelListTabbedWidgetState
       backgroundColor: Colors.grey[600],
       appBar: AppBar(
         backgroundColor: Colors.black26,
-        title: Text(cooklist.title),
+        title: Row(
+          children: [
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(cooklist.title, overflow: TextOverflow.ellipsis),
+                  _classificationLine(cooklist),
+                ],
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.arrow_drop_down),
+              tooltip: cookSummaryLabels(context).$7,
+              onPressed: () => showCookSummaryDialog(context, cooklist),
+            ),
+          ],
+        ),
         actions: [_ProgressIndicator(cooklist: cooklist)],
       ),
       body: ListView.builder(
@@ -124,7 +148,14 @@ class _CookExpansionPanelListTabbedWidgetState
           final step = entry.value;
           final hasDescription = step.description.trim().isNotEmpty;
           final hasNotes = step.notes.trim().isNotEmpty;
-          final hasDetails = hasDescription || hasNotes || step.image != null;
+          final hasIngredients = step.ingredients.isNotEmpty;
+          final hasUtensils = step.utensils.isNotEmpty;
+          final hasDetails =
+              hasDescription ||
+              hasNotes ||
+              hasIngredients ||
+              hasUtensils ||
+              step.image != null;
           final trailingCheckbox = Checkbox(
             value: step.state,
             activeColor: Colors.orange,
@@ -186,9 +217,73 @@ class _CookExpansionPanelListTabbedWidgetState
                               : null,
                           subtitle: hasNotes
                               ? Text(
-                                  context.cookL10n.notesLabel(step.notes.trim()),
+                                  context.cookL10n.notesLabel(
+                                    step.notes.trim(),
+                                  ),
                                 )
                               : null,
+                        ),
+                      if (hasIngredients || hasUtensils)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (hasIngredients) ...[
+                                      _columnTitle(
+                                        context,
+                                        context.cookL10n.ingredients,
+                                      ),
+                                      for (final ingredient in step.ingredients)
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 1,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  ingredient.name,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 6),
+                                              Text(ingredient.quantityWithUnit),
+                                            ],
+                                          ),
+                                        ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (hasUtensils) ...[
+                                      _columnTitle(
+                                        context,
+                                        context.cookL10n.utensils,
+                                      ),
+                                      for (final utensil in step.utensils)
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 1,
+                                          ),
+                                          child: Text(utensil),
+                                        ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                     ],
                   )
@@ -206,14 +301,22 @@ class _CookExpansionPanelListTabbedWidgetState
     );
   }
 
+  Widget _columnTitle(BuildContext context, String text) => Padding(
+    padding: const EdgeInsets.only(bottom: 2),
+    child: Text(
+      text,
+      style: Theme.of(context).textTheme.titleSmall
+          ?.copyWith(fontWeight: FontWeight.w700),
+    ),
+  );
+
   Widget _stepTitle(
     BuildContext context,
     String title, {
     bool showDetailsIndicator = false,
   }) {
-    final style = Theme.of(
-      context,
-    ).textTheme.titleMedium?.copyWith(fontSize: 17);
+    final style = Theme.of(context).textTheme.titleMedium
+        ?.copyWith(fontSize: 17);
     if (!showDetailsIndicator) return Text(title, style: style);
 
     return Row(

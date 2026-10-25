@@ -6,13 +6,21 @@ import '../bloc/cooklists_event.dart';
 import '../bloc/cooklists_state.dart';
 import '../datamodel/cook_list_data_model.dart';
 import '../l10n/cook_localization_context.dart';
+import '../widgets/cook_filter_bar.dart';
 import 'cook_evaluation_panel.dart';
 import 'cook_gridview.dart';
 
-class HomeCookList extends StatelessWidget {
+class HomeCookList extends StatefulWidget {
   const HomeCookList({super.key});
 
   static const String routeName = '/HomeCookListRoute';
+
+  @override
+  State<HomeCookList> createState() => _HomeCookListState();
+}
+
+class _HomeCookListState extends State<HomeCookList> {
+  CookFilter _filter = const CookFilter();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +49,14 @@ class HomeCookList extends StatelessWidget {
               ? const Center(child: CircularProgressIndicator())
               : state is CooklistsLoadFailure
               ? Center(child: Text(context.cookL10n.unableToLoadCooklists))
-              : CookListGridView(cooklists: cooklists),
+              : CookListGridView(cooklists: _filter.apply(cooklists)),
+          bottomNavigationBar: cooklists.isEmpty
+              ? null
+              : CookFilterBar(
+                  cooklists: cooklists,
+                  filter: _filter,
+                  onChanged: (f) => setState(() => _filter = f),
+                ),
           drawer: Drawer(
             child: ListView(
               children: [

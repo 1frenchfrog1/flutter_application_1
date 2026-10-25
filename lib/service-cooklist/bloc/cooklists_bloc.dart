@@ -56,6 +56,9 @@ class CooklistsBloc extends Bloc<CooklistsEvent, CooklistsState> {
             ..icon = IconEntity(key: event.cooklist.icon.key)
             ..description = event.cooklist.description
             ..notes = event.cooklist.notes
+            ..servings = event.cooklist.servings
+            ..type = event.cooklist.type
+            ..labels = List.of(event.cooklist.labels)
             ..dateTime = event.cooklist.dateTime;
         }).toList();
       });

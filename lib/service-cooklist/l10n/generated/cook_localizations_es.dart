@@ -117,6 +117,75 @@ class CookLocalizationsEs extends CookLocalizations {
   String get addStep => 'Añadir paso';
 
   @override
+  String get ingredients => 'Ingredientes';
+
+  @override
+  String get noIngredients => 'Sin ingredientes';
+
+  @override
+  String get editIngredients => 'Editar ingredientes';
+
+  @override
+  String get editIngredient => 'Editar ingrediente';
+
+  @override
+  String get addIngredient => 'Añadir ingrediente';
+
+  @override
+  String get removeIngredient => 'Quitar ingrediente';
+
+  @override
+  String get deleteIngredientConfirmation => '¿Eliminar este ingrediente?';
+
+  @override
+  String get ingredientName => 'Ingrediente';
+
+  @override
+  String get ingredientNameExample => 'Harina, nata, huevos…';
+
+  @override
+  String get ingredientNameRequired => 'Introduce el nombre del ingrediente';
+
+  @override
+  String get ingredientQuantity => 'Cantidad';
+
+  @override
+  String get ingredientQuantityInvalid => 'Introduce un número válido';
+
+  @override
+  String get ingredientUnit => 'Unidad';
+
+  @override
+  String get utensils => 'Utensilios y herramientas';
+
+  @override
+  String get noUtensils => 'Sin utensilios';
+
+  @override
+  String get editUtensils => 'Editar utensilios y herramientas';
+
+  @override
+  String get editUtensil => 'Editar utensilio';
+
+  @override
+  String get addUtensil => 'Añadir utensilio';
+
+  @override
+  String get removeUtensil => 'Quitar utensilio';
+
+  @override
+  String get deleteUtensilConfirmation => '¿Eliminar este utensilio?';
+
+  @override
+  String get utensilName => 'Utensilio o herramienta';
+
+  @override
+  String get utensilNameExample => 'Bol, horno, batidor…';
+
+  @override
+  String get utensilNameRequired => 'Introduce el nombre del utensilio';
+
+  @override
   String get deleteStepConfirmation => '¿Eliminar este paso?';
 
   @override

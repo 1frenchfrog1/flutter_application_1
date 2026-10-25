@@ -17,6 +17,44 @@ IconEntity cookIconFromJson(Object? jsonValue) {
   throw const FormatException('An icon reference must have a non-empty key.');
 }
 
+const commonIngredientUnits = ['g', 'kg', 'ml', 'cl', 'l'];
+
+class CookIngredient {
+  String name;
+  double quantity;
+  String unit;
+
+  CookIngredient({this.name = '', this.quantity = 0, this.unit = ''});
+
+  factory CookIngredient.fromJson(Map<String, dynamic> json) {
+    return CookIngredient(
+      name: json['ingredientName'] as String? ?? '',
+      quantity: (json['ingredientQuantity'] as num?)?.toDouble() ?? 0,
+      unit: json['ingredientUnit'] as String? ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'ingredientName': name,
+    'ingredientQuantity': quantity,
+    'ingredientUnit': unit,
+  };
+
+  CookIngredient copy() => CookIngredient.fromJson(toJson());
+
+  String get formattedQuantity {
+    if (quantity == quantity.roundToDouble()) {
+      return quantity.toInt().toString();
+    }
+    return double.parse(quantity.toStringAsFixed(3)).toString();
+  }
+
+  String get quantityWithUnit {
+    final unitText = unit.trim();
+    return unitText.isEmpty ? formattedQuantity : '$formattedQuantity $unitText';
+  }
+}
+
 class CookStep {
   String title;
   IconEntity icon;
@@ -24,6 +62,8 @@ class CookStep {
   String description;
   String notes;
   String? image;
+  List<CookIngredient> ingredients;
+  List<String> utensils;
 
   CookStep({
     this.title = '',
@@ -32,7 +72,11 @@ class CookStep {
     this.description = '',
     this.notes = '',
     this.image,
-  }) : icon = IconEntity(key: icon?.key ?? defaultCookIconKey);
+    List<CookIngredient>? ingredients,
+    List<String>? utensils,
+  }) : icon = IconEntity(key: icon?.key ?? defaultCookIconKey),
+       ingredients = ingredients ?? [],
+       utensils = utensils ?? [];
 
   String setImageUuid() {
     final imageUuid = const Uuid().v1().toString().substring(0, 15);
@@ -45,7 +89,26 @@ class CookStep {
   }
 
   factory CookStep.fromJson(Map<String, dynamic> json) {
+    final rawIngredients = json['stepIngredients'];
+    if (rawIngredients != null && rawIngredients is! List) {
+      throw const FormatException('"stepIngredients" must be a list.');
+    }
+    final rawUtensils = json['stepUtensils'];
+    if (rawUtensils != null && rawUtensils is! List) {
+      throw const FormatException('"stepUtensils" must be a list.');
+    }
     return CookStep(
+      utensils: (rawUtensils as List?)
+          ?.whereType<String>()
+          .map((name) => name.trim())
+          .where((name) => name.isNotEmpty)
+          .toList(),
+      ingredients: (rawIngredients as List?)?.map((item) {
+        if (item is! Map) {
+          throw const FormatException('Each ingredient must be a JSON object.');
+        }
+        return CookIngredient.fromJson(Map<String, dynamic>.from(item));
+      }).toList(),
       title: json['stepTitle'] as String? ?? '',
       icon: json['stepIcon'] == null
           ? const IconEntity(key: defaultCookIconKey)
@@ -64,6 +127,8 @@ class CookStep {
     'stepDescription': description,
     'stepNotes': notes,
     'stepImage': image,
+    'stepIngredients': ingredients.map((i) => i.toJson()).toList(),
+    'stepUtensils': utensils,
   };
 
   CookStep copyStep() => CookStep.fromJson(toJson());
@@ -74,19 +139,62 @@ class CookStep {
     description = source.description;
     notes = source.notes;
     image = source.image;
+    ingredients = source.ingredients.map((i) => i.copy()).toList();
+    utensils = List<String>.of(source.utensils);
   }
 }
 
+enum CookType {
+  aperitif,
+  starter,
+  main,
+  dessert,
+  drink;
+
+  static CookType? fromName(Object? name) {
+    for (final type in values) {
+      if (type.name == name) return type;
+    }
+    return null;
+  }
+}
+
+const defaultCookServings = 4;
+
+/// Reads the labels list; falls back to the former single "genre" field.
+List<String> _labelsFromJson(Map<String, dynamic> json) {
+  final raw = json['cookListLabels'];
+  final values = raw is List
+      ? raw.whereType<String>()
+      : [json['cookListGenre']].whereType<String>();
+  final seen = <String>{};
+  return [
+    for (final value in values)
+      if (value.trim().isNotEmpty && seen.add(value.trim().toLowerCase()))
+        value.trim(),
+  ];
+}
+
 class CookList {
-  CookList(this.title, IconEntity icon, this.description, this.notes)
-    : icon = IconEntity(key: icon.key),
-      uuid = const Uuid().v1(),
-      dateTime = DateTime.now().toString();
+  CookList(
+    this.title,
+    IconEntity icon,
+    this.description,
+    this.notes, {
+    this.servings = defaultCookServings,
+    this.type,
+    this.labels = const [],
+  }) : icon = IconEntity(key: icon.key),
+       uuid = const Uuid().v1(),
+       dateTime = DateTime.now().toString();
 
   String title;
   IconEntity icon;
   String description;
   String notes;
+  int servings;
+  CookType? type;
+  List<String> labels;
   List<CookStep> cookSteps = [];
   String uuid;
   String dateTime;
@@ -99,6 +207,12 @@ class CookList {
           : cookIconFromJson(json['cookListIcon']),
       json['cookListDescription'] as String? ?? '',
       json['cookListNotes'] as String? ?? '',
+      servings: switch ((json['cookListServings'] as num?)?.toInt()) {
+        final int value when value >= 1 => value,
+        _ => defaultCookServings,
+      },
+      type: CookType.fromName(json['cookListType']),
+      labels: _labelsFromJson(json),
     );
 
     cooklist.uuid = json['cookListUuid'] as String? ?? cooklist.uuid;
@@ -126,6 +240,9 @@ class CookList {
     'cookListIcon': cookIconToJson(icon),
     'cookListDescription': description,
     'cookListNotes': notes,
+    'cookListServings': servings,
+    'cookListType': type?.name,
+    'cookListLabels': labels,
     'cookListSteps': cookSteps.map((step) => step.toJson()).toList(),
     'cookListUuid': uuid,
     'cookListDateTime': dateTime,
@@ -213,6 +330,9 @@ class AppCookLists {
             icon('nourriture-oeufs'),
             'Quick omelette for two',
             'Serve hot',
+            servings: 2,
+            type: CookType.main,
+            labels: ['omelette'],
           )
           ..cookSteps = [
             step('Beat 4 eggs', 'nourriture-oeufs', description: 'Salt, pepper'),
@@ -227,6 +347,8 @@ class AppCookLists {
             icon('nourriture-petit-dejeuner'),
             'Sunday breakfast pancakes',
             '',
+            type: CookType.dessert,
+            labels: ['pancakes'],
           )
           ..cookSteps = [
             step('Mix flour, eggs and milk', 'nourriture-pain-et-boulangerie'),

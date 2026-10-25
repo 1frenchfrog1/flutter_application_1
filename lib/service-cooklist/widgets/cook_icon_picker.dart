@@ -6,6 +6,8 @@ import '../../features/icons/domain/entities/icon_entity.dart';
 import '../../features/icons/presentation/bloc/icon_bloc.dart';
 import '../../features/icons/presentation/bloc/icon_event.dart';
 import '../../features/icons/presentation/bloc/icon_state.dart';
+import '../../features/icons/presentation/cooking_category_label.dart';
+import '../../features/icons/presentation/widgets/icon_label_localization.dart';
 import '../../features/icons/presentation/widgets/dynamic_icon_view.dart';
 import '../l10n/cook_localization_context.dart';
 import '../l10n/generated/cook_localizations.dart';
@@ -18,6 +20,7 @@ String localizeCookIconCategory(CookLocalizations l10n, String category) {
     'Météo' => l10n.categoryWeather,
     'Maison' => l10n.categoryHome,
     'Nourriture' => l10n.categoryFood,
+    cookingIconCategory => localizeCookingCategory(l10n.localeName),
     'Objets de voyage' => l10n.categoryTravelItems,
     'Santé' => l10n.categoryHealth,
     'Technologie' => l10n.categoryTechnology,
@@ -66,7 +69,11 @@ class _CookIconPickerContentState extends State<_CookIconPickerContent> {
   String _query = '';
 
   List<String> _categories(List<IconEntity> icons) {
-    return icons.map((icon) => icon.category).whereType<String>().toSet().toList()
+    return icons
+        .map((icon) => icon.category)
+        .whereType<String>()
+        .toSet()
+        .toList()
       ..sort();
   }
 
@@ -81,6 +88,12 @@ class _CookIconPickerContentState extends State<_CookIconPickerContent> {
           final matchesQuery =
               query.isEmpty ||
               _normalize(icon.label ?? '').contains(query) ||
+              _normalize(
+                localizeIconLabel(
+                  icon,
+                  Localizations.localeOf(context).languageCode,
+                ),
+              ).contains(query) ||
               _normalize(icon.category ?? '').contains(query);
           return matchesCategory && matchesQuery;
         })
@@ -107,7 +120,9 @@ class _CookIconPickerContentState extends State<_CookIconPickerContent> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.sizeOf(context);
     final dialogWidth = (screenSize.width - 48).clamp(280.0, 560.0).toDouble();
-    final dialogHeight = (screenSize.height - 180).clamp(300.0, 560.0).toDouble();
+    final dialogHeight = (screenSize.height - 180)
+        .clamp(300.0, 560.0)
+        .toDouble();
 
     return BlocBuilder<IconBloc, IconState>(
       builder: (context, state) => switch (state) {
@@ -202,7 +217,8 @@ class _CookIconPickerContentState extends State<_CookIconPickerContent> {
                           : localizeCookIconCategory(l10n, category),
                     ),
                     selected: category == activeCategory,
-                    onSelected: (_) => setState(() => _activeCategory = category),
+                    onSelected: (_) =>
+                        setState(() => _activeCategory = category),
                   );
                 },
               ),
@@ -225,7 +241,7 @@ class _CookIconPickerContentState extends State<_CookIconPickerContent> {
                         final category = icon.category ?? '';
                         return IconButton.filledTonal(
                           tooltip:
-                              '${icon.label ?? icon.key} · ${localizeCookIconCategory(l10n, category)}',
+                              '${localizeIconLabel(icon, l10n.localeName)} · ${localizeCookIconCategory(l10n, category)}',
                           onPressed: () => Navigator.of(context).pop(icon),
                           icon: DynamicIconView(icon: icon),
                         );

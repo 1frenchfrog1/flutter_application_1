@@ -10,7 +10,9 @@ import '../datamodel/cook_list_data_model.dart';
 import '../datamodel/cook_list_file_access.dart';
 import '../l10n/cook_localization_context.dart';
 import '../widgets/cook_icon_picker.dart';
+import 'cook_ingredient_list_editing_panel.dart';
 import 'cook_step_image_selection_panel.dart';
+import 'cook_utensil_list_editing_panel.dart';
 
 class CookStepTransmittedData {
   final CookStep widgetCookStep;
@@ -183,6 +185,42 @@ class _CookStepEditingPanelState extends State<CookStepEditingPanel> {
               ).textTheme.bodyLarge?.copyWith(color: const Color(0xFF303030)),
               decoration: _fieldDecoration(context, l10n.optionalNotes),
             ),
+            const SizedBox(height: 8),
+            _sectionLabel(context, l10n.ingredients),
+            ListTile(
+              dense: true,
+              visualDensity: VisualDensity.compact,
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.shopping_basket_outlined),
+              title: Text(l10n.editIngredients),
+              subtitle: Text(
+                _draft.ingredients.isEmpty
+                    ? l10n.noIngredients
+                    : _draft.ingredients.map((i) => i.name).join(', '),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: _editIngredients,
+            ),
+            const SizedBox(height: 8),
+            _sectionLabel(context, l10n.utensils),
+            ListTile(
+              dense: true,
+              visualDensity: VisualDensity.compact,
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.soup_kitchen_outlined),
+              title: Text(l10n.editUtensils),
+              subtitle: Text(
+                _draft.utensils.isEmpty
+                    ? l10n.noUtensils
+                    : _draft.utensils.join(', '),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: _editUtensils,
+            ),
           ],
         ),
       ),
@@ -257,6 +295,34 @@ class _CookStepEditingPanelState extends State<CookStepEditingPanel> {
     final icon = await showCookIconPicker(context);
     if (icon != null && mounted) {
       setState(() => _draft.icon = IconEntity(key: icon.key));
+    }
+  }
+
+  Future<void> _editIngredients() async {
+    final result = await Navigator.of(context).push<List<CookIngredient>>(
+      MaterialPageRoute(
+        builder: (_) => CookIngredientListEditingPanel(
+          stepTitle: _titleController.text.trim(),
+          ingredients: _draft.ingredients,
+        ),
+      ),
+    );
+    if (result != null && mounted) {
+      setState(() => _draft.ingredients = result);
+    }
+  }
+
+  Future<void> _editUtensils() async {
+    final result = await Navigator.of(context).push<List<String>>(
+      MaterialPageRoute(
+        builder: (_) => CookUtensilListEditingPanel(
+          stepTitle: _titleController.text.trim(),
+          utensils: _draft.utensils,
+        ),
+      ),
+    );
+    if (result != null && mounted) {
+      setState(() => _draft.utensils = result);
     }
   }
 

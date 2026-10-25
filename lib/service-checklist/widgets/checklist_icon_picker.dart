@@ -9,7 +9,9 @@ import '../../features/icons/domain/entities/icon_entity.dart';
 import '../../features/icons/presentation/bloc/icon_bloc.dart';
 import '../../features/icons/presentation/bloc/icon_event.dart';
 import '../../features/icons/presentation/bloc/icon_state.dart';
+import '../../features/icons/presentation/cooking_category_label.dart';
 import '../../features/icons/presentation/widgets/dynamic_icon_view.dart';
+import '../../features/icons/presentation/widgets/icon_label_localization.dart';
 
 String localizeChecklistIconCategory(
   ChecklistLocalizations l10n,
@@ -22,6 +24,7 @@ String localizeChecklistIconCategory(
     'Météo' => l10n.categoryWeather,
     'Maison' => l10n.categoryHome,
     'Nourriture' => l10n.categoryFood,
+    cookingIconCategory => localizeCookingCategory(l10n.localeName),
     'Objets de voyage' => l10n.categoryTravelItems,
     'Santé' => l10n.categoryHealth,
     'Technologie' => l10n.categoryTechnology,
@@ -90,6 +93,9 @@ class _ChecklistIconPickerContentState
           final matchesQuery =
               query.isEmpty ||
               _normalize(icon.label ?? '').contains(query) ||
+              _normalize(
+                localizeIconLabel(icon, Localizations.localeOf(context).languageCode),
+              ).contains(query) ||
               _normalize(icon.category ?? '').contains(query);
           return matchesCategory && matchesQuery;
         })
@@ -241,7 +247,7 @@ class _ChecklistIconPickerContentState
                         final category = icon.category ?? '';
                         return IconButton.filledTonal(
                           tooltip:
-                              '${icon.label ?? icon.key} · ${localizeChecklistIconCategory(context.l10n, category)}',
+                              '${localizeIconLabel(icon, context.l10n.localeName)} · ${localizeChecklistIconCategory(context.l10n, category)}',
                           onPressed: () => Navigator.of(context).pop(icon),
                           icon: DynamicIconView(icon: icon),
                         );

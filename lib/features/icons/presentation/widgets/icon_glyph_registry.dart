@@ -914,5 +914,369 @@ class IconGlyphRegistry {
       fontFamily: 'MingCute',
       fontPackage: 'icons_plus',
     ),
+    'material|MaterialIcons|0xf056c': IconData(
+      0xf056c,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xf04d9': IconData(
+      0xf04d9,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe35e': IconData(
+      0xe35e,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe3e6': IconData(
+      0xe3e6,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe0e0': IconData(
+      0xe0e0,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe463': IconData(
+      0xe463,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe533': IconData(
+      0xe533,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe538': IconData(
+      0xe538,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe57e': IconData(
+      0xe57e,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xf04f7': IconData(
+      0xf04f7,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xf04f8': IconData(
+      0xf04f8,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe120': IconData(
+      0xe120,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe331': IconData(
+      0xe331,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe3a0': IconData(
+      0xe3a0,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe112': IconData(
+      0xe112,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe642': IconData(
+      0xe642,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe644': IconData(
+      0xe644,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xf052a': IconData(
+      0xf052a,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe0dd': IconData(
+      0xe0dd,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe296': IconData(
+      0xe296,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe1cf': IconData(
+      0xe1cf,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe383': IconData(
+      0xe383,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe6f1': IconData(
+      0xe6f1,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe179': IconData(
+      0xe179,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe19c': IconData(
+      0xe19c,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe3dd': IconData(
+      0xe3dd,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe662': IconData(
+      0xe662,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xf0564': IconData(
+      0xf0564,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe392': IconData(
+      0xe392,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe166': IconData(
+      0xe166,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe217': IconData(
+      0xe217,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe2e4': IconData(
+      0xe2e4,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe22e': IconData(
+      0xe22e,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe390': IconData(
+      0xe390,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe2aa': IconData(
+      0xe2aa,
+      fontFamily: 'MaterialIcons',
+    ),
+    'material|MaterialIcons|0xe59b': IconData(
+      0xe59b,
+      fontFamily: 'MaterialIcons',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf2e7': IconData(
+      0xf2e7,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf2e5': IconData(
+      0xf2e5,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xe51a': IconData(
+      0xe51a,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf5a7': IconData(
+      0xf5a7,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf517': IconData(
+      0xf517,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf7b6': IconData(
+      0xf7b6,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xe4c6': IconData(
+      0xe4c6,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xe2eb': IconData(
+      0xe2eb,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xe55a': IconData(
+      0xe55a,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf7ec': IconData(
+      0xf7ec,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf7ef': IconData(
+      0xf7ef,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf6d7': IconData(
+      0xf6d7,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf7e5': IconData(
+      0xf7e5,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf578': IconData(
+      0xf578,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xe448': IconData(
+      0xe448,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf787': IconData(
+      0xf787,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf5d1': IconData(
+      0xf5d1,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf816': IconData(
+      0xf816,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xe2cd': IconData(
+      0xe2cd,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf4d8': IconData(
+      0xf4d8,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xe516': IconData(
+      0xe516,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf564': IconData(
+      0xf564,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf563': IconData(
+      0xf563,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf551': IconData(
+      0xf551,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf1fd': IconData(
+      0xf1fd,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf810': IconData(
+      0xf810,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf786': IconData(
+      0xf786,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf805': IconData(
+      0xf805,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf80f': IconData(
+      0xf80f,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf818': IconData(
+      0xf818,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf7fb': IconData(
+      0xf7fb,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf7a0': IconData(
+      0xf7a0,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf57b': IconData(
+      0xf57b,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf72f': IconData(
+      0xf72f,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xe4c5': IconData(
+      0xe4c5,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf562': IconData(
+      0xf562,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf06d': IconData(
+      0xf06d,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xe4f1': IconData(
+      0xe4f1,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf769': IconData(
+      0xf769,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf2f2': IconData(
+      0xf2f2,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf24e': IconData(
+      0xf24e,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xe06d': IconData(
+      0xe06d,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf7b5': IconData(
+      0xf7b5,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
+    'font_awesome_flutter|FontAwesomeSolid|0xf6c8': IconData(
+      0xf6c8,
+      fontFamily: 'FontAwesomeSolid',
+      fontPackage: 'font_awesome_flutter',
+    ),
   };
 }

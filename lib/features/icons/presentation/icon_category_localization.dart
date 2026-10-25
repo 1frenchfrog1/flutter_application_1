@@ -1,4 +1,5 @@
 import '../../../l10n/generated/app_localizations.dart';
+import 'cooking_category_label.dart';
 
 String localizeIconCategory(
   AppLocalizations localizations,
@@ -11,6 +12,7 @@ String localizeIconCategory(
     'Météo' => localizations.categoryWeather,
     'Maison' => localizations.categoryHome,
     'Nourriture' => localizations.categoryFood,
+    cookingIconCategory => localizeCookingCategory(localizations.localeName),
     'Objets de voyage' => localizations.categoryTravelItems,
     'Santé' => localizations.categoryHealth,
     'Technologie' => localizations.categoryTechnology,
